@@ -54,6 +54,14 @@ npx skills@latest add ghalynho10/skills -a claude-code
 npx skills@latest add ghalynho10/skills
 ```
 
+Install individual skills:
+
+```bash
+npx skills@latest add ghalynho10/skills/checkpoint
+npx skills@latest add ghalynho10/skills/overview
+npx skills@latest add ghalynho10/skills/debug
+```
+
 Works on any Agent Skills client (Claude Code, Cursor, Codex, Gemini CLI, and [more](https://agentskills.io/clients)). Commit the installed skills folder to share the workflow with your team.
 
 Each skill's instructions live in its `SKILL.md`, which is what every client reads. The `agents/openai.yaml` beside it is interface metadata only (the name, blurb, and opening prompt Codex shows in its agent picker); it carries no logic of its own.
