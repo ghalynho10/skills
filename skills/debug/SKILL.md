@@ -45,7 +45,13 @@ If any of these is unclear and you can't derive it, **ask**, you cannot debug wh
 
 ### Step 1: Reproduce reliably
 
-Get a **deterministic reproduction** (a failing test, a command, a request) that triggers the bug on demand. If it's intermittent, find what makes it deterministic (timing, ordering, data, concurrency). A bug you can't reproduce on command, you can't prove you've fixed. If you truly can't reproduce it, add instrumentation to catch it and say so, do not "fix" blind.
+Get a **deterministic, fast, agent runnable reproduction** that triggers the bug on demand: a failing test, a command, a curl, a headless browser script. A bug you can't reproduce on command, you can't prove you've fixed. Before moving to Step 2, the reproduction must be:
+
+- **Red capable**: it drives the actual bug code path and asserts the user's exact symptom, not "runs without erroring" and not a different failure that happens to be nearby. Wrong bug, wrong fix.
+- **Deterministic, or pinned to a high rate**: for flaky or non deterministic bugs, do not settle for "sometimes." Loop the trigger many times over, run it in parallel, add stress, narrow timing windows, inject deliberate delays, whatever raises the reproduction rate. A bug that reproduces half the time is debuggable. A bug that reproduces one time in a hundred is not, keep raising the rate until it is.
+- **Already run at least once**: you have seen the invocation and its output, watched it fail, and confirmed the failure is the one described.
+
+If you truly cannot reproduce it after real effort, stop and say so explicitly. List what you tried. Ask for one of: access to an environment that reproduces it, a captured artifact (log dump, HAR file, core dump, screen recording with timestamps), or permission to add temporary instrumentation. Do not proceed to Step 2 without a reproduction you trust, and do not "fix" blind.
 
 ### Step 2: Localize
 
