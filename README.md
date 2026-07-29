@@ -57,9 +57,9 @@ npx skills@latest add ghalynho10/skills
 Install individual skills:
 
 ```bash
-npx skills@latest add ghalynho10/skills/checkpoint
-npx skills@latest add ghalynho10/skills/overview
-npx skills@latest add ghalynho10/skills/debug
+npx skills@latest add ghalynho10/skills/skills/checkpoint
+npx skills@latest add ghalynho10/skills/skills/overview
+npx skills@latest add ghalynho10/skills/skills/debug
 ```
 
 Works on any Agent Skills client (Claude Code, Cursor, Codex, Gemini CLI, and [more](https://agentskills.io/clients)). Commit the installed skills folder to share the workflow with your team.
