@@ -18,6 +18,7 @@ This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills
 
 - **`/checkpoint`** (new) — captures the in-session working memory the pipeline's files don't own: open threads, ruled-out approaches, and standing instructions. Saves to `docs/session-notes.md` and confirms before restoring. Fills the gap between "state lives in files" and the parts of a session that never became a spec or scope row.
 - **`/overview`** (new) — the project-wide picture none of the other files hold. `update` keeps `docs/overview.md` current as a reference document, `story` writes a prose telling for a person, `check` reports drift. Bare `/overview` runs `update`.
+- **`/wayfinder`** (new) — for the rare effort too big and too foggy for `/scope`'s interview to sharpen in one sitting. Charts a map of investigation tickets under `docs/wayfinding/`, resolved one per session, then hands the cleared result back to `/scope` or `/architect`. Adapted from mattpocock/skills' `wayfinder`, with the issue tracker and its external skill dependencies replaced by plain files native to this pipeline.
 - **`/debug`** (modified) — a stricter bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
 
 Everything else is unchanged from upstream. Both new skills are strictly downstream of the existing ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns.
@@ -39,6 +40,7 @@ Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does no
 | `debug` | Finds and fixes the root cause of a bug, then hands a regression test to `/test`. |
 | `overview` | Keeps a project-wide reference document current; can also write a prose telling. *(fork addition)* |
 | `checkpoint` | Saves and restores in-session notes that aren't yet a spec or scope row. *(fork addition)* |
+| `wayfinder` | Charts and resolves large, foggy, multi-session efforts as a map of tickets. *(fork addition)* |
 
 Hardening (systems level failure mode analysis) is temporarily removed and will return as a system design specialization.
 
@@ -59,6 +61,7 @@ Install individual skills:
 ```bash
 npx skills@latest add ghalynho10/skills/skills/checkpoint
 npx skills@latest add ghalynho10/skills/skills/overview
+npx skills@latest add ghalynho10/skills/skills/wayfinder
 npx skills@latest add ghalynho10/skills/skills/debug
 ```
 
@@ -88,7 +91,7 @@ At the end of `/scope` you also pick a **workflow depth** for the project (overr
 
 The gate is layered, not magic: `/architect` names the source of every value a feature must produce (so gaps surface at design time), `/develop` checks that coverage again before building, and at Beta+ `/architect` recommends running an independent cross-model critic over the spec for decisions it never settled (you decide, and you decide on any gaps it finds). It's a strong, defense-in-depth gate that catches the vast majority — not an absolute guarantee, no prompt can be. Behavioral correctness is caught by the `/check verify` and `/test` layers.
 
-Around the loop, two fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, and `/checkpoint save` at the end of a session that leaves open threads behind.
+Around the loop, three fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/checkpoint save` at the end of a session that leaves open threads behind, and `/wayfinder` off to the side entirely, only when a patch of the plan is too foggy for `/scope` to sharpen in the room.
 
 ## What gets written, and where
 
@@ -104,6 +107,7 @@ Around the loop, two fork additions run on their own cadence: `/overview update`
 | Human docs | PR body, CHANGELOG.md, `docs/releases/`, `docs/postmortems/` | document |
 | Project overview | `docs/overview.md`, `docs/project-story.md` | overview *(fork addition)* |
 | Session notes | `docs/session-notes.md` | checkpoint *(fork addition)* |
+| Wayfinding maps and tickets | `docs/wayfinding/` | wayfinder *(fork addition)* |
 
 If `docs/` is a published docs site, these move to `.workflow/` so they do not ship with your site. Because state lives in files, each skill suggests `/clear` at handoffs, so a fresh session reads from disk again and long chats do not pile up cost.
 
@@ -143,6 +147,9 @@ When: `/overview update` (the default) after a feature closes, alongside `/sync`
 
 **checkpoint** *(fork addition)*: Saves and restores the in-session residue that never became a durable file.
 When: `/checkpoint save` before ending a session that leaves open threads, ruled-out approaches, or standing instructions behind; `/checkpoint restore` at the start of a session picking that work back up. Not every session needs it: if everything of value already landed in a spec or scope row, there is nothing to save.
+
+**wayfinder** *(fork addition)*: Charts a large, foggy, multi-session effort as a map of investigation tickets and resolves them one at a time.
+When: `/scope`'s interview cannot sharpen one part of the plan in the room, because each answer waits on some other unsettled thing. Charts the effort under `docs/wayfinding/`, works one ticket per session, and hands the cleared result back to `/scope` or `/architect`. Most projects never need it. Adapted from mattpocock/skills; the issue tracker and its external skill dependencies are replaced by plain files and inline ticket types native to this pipeline.
 
 ## Learn more
 
