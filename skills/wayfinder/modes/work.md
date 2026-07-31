@@ -22,7 +22,11 @@ Read `map.md` only. It is the low resolution view: the destination, the notes, w
 
 **Otherwise take the first frontier ticket**: open, unclaimed, and blocked by nothing that is still open. Lowest number first among those.
 
+Numbering records when a ticket was written, not how much it matters, so lowest first is a tie breaker rather than a priority ordering. If something else on the frontier is clearly more urgent or more likely to clear fog, say so and take that one instead.
+
 **Claim it before doing any work.** Set the `Claimed:` line in the ticket file to the current date and whoever is driving. An open ticket with an empty `Claimed:` line is unclaimed and free for anyone; claiming first is what stops two sessions from working the same question in parallel.
+
+**Then read the ticket once more before starting.** Writing a line in a file is not an atomic claim the way a tracker's assignee field is: two sessions can both see an empty `Claimed:` line and both write to it. Re reading closes most of that window. If the line now names someone else, they got there first. Stop, say so, and either take the next frontier ticket or end the session.
 
 If nothing is on the frontier, say so plainly. Either everything open is blocked (report what is blocking what), or the map is done (go to Step 6).
 
@@ -54,6 +58,8 @@ Three writes, in this order:
 ### Step 6: If the map is now clear
 
 The map is done when nothing is left to decide before someone goes and does the thing: no open tickets, and no fog left in **Not yet sharp**.
+
+Check the open tickets by reading the `tickets/` folder, not the map. Open tickets are never listed on the map, so its decision list tells you what has been resolved and nothing about what remains.
 
 When that happens, say so and **hand off**:
 
