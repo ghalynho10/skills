@@ -35,7 +35,7 @@ If charting turns up no fog at all, the way is already clear and this whole effo
 
 ## Where it fits with the rest of the pipeline
 
-This skill sits **before** `/scope` can do its job on one particular patch, not alongside it. The normal shape:
+This skill resolves one patch of fog that `/scope` could not sharpen in the room, then hands the cleared result back. It is a detour out of the normal planning flow and back into it, not a replacement for any part of it. The normal shape:
 
 1. `/scope` plans the project and leaves one genuinely foggy feature thin, because it cannot be sharpened in the room.
 2. `/wayfinder` charts that one patch and works it until the way is clear.
@@ -108,18 +108,19 @@ When a ticket that already exists turns out to sit past the destination, close i
 - **Naming the destination**, at the start of charting. This fixes the scope of everything after it, so it is settled with the engineer, not guessed.
 - **Any ticket typed `interview` or `prototype`**, which only resolve through live exchange with a person.
 - **When several maps exist and none was named.** It lists them and asks; it does not pick.
+- **When charting turns up no fog at all.** The effort does not need a map, so it stops and asks how the engineer wants to proceed rather than writing one anyway.
 
 It never invents an answer to a ticket, and never records a decision nobody made.
 
 ## Artifact ownership
 
-Owns `docs/wayfinding/` entirely: the maps, the tickets, and any material saved beside a ticket while resolving it.
+Owns `docs/wayfinding/` entirely: the maps, the tickets, and any material saved beside a ticket while resolving it. Whatever a ticket produces while being resolved, a research summary, a rough prototype, a written record of what a task did, is saved beside that ticket and linked from its answer, unless another skill already owns where that thing belongs.
 
 Never edits `docs/scope/`, `docs/specs/`, `AGENTS.md`, or any source code. Those stay owned by `/scope`, `/architect`, `/audit`, and `/develop`. When a map clears, this skill **recommends** the next command and stops; it does not run `/scope` or `/architect` itself, and it does not write their files on their behalf.
 
 ## Portability (any OS, any agent)
 
-Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required. No issue tracker, no external service, no network access needed.
+Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required. The skill itself depends on no issue tracker and no external service; the map and its tickets are plain files in your repo. A `research` ticket may still need to reach the web to do its job, which is the ticket's own requirement, not the skill's.
 
 Bundled files live in this skill's folder: `modes/chart.md`, `modes/work.md`, and `map-template.md`. Read only the mode file you routed to, and read `map-template.md` only at write time.
 
