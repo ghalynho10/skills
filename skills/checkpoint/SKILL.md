@@ -33,21 +33,35 @@ This is not a replacement for `/sync`. `/sync` reconciles the durable files to m
 
 ## Asks vs acts
 
-**`save`** acts. It writes the notes file without asking, but only ever appends or updates entries; it never deletes an entry itself; stale entries are removed by you, or by `save` itself once it confirms the thing they refer to now has a home in scope or a spec (see *Aging out*).
+**`save`** acts. It writes the notes file without asking, but only ever appends or updates entries; it never deletes an entry itself; stale entries are removed by you, or by `save` itself once it confirms the thing they refer to now has a home in scope or a spec (see _Aging out_).
 
 **`restore`** acts, then confirms. It reads and reports what it found, then explicitly asks you to confirm the picture is accurate before continuing, the one place this skill pauses on purpose. A stale or wrong carried over assumption is worse than no memory at all.
 
 ## Artifact ownership
 
-Owns exactly one file: `docs/session-notes.md`. Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `scope`, `architect`, and `audit`/`sync`. If something in `docs/session-notes.md` has clearly graduated into a real spec or scope row (you can see it now lives there), `save` removes that entry rather than let the same fact live in two places; see *Aging out*.
+`docs/session-notes.md` is a **shared file with per section ownership**, not this skill's private document. This distinction matters and is the source of the worst failure mode available here, so it is stated plainly:
+
+| Section                    | Owned by                 |
+| -------------------------- | ------------------------ |
+| `## Open threads`          | `/checkpoint`            |
+| `## Ruled out`             | `/checkpoint`            |
+| `## Standing instructions` | `/checkpoint`            |
+| `## Reset notes`           | `/recover`               |
+| anything else              | whichever skill wrote it |
+
+**This skill may read the whole file. It may only mutate entries under the three headings it owns.** Every other top level section, whether it is `## Reset notes` or a section written by a skill added later, must survive a `save` byte for byte. Do not reorder sections, do not normalize headings, do not rewrite the file from a template of the three headings this skill knows about. Regenerating the file from its own model is how another skill's content silently disappears.
+
+Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `scope`, `architect`, and `audit`/`sync`.
 
 `docs/session-notes.md` is a flat file, not a directory, and stays short by design; if it is getting long, that is a signal entries should have graduated to specs or scope rows already, not a reason to keep appending.
+
+**One constraint on any section written to this file, by any skill:** entry bodies must not contain top level (`##`) headings of their own, because section boundaries in this file are found by scanning for them. Use plain labeled lines inside an entry instead.
 
 ## Execution
 
 ### `/checkpoint save`
 
-1. Read the current `docs/session-notes.md` if it exists.
+1. Read the current `docs/session-notes.md` if it exists. Read the **whole** file, including sections this skill does not own; you need them intact to write them back.
 2. Ask yourself, based on the session so far, whether there is anything genuinely not covered by scope, a spec, or `AGENTS.md`. If nothing qualifies, say so plainly and write nothing: "Nothing to save, everything of value is already in scope or a spec."
 3. For anything that qualifies, write a short entry under one of three headings:
 
@@ -64,16 +78,24 @@ Owns exactly one file: `docs/session-notes.md`. Never edits `docs/scope/`, `docs
 
    Omit any heading with nothing under it. Keep each entry to one or two lines; this file is a pointer back into your memory, not a transcript.
 
-4. **Aging out**: before writing, check whether any existing entry now clearly has a home in `docs/scope/` or `docs/specs/` (the thing it described got built, decided, or written up properly). If so, remove that entry; it has graduated and repeating it here would be a second source of truth.
-5. Write the file. Report what was added and what aged out, one line each.
+4. **Aging out, section scoped.** Before writing, check whether any existing entry **under the three headings this skill owns** now clearly has a home in `docs/scope/` or `docs/specs/` (the thing it described got built, decided, or written up properly). If so, remove that entry; it has graduated and repeating it here would be a second source of truth.
+
+   Aging out never runs against a section this skill does not own, with one exception, below.
+
+5. **Reset notes, the one exception.** A `## Reset notes` entry written by `/recover` may be removed by `save`, but only once its content is clearly represented in `docs/scope/`, `docs/specs/`, or the session has demonstrably moved past it (the feature it describes was rebuilt and closed). This mirrors the aging out rule for owned sections rather than inventing a second lifecycle. When in doubt, leave it; a stale reset note is a minor annoyance, a deleted one is lost context at the exact moment someone needed it.
+
+6. Write the file back, with all non owned sections preserved exactly as read. Report what was added and what aged out, one line each.
 
 ### `/checkpoint restore`
 
 1. Read `docs/session-notes.md`. If it does not exist, say so and stop; there is nothing to restore, proceed normally.
 2. Read the current state of `docs/scope/` (feature list and statuses) and the most recently modified files in `docs/specs/`, cheaply, names and statuses only, not full contents, the same light touch other skills in this pipeline use for pre flight.
 3. Present a short combined picture: the open threads, ruled out approaches, and standing instructions from the notes file, plus a one line summary of what scope and specs currently show.
+
+   **If a `## Reset notes` section is present, lead with it.** A reset note means the previous session ended badly and deliberately, and it names what to avoid and where to restart. It is the single most important thing in the file when it exists, and it is the reason `/recover` tells engineers to run `restore` first in a fresh session.
+
 4. **Confirm before continuing.** Ask plainly: "Is this still accurate? Anything changed, resolved, or no longer relevant?" Wait for the answer. Do not proceed to other work until confirmed; a wrong carried over assumption is the failure mode this step exists to catch.
-5. If the engineer says something is now stale, remove or correct it in `docs/session-notes.md` before continuing, so the file does not keep drifting from reality.
+5. If the engineer says something is now stale, remove or correct it in `docs/session-notes.md` before continuing, so the file does not keep drifting from reality. This is the one case where `restore` may edit a section this skill does not own, because the engineer has explicitly said the content is wrong.
 
 ## Portability (any OS, any agent)
 
@@ -88,6 +110,7 @@ For `save`:
 
 Added: <n> entries (<headings touched>)
 Aged out: <n> entries, now covered by <spec or scope reference>   (omit if none)
+Preserved: <n> sections owned by other skills                     (omit if none)
 ```
 
 For `restore`:
@@ -95,6 +118,7 @@ For `restore`:
 ```
 ## /checkpoint restore
 
+Reset note present: <feature name, from the previous session>   (omit if none)
 Open threads: <n>
 Ruled out: <n>
 Standing instructions: <n>

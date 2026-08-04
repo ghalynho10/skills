@@ -8,22 +8,23 @@ The state lives in files (a scope, specs, AGENTS.md, tests), not in a chat sessi
 idea → /scope → /audit → /architect → /develop → /check verify → /test → /check review → /document → /sync
 ```
 
-Run `/debug` anytime something breaks. Run a bare `/scope` anytime to see where things stand.
+Run `/debug` anytime something breaks, or `/recover` when it is not yet clear *what kind* of thing broke. Run a bare `/scope` anytime to see where things stand.
 
 > 📖 **Want the full picture?** Read the **[Workflow Guide](docs/workflow-guide.md)** — a plain-language walkthrough of every skill, the files that carry the work, who owns what, and one idea followed all the way from scope to shipped.
 
 ## About this fork
 
-This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) with three changes:
+This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) with five changes:
 
 - **`/checkpoint`** (new) — captures the in-session working memory the pipeline's files don't own: open threads, ruled-out approaches, and standing instructions. Saves to `docs/session-notes.md` and confirms before restoring. Fills the gap between "state lives in files" and the parts of a session that never became a spec or scope row.
 - **`/overview`** (new) — the project-wide picture none of the other files hold. `update` keeps `docs/overview.md` current as a reference document, `story` writes a prose telling for a person, `check` reports drift. Bare `/overview` runs `update`.
 - **`/wayfinder`** (new) — for the rare effort too big and too foggy for `/scope`'s interview to sharpen in one sitting. Charts a map of investigation tickets under `docs/wayfinding/`, resolved one per session, then hands the cleared result back to `/scope` or `/architect`. Adapted from mattpocock/skills' `wayfinder`, with the issue tracker and its external skill dependencies replaced by plain files native to this pipeline.
+- **`/recover`** (new) — diagnoses *what kind* of failure occurred before prescribing a response: an isolated bug, a session that has gone wrong through repeated patching, or a foundation resting on a wrong assumption. Ported from the older [jsmastery-pro/jsm-agent-skill](https://github.com/jsmastery-pro/jsm-agent-skill) repo and adapted to this fork.
 - **`/debug`** (modified) — a stricter bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
 
-Everything else is unchanged from upstream. Both new skills are strictly downstream of the existing ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns.
+Everything else is unchanged from upstream. The added skills are downstream of the existing ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
 
-Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does not cover the two added skills; this README is the reference for those.
+Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does not cover this fork's added skills; this README is the reference for those.
 
 ## The skills
 
@@ -41,6 +42,7 @@ Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does no
 | `overview` | Keeps a project-wide reference document current; can also write a prose telling. *(fork addition)* |
 | `checkpoint` | Saves and restores in-session notes that aren't yet a spec or scope row. *(fork addition)* |
 | `wayfinder` | Charts and resolves large, foggy, multi-session efforts as a map of tickets. *(fork addition)* |
+| `recover` | Diagnoses what kind of failure occurred before responding to it. *(fork addition)* |
 
 Hardening (systems level failure mode analysis) is temporarily removed and will return as a system design specialization.
 
@@ -62,8 +64,11 @@ Install individual skills:
 npx skills@latest add ghalynho10/skills/skills/checkpoint
 npx skills@latest add ghalynho10/skills/skills/overview
 npx skills@latest add ghalynho10/skills/skills/wayfinder
+npx skills@latest add ghalynho10/skills/skills/recover
 npx skills@latest add ghalynho10/skills/skills/debug
 ```
+
+`/recover` and `/checkpoint` share `docs/session-notes.md` by section, so install both together or neither. Installing `/recover` against an older `/checkpoint` risks reset notes being dropped on the next `/checkpoint save`.
 
 Works on any Agent Skills client (Claude Code, Cursor, Codex, Gemini CLI, and [more](https://agentskills.io/clients)). Commit the installed skills folder to share the workflow with your team.
 
@@ -91,7 +96,19 @@ At the end of `/scope` you also pick a **workflow depth** for the project (overr
 
 The gate is layered, not magic: `/architect` names the source of every value a feature must produce (so gaps surface at design time), `/develop` checks that coverage again before building, and at Beta+ `/architect` recommends running an independent cross-model critic over the spec for decisions it never settled (you decide, and you decide on any gaps it finds). It's a strong, defense-in-depth gate that catches the vast majority — not an absolute guarantee, no prompt can be. Behavioral correctness is caught by the `/check verify` and `/test` layers.
 
-Around the loop, three fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/checkpoint save` at the end of a session that leaves open threads behind, and `/wayfinder` off to the side entirely, only when a patch of the plan is too foggy for `/scope` to sharpen in the room.
+Around the loop, the fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/checkpoint save` at the end of a session that leaves open threads behind, `/wayfinder` off to the side entirely when a patch of the plan is too foggy for `/scope` to sharpen in the room, and `/recover` only when something has gone wrong.
+
+### When something goes wrong
+
+`/debug` and `/recover` are not interchangeable, and reaching for the wrong one is itself a failure mode.
+
+`/debug` assumes the code is wrong and finds the root cause. That is right for most failures. `/recover` assumes nothing yet: it asks what you expected, what happened, and **how many times you have already tried to fix it**, then decides whether this is an ordinary bug (handing off to `/debug`), a session that has gone wrong through repeated patching (hard reset), or a foundation resting on a wrong assumption (rethink).
+
+The practical rule, worth writing into your project's AGENTS.md as a circuit breaker:
+
+> If the same problem persists after one corrective prompt, stop immediately and run `/recover`.
+
+Routing that straight to `/debug` instead throws away the signal the breaker just produced and assumes an ordinary bug every time, which is the drift the breaker exists to catch.
 
 ## What gets written, and where
 
@@ -106,8 +123,20 @@ Around the loop, three fork additions run on their own cadence: `/overview updat
 | App code | your source tree | develop |
 | Human docs | PR body, CHANGELOG.md, `docs/releases/`, `docs/postmortems/` | document |
 | Project overview | `docs/overview.md`, `docs/project-story.md` | overview *(fork addition)* |
-| Session notes | `docs/session-notes.md` | checkpoint *(fork addition)* |
+| Session notes | `docs/session-notes.md` | **shared by section** *(fork addition)* |
 | Wayfinding maps and tickets | `docs/wayfinding/` | wayfinder *(fork addition)* |
+
+`docs/session-notes.md` is the one file in this pipeline with more than one owner. Ownership is per section:
+
+| Section | Owner |
+|---|---|
+| `## Open threads` | checkpoint |
+| `## Ruled out` | checkpoint |
+| `## Standing instructions` | checkpoint |
+| `## Reset notes` | recover |
+| anything else | whichever skill wrote it |
+
+Each skill reads the whole file, mutates only its own sections, and writes every other section back unchanged. No skill regenerates the file from a template of the sections it knows about; that is how another skill's content silently disappears. Entry bodies must not contain top-level (`##`) headings, since section boundaries are found by scanning for them.
 
 If `docs/` is a published docs site, these move to `.workflow/` so they do not ship with your site. Because state lives in files, each skill suggests `/clear` at handoffs, so a fresh session reads from disk again and long chats do not pile up cost.
 
@@ -140,20 +169,23 @@ When: a finished change needs writing up. Any project type.
 When: the last step around merge. Monorepo: reconciles the right workspace.
 
 **debug**: Runs a disciplined root cause loop and hands a regression test to `/test`.
-When: anytime something is failing, throwing, or behaving wrong. Not tied to project type. *(This fork raises the bar on the reproduction step; see About this fork.)*
+When: anytime something is failing, throwing, or behaving wrong, *and you already know it is a code-level bug*. If you don't, or if a fix attempt has already failed, start at `/recover` instead. Not tied to project type. *(This fork raises the bar on the reproduction step; see About this fork.)*
 
 **overview** *(fork addition)*: Keeps the project-wide picture that no other file holds, in three modes.
 When: `/overview update` (the default) after a feature closes, alongside `/sync`, or after any decision that changes the project's shape; `/overview story` at a milestone or completion, for a prose telling aimed at a person; `/overview check` when you suspect the document has drifted from scope and specs. Downstream of everything: if the overview and a spec disagree, the spec is right.
 
 **checkpoint** *(fork addition)*: Saves and restores the in-session residue that never became a durable file.
-When: `/checkpoint save` before ending a session that leaves open threads, ruled-out approaches, or standing instructions behind; `/checkpoint restore` at the start of a session picking that work back up. Not every session needs it: if everything of value already landed in a spec or scope row, there is nothing to save.
+When: `/checkpoint save` before ending a session that leaves open threads, ruled-out approaches, or standing instructions behind; `/checkpoint restore` at the start of a session picking that work back up, and always after a `/recover` hard reset. Not every session needs it: if everything of value already landed in a spec or scope row, there is nothing to save.
 
 **wayfinder** *(fork addition)*: Charts a large, foggy, multi-session effort as a map of investigation tickets and resolves them one at a time.
 When: `/scope`'s interview cannot sharpen one part of the plan in the room, because each answer waits on some other unsettled thing. Charts the effort under `docs/wayfinding/`, works one ticket per session, and hands the cleared result back to `/scope` or `/architect`. Most projects never need it. Adapted from mattpocock/skills; the issue tracker and its external skill dependencies are replaced by plain files and inline ticket types native to this pipeline.
 
+**recover** *(fork addition)*: Diagnoses what kind of failure occurred, then prescribes the response that fits.
+When: something has gone wrong and it is not obvious whether the code is at fault, the session is, or the approach is. Especially after a corrective prompt has already failed once. Three modes: an ordinary bug hands off to `/debug`; a session gone wrong gets a hard reset (a note into `docs/session-notes.md`, end the session, restart with `/checkpoint restore`); a wrong foundation gets a rethink (name the assumption, propose the correction, change nothing until you agree). Ported from jsmastery-pro/jsm-agent-skill; split into a router plus modes, mode one delegated to this fork's `/debug` rather than reimplemented, and its `/remember restore` handoff swapped for `/checkpoint restore`.
+
 ## Learn more
 
-The **[Workflow Guide](docs/workflow-guide.md)** is the deep dive: how the scope, specs, AGENTS.md, and design system live and who is allowed to change them; the acceptance-criteria thread that ties every stage together; a full worked example from idea to shipped; the debug loop; and how the same flow runs on an existing codebase and in a monorepo. It is upstream's guide and predates this fork's two added skills.
+The **[Workflow Guide](docs/workflow-guide.md)** is the deep dive: how the scope, specs, AGENTS.md, and design system live and who is allowed to change them; the acceptance-criteria thread that ties every stage together; a full worked example from idea to shipped; the debug loop; and how the same flow runs on an existing codebase and in a monorepo. It is upstream's guide and predates this fork's added skills.
 
 ---
 
