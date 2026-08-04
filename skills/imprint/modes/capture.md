@@ -44,7 +44,24 @@ Read the component code. Extract only the values that affect visual consistency 
 - Animation and transition timing, unless it is a deliberate pattern worth enforcing everywhere
 - Responsive breakpoint variants, capture the base pattern only
 
-### Step 3: Write to ui-registry.md
+### Step 3: compare against the baseline before writing
+
+If `ui-registry.md` already has a `## Baseline` section (written by a previous `audit` run), read it now and compare what you extracted against it, property by property.
+
+This step exists because capture without it will happily record a mistake as a pattern. A component built with the wrong radius, or a hardcoded color that bypassed the token set, becomes a registry entry that future components are told to match. On a young project that is harmless. On a mature one it is how a design system quietly erodes, one accepted outlier at a time.
+
+**Where the component matches the baseline**, write the entry normally.
+
+**Where it deviates**, do not silently record the deviation as the new pattern. Report it and ask:
+
+> "This component uses <value> for <property>, but the baseline is <baseline value>. Is this a deliberate exception, or should the component be fixed to match? I will record it either way, but they are recorded differently."
+
+- **Deliberate exception** → write the entry with the deviation, and note in `Pattern notes` that it is a known exception and why. A recorded exception is fine; an unrecorded one is drift.
+- **Should be fixed** → say so plainly, list what needs changing, and do not write the entry until the component matches. Capturing a component you already know is wrong puts a wrong value in the file other sessions trust.
+
+If no baseline exists yet, skip this step and write the entry. On a project with no established baseline there is nothing to deviate from, which is exactly what `audit` mode is for.
+
+### Step 4: write to ui-registry.md
 
 Open `ui-registry.md`. If it does not exist, create it.
 
@@ -75,7 +92,7 @@ Pattern notes: <any pattern decision worth noting, why a specific value was chos
 
 Values are whatever the project's styling approach actually uses, a utility class, a CSS custom property, a design token name, a raw value. Write what the code actually contains.
 
-### Step 4: Confirm what was captured
+### Step 5: Confirm what was captured
 
 Report plainly:
 

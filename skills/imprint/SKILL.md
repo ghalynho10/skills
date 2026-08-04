@@ -53,7 +53,7 @@ Do not run both modes in one invocation. If asked to do both, run `audit` first 
 
 ## Asks vs acts
 
-**capture** acts. It reads, extracts, and writes the registry entry without asking, then reports what it captured. It asks only when it cannot tell which file to capture from (nothing obviously new or changed since the last capture).
+**capture** acts, with one conditional pause. It reads, extracts, and writes the registry entry without asking. It asks in two cases: when it cannot tell which file to capture from (nothing obviously new or changed since the last capture), and when the component deviates from an established baseline, where it asks whether the deviation is a deliberate exception or a mistake to fix. The second pause is what stops capture from quietly canonizing drift as pattern.
 
 **audit** acts up to a point, then stops and asks. It scans and produces the conflict report and a recommended baseline on its own, but never writes that baseline to the registry until you confirm it, correct it, or tell it to proceed. This is the one deliberate pause in this skill, because a baseline is a real design decision and this skill's job is to surface the choice clearly, not make it on your behalf.
 
