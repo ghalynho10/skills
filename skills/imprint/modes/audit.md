@@ -32,7 +32,7 @@ Either way, read every file in scope. Build a complete picture of what visual va
 
 For each property that matters for consistency, list every variation found, then recommend which one should become the standard.
 
-```md
+```
 ## UI Consistency Audit
 
 Source: <existing codebase, or the design tool and export path used>
@@ -66,11 +66,11 @@ Recommendation: <...>
 ### Hardcoded values found
 
 <every hardcoded hex value or raw, non token value found, with the file it appears in>
-These are candidates to replace with shared tokens if the project keeps a ui-tokens.md, or to at least name consistently if it does not.
+These are candidates to replace with shared tokens if the project keeps a `ui-tokens.md`, or to at least name consistently if it does not.
 
 ### Recommended baseline
 
-<the proposed value for each property, based on what the majority already uses correctly, and, if the project has ui-tokens.md or ui-rules.md, checked against those first>
+<the proposed value for each property, based on what the majority already uses correctly, and, if the project has `ui-tokens.md` or `ui-rules.md`, checked against those first>
 ```
 
 If the project has `ui-tokens.md` or `ui-rules.md`, read them before writing recommendations, and check each recommended value against them. A recommendation that matches an existing token is stronger than one inferred purely from majority usage; say so where it applies. If a recommendation conflicts with a stated rule, for instance a component using color on a card surface when the rule says color only lives inside cards, name that conflict explicitly rather than quietly picking the majority value.
@@ -81,7 +81,7 @@ Present the audit report. Do not fix anything yet. Do not write to `ui-registry.
 
 Ask plainly:
 
-> "Audit complete. <n> conflicts found across <n> properties. Before I set this as the baseline in ui-registry.md: do the recommendations above look right? Are there conflicts you would resolve differently? Should the hardcoded values be flagged as issues to fix later? Confirm the baseline and I will write it."
+> "Audit complete. <n> conflicts found across <n> properties. Before I set this as the baseline in `ui-registry.md`: do the recommendations above look right? Are there conflicts you would resolve differently? Should the hardcoded values be flagged as issues to fix later? Confirm the baseline and I will write it."
 
 Wait for the answer. This is the one place this skill pauses on purpose, because a baseline is a real decision and getting it wrong here means every future capture measures against the wrong standard.
 
@@ -89,7 +89,7 @@ Wait for the answer. This is the one place this skill pauses on purpose, because
 
 Once confirmed, write it to `ui-registry.md` as the foundation, labeled clearly so it is obvious this came from an audit rather than an ordinary capture:
 
-```md
+```
 ## Baseline, established <date>
 
 Source: <existing codebase audit, or design tool import from <tool name>>
@@ -112,11 +112,11 @@ Source: <existing codebase audit, or design tool import from <tool name>>
 
 After writing the baseline, produce a fix list, every file that deviates from it:
 
-```md
+```
 ## Components to fix
 
-<file> — <what is wrong> should be <what the baseline says>
-<file> — <...>
+<file>: <what is wrong> should be <what the baseline says>
+<file>: <...>
 ```
 
 This skill does not make these edits. The engineer fixes them systematically, or as each component is next touched. Once the baseline is written, ordinary `/imprint` keeps new and updated components matching it going forward.

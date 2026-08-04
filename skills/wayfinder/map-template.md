@@ -22,7 +22,7 @@ Use only the parts between the START and END markers as structure. Everything af
 
 <!-- The index. One line per closed ticket: enough to judge relevance, then follow the link for the detail the ticket holds. Never restate the decision here. -->
 
-- [<ticket title>](tickets/NNNN-<slug>.md) — <one line gist of the answer>
+- [<ticket title>](tickets/NNNN-<slug>.md): <one line gist of the answer>
 
 ## Not yet sharp
 
@@ -34,7 +34,7 @@ Use only the parts between the START and END markers as structure. Everything af
 
 <!-- Work consciously ruled beyond the destination. Never graduates. Kept so nobody re raises it. -->
 
-- <the gist> — out of scope because <why>. ([<closed ticket title>](tickets/NNNN-<slug>.md), if it was ever a ticket)
+- <the gist>, out of scope because <why>. ([<closed ticket title>](tickets/NNNN-<slug>.md), if it was ever a ticket)
 
 === MAP TEMPLATE END ===
 

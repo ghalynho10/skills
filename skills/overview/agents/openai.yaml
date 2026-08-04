@@ -1,0 +1,4 @@
+interface:
+  display_name: "Overview"
+  short_description: "Keep a project-wide reference document current"
+  default_prompt: "Use $overview to update the project reference document."

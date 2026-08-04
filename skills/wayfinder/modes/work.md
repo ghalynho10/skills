@@ -12,9 +12,9 @@ Working an existing map: resolve exactly one ticket, record it, and let the fog 
 
 ### Step 1: Load the map, not everything
 
-Read `map.md` only. It is the low resolution view: the destination, the notes, what has been decided, what is still fog.
+Start with `map.md`. It is the low resolution view: the destination, the notes, what has been decided, what is still fog.
 
-**Do not read every ticket body.** You will read the one you are about to work, plus any closed ticket whose detail turns out to matter. Zoom on demand, not up front.
+**Read ticket headers, not bodies.** Choosing a ticket needs each one's `Type:`, `Status:`, `Blocked by:`, and `Claimed:` lines, so read those four lines across the `tickets/` folder. Read a full body only for the ticket you are about to work, plus any closed ticket whose detail turns out to matter. Zoom into a body on demand, not up front.
 
 ### Step 2: Choose a ticket and claim it
 
@@ -72,7 +72,7 @@ When that happens, say so and **hand off**:
 ## Report
 
 ```
-## /wayfinder · <ticket title>
+## /wayfinder: <ticket title>
 
 Answer: <one line>
 Map: <n> decided, <n> open, <n> on the frontier now

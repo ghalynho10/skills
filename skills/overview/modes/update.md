@@ -17,6 +17,7 @@ Run this after a feature reaches done, at the same point in the flow where `/syn
 Keep this pass light; you are composing, not auditing.
 
 - Root `AGENTS.md` (fall back to `CLAUDE.md`, else note MISSING), plus any nested `<area>/AGENTS.md` whose area the project's shape depends on.
+- The repo's top level directory names, and one level inside the main app area. Structure only, never file contents. `## Where things live` is written from this: `AGENTS.md`, scope, and specs are usually too thin to support it, and a tree written without looking is invented.
 - The current `docs/scope/`: feature names and statuses. This is where `## Current state` comes from, so read it accurately.
 - `docs/specs/`: **titles and status lines first**. Open in full only the specs whose decisions shaped the project's overall shape (stack choices, foundational architecture, cross cutting standards, a replaced provider). Do not open every spec; a project with forty specs does not have forty shape defining decisions.
 - For a directory spec, the `index.md` `## Decision` section is enough; go to `rationale.md` only when you need the why for the `## Decisions that shaped it` section and the index does not carry it.

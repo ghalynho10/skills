@@ -1,0 +1,4 @@
+interface:
+  display_name: "Checkpoint"
+  short_description: "Save and restore in-session notes between sessions"
+  default_prompt: "Use $checkpoint to save what's still open before I end this session."

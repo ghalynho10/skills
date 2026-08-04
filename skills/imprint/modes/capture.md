@@ -61,7 +61,7 @@ This step exists because capture without it will happily record a mistake as a p
 
 If no baseline exists yet, skip this step and write the entry. On a project with no established baseline there is nothing to deviate from, which is exactly what `audit` mode is for.
 
-### Step 4: write to ui-registry.md
+### Step 4: write to `ui-registry.md`
 
 Open `ui-registry.md`. If it does not exist, create it.
 

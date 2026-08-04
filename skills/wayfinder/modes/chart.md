@@ -67,7 +67,7 @@ Do not resolve a ticket in the same session that charted the map. The map deserv
 ## Report
 
 ```
-## /wayfinder chart complete · <destination, one line>
+## /wayfinder chart complete: <destination, one line>
 
 Map: docs/wayfinding/<slug>/map.md
 Tickets: <n> written, <n> on the frontier now

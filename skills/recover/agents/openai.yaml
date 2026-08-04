@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recover"
+  short_description: "Diagnose what kind of failure occurred before fixing"
+  default_prompt: "Use $recover to figure out what went wrong before we try another fix."

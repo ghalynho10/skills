@@ -26,6 +26,17 @@ A structured root cause investigation, not a guess and check. Bugs are found by 
 
 Writes the **minimal code fix** for the root cause. Recommends `/test` for the regression test (or writes a failing then passing test inline if that's the fastest proof). Does **not** add features, refactor unrelated code, or rewrite the spec. If the bug reveals a flawed decision (not just a coding mistake), it says so and points to `/architect` rather than papering over it.
 
+## Off ramp: when this is not one bug
+
+Stop the loop and recommend `/recover` when any of these shows up:
+
+- The reproduction keeps shifting: what triggers the failure changes each time you pin it down.
+- A fix clears the symptom and creates new failures that have nothing to do with it.
+- Hypotheses keep being refuted after you have already edited code.
+- The bug stops looking isolated: more of the project is wrong than the surface you started on.
+
+Any of those means the failure probably is not one root cause in the code, and another turn of the loop will find a plausible root cause for the wrong problem. `/recover` diagnoses which kind of failure this actually is (an isolated bug, a session that has gone wrong through repeated patching, or a wrong foundation) before anything else is tried. Say what you saw, hand over what you already established, and stop; do not keep looping to be sure.
+
 ---
 
 ## Portability (any OS, any agent)

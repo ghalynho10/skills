@@ -1,0 +1,4 @@
+interface:
+  display_name: "Imprint"
+  short_description: "Capture UI patterns so components stay consistent"
+  default_prompt: "Use $imprint to record the visual patterns from the component I just built."

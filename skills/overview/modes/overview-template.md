@@ -43,7 +43,7 @@ Load bearing only. If every decision is listed, none of them stand out. Where th
 <What is built and working, what is in progress, what is deliberately not built yet. Derived fresh from `docs/scope/` every run, so it stays honest. Being explicit about what is deliberately out of scope is as useful as listing what is done; it stops a reader assuming an absence is an oversight.>
 
 ---
-*Last updated: <date> · Reference document, kept current by `/overview update`. Specs in `docs/specs/` are the source of truth for any decision.*
+*Last updated: <date>. Reference document, kept current by `/overview update`. Specs in `docs/specs/` are the source of truth for any decision.*
 
 === OVERVIEW TEMPLATE END ===
 

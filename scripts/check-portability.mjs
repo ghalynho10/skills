@@ -197,10 +197,11 @@ function proseOnly(text) {
 // and section headings. Renaming one is a migration across skills, not a copy edit,
 // so these keep their hyphens everywhere, backticked or not.
 //   in-progress, gap-fill, whole-repo  values and phase names other skills read
+//   out-of-scope                       a wayfinder ticket Status value, written and matched on
 //   Follow-up                          a spec section heading
 //   pre-flight                         the named phase every skill runs before it acts
 const PARSED_LITERALS = new Set([
-  'in-progress', 'gap-fill', 'whole-repo', 'Follow-up', 'follow-up', 'pre-flight', 'Pre-flight',
+  'in-progress', 'gap-fill', 'whole-repo', 'out-of-scope', 'Follow-up', 'follow-up', 'pre-flight', 'Pre-flight',
 ]);
 const isExemptTerm = (w) => /^[A-Z0-9-]+$/.test(w) || PARSED_LITERALS.has(w);
 

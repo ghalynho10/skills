@@ -5,7 +5,7 @@ argument-hint: <filepath | audit | (nothing)>
 description: >-
   Run /imprint after building any UI component to extract the visual patterns
   that matter for consistency (background, border, radius, text, spacing,
-  hover state) and save them to ui-registry.md, so every component built
+  hover state) and save them to `ui-registry.md`, so every component built
   after this one matches what came before. Run /imprint audit to establish a
   baseline against an existing codebase, or against UI freshly exported from
   a design tool (Stitch, MagicPath, paper.design, Claude Design), before
@@ -27,7 +27,7 @@ Two operations, both owning `ui-registry.md`:
 
 This skill does not decide what the design should look like. It records what has been built and flags where it disagrees with itself. The decision of which variant becomes the standard is always yours, confirmed explicitly in audit mode.
 
-### Relationship to ui-tokens.md and ui-rules.md, if your project has them
+### Relationship to `ui-tokens.md` and `ui-rules.md`, if your project has them
 
 Some projects keep a separate `ui-tokens.md` (the raw values: colors, spacing scale, font, radius) and `ui-rules.md` (the constraints on how those values get used, such as which surfaces may carry color). This skill does not own either file and never writes to them.
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wayfinder"
+  short_description: "Chart and resolve a large, foggy multi-session effort"
+  default_prompt: "Use $wayfinder to chart a map for this effort, it's too big to plan in one sitting."
