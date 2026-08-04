@@ -56,7 +56,20 @@ State the diagnosis before proceeding, in one line, with the reason:
 
 ### Step 3: route
 
-- **A specific thing is broken** → this is `/debug`'s job. Say so and hand off: "This is a normal bug. Run `/debug` and it will take it from here." Do not duplicate `/debug`'s reproduce, localize, hypothesize, fix, verify loop inside this skill.
+- **A specific thing is broken** → this is `/debug`'s job. Hand off, but hand off with what you already collected in Step 1 rather than a bare command name. `/debug` opens on reproduction, and everything below feeds it directly:
+
+  ```
+  This is a normal bug. Run /debug with this starting point.
+
+  Observed: <what happened>
+  Expected: <what should have happened>
+  Reproduction: <the trigger, if known, or "not yet established">
+  Attempts so far: <n, and what was tried>
+  Why mode one: <one line, the isolation and clarity that ruled out the other two>
+  ```
+
+  Do not duplicate `/debug`'s reproduce, localize, hypothesize, fix, verify loop inside this skill. Hand it better starting material, not a second implementation.
+
 - **The session has gone wrong** → read `modes/hard-reset.md` and follow it fully.
 - **The foundation is wrong** → read `modes/rethink.md` and follow it fully.
 
@@ -68,15 +81,20 @@ State the diagnosis before proceeding, in one line, with the reason:
 
 ## Artifact ownership
 
-Owns exactly one section of one shared file: the `## Reset notes` section of `docs/session-notes.md`.
+Ownership of `docs/session-notes.md` splits two ways, and the split is finer than "one skill per section". Stating it plainly, because the earlier wording claimed strict section ownership and then immediately made an exception to it:
 
-That file is shared, not owned by any single skill. `/checkpoint` owns `## Open threads`, `## Ruled out`, and `## Standing instructions`; this skill owns `## Reset notes`; a skill added later may own another section. The rule that keeps this safe runs in both directions: **read the whole file, mutate only your own section, write every other section back byte for byte.** Do not reorder sections, do not normalize headings, and never rewrite the file from a template of the sections you know about.
+- **This skill owns writing `## Reset notes`.** No other skill adds an entry there.
+- **`/checkpoint` owns lifecycle cleanup of that section**, the same way it ages out its own entries. It may remove a reset note once its content is represented in scope or a spec. It may not edit one.
+
+Every other section of the file belongs to whoever wrote it. `/checkpoint` owns `## Open threads`, `## Ruled out`, and `## Standing instructions`; a skill added later may own another.
+
+The rule that keeps this safe runs in both directions: **read the whole file, mutate only what you own, write every other section back byte for byte.** Do not reorder sections, do not normalize headings, and never rewrite the file from a template of the sections you know about.
 
 The reasoning for sharing rather than owning a separate file: a reset note is the same category of thing `/checkpoint` already holds, in session residue that has not earned a spec or scope row, and an engineer looking for "what is unresolved" should have one place to look rather than two.
 
 **One constraint this imposes on the reset note itself:** its body must not contain top level (`##`) headings, because section boundaries in the shared file are found by scanning for them. Use plain labeled lines instead. The template in `modes/hard-reset.md` already follows this.
 
-**Lifecycle.** A reset note is written for the next fresh session and is meant to be consumed, not kept forever. `/checkpoint save` may age one out, but only once its content is clearly represented in `docs/scope/` or `docs/specs/`, or the feature it describes has been rebuilt and closed. This skill never removes its own reset notes on a later run; it appends a new one.
+**Lifecycle.** A reset note is written for the next fresh session and is meant to be consumed, not kept forever. This skill never removes its own reset notes on a later run; it appends a new one. Removal is `/checkpoint`'s job, deliberately, so that the skill writing a note under pressure is not also the skill deciding when it stops mattering.
 
 Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`. If a rethink's corrected approach turns out to be a load bearing design decision worth recording properly, this skill says so and recommends `/architect`; it does not write the spec itself.
 

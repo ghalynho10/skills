@@ -39,17 +39,21 @@ This is not a replacement for `/sync`. `/sync` reconciles the durable files to m
 
 ## Artifact ownership
 
-`docs/session-notes.md` is a **shared file with per section ownership**, not this skill's private document. This distinction matters and is the source of the worst failure mode available here, so it is stated plainly:
+`docs/session-notes.md` is a **shared file**, not this skill's private document. This distinction matters and is the source of the worst failure mode available here, so it is stated plainly.
 
-| Section                    | Owned by                 |
-| -------------------------- | ------------------------ |
-| `## Open threads`          | `/checkpoint`            |
-| `## Ruled out`             | `/checkpoint`            |
-| `## Standing instructions` | `/checkpoint`            |
-| `## Reset notes`           | `/recover`               |
-| anything else              | whichever skill wrote it |
+Ownership splits two ways, writing and lifecycle, which is finer than one owner per section:
 
-**This skill may read the whole file. It may only mutate entries under the three headings it owns.** Every other top level section, whether it is `## Reset notes` or a section written by a skill added later, must survive a `save` byte for byte. Do not reorder sections, do not normalize headings, do not rewrite the file from a template of the three headings this skill knows about. Regenerating the file from its own model is how another skill's content silently disappears.
+| Section                    | Written by               | Lifecycle                   |
+| -------------------------- | ------------------------ | --------------------------- |
+| `## Open threads`          | `/checkpoint`            | `/checkpoint`               |
+| `## Ruled out`             | `/checkpoint`            | `/checkpoint`               |
+| `## Standing instructions` | `/checkpoint`            | `/checkpoint`               |
+| `## Reset notes`           | `/recover`               | `/checkpoint`, removal only |
+| anything else              | whichever skill wrote it | that skill                  |
+
+Reset notes are the one case where the two come apart, deliberately. `/recover` writes them, under pressure, at the end of a session that went wrong. This skill removes them once they are no longer needed, because the skill deciding a note has stopped mattering should not be the one that wrote it. This skill never edits the content of a reset note, only removes an entry whole.
+
+**This skill may read the whole file. It may only mutate entries under the three headings it writes, plus remove a spent reset note.** Every other top level section, whether written by `/recover` or by a skill added later, must survive a `save` byte for byte. Do not reorder sections, do not normalize headings, and do not rewrite the file from a template of the headings this skill knows about. Regenerating the file from its own model is how another skill's content silently disappears.
 
 Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `scope`, `architect`, and `audit`/`sync`.
 
