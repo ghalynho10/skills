@@ -109,7 +109,7 @@ Around the loop, the fork additions run on their own cadence: `/overview update`
 
 `/debug` assumes the code is wrong and finds the root cause. That is right for most failures. `/recover` assumes nothing yet: it asks what you expected, what happened, and **how many times you have already tried to fix it**, then decides whether this is an ordinary bug (handing off to `/debug`), a session that has gone wrong through repeated patching (hard reset), or a foundation resting on a wrong assumption (rethink).
 
-The practical rule, worth writing into your project's AGENTS.md as a circuit breaker:
+The practical rule — `/audit` writes this into your project's AGENTS.md automatically once `/recover` is installed (immediately if AGENTS.md is being created fresh, offered as a gap fix the next time `/audit` runs on an existing one):
 
 > If the same problem persists after one corrective prompt, stop immediately and run `/recover`.
 

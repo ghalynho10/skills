@@ -205,7 +205,7 @@ With your file tools, list the project tree a few levels deep, skipping vendored
 
 **Step 3: Find four kinds of finding**
 
-- (a) Global facts missing from root: a daily command, stack element, project wide rule, or the build approach (in the scope header but absent from root) that's true but not recorded. Collect each as a `ROOT_GAPS` line (exact markdown + target section) and apply it only with the engineer's permission (the gap handling step in `modes/gapfill.md`), never silently, since a root line may be curated.
+- (a) Global facts missing from root: a daily command, stack element, project wide rule, the build approach (in the scope header but absent from root), or a `## Circuit breaker` section missing while `/recover` is installed, that's true but not recorded. Collect each as a `ROOT_GAPS` line (exact markdown + target section) and apply it only with the engineer's permission (the gap handling step in `modes/gapfill.md`), never silently, since a root line may be curated.
 - (b) Undocumented areas: a major area with distinct conventions/gotchas and no nested AGENTS.md. Create the nested doc (nested template + sibling CLAUDE.md pointer) and add its root pointer line via Edit (safe to do directly: creating, not overwriting).
 - (c) Stale/incomplete nested docs: an existing nested AGENTS.md missing something now true of its area. Return as `PROPOSED_ADDITIONS`; do NOT edit it yourself.
 - (d) Contradictions: a doc states something the codebase or its governing records disprove (documented test runner or framework isn't the one actually used; `## Stack` conflicts with the architecture spec; `## Build approach` differs from the scope header; a documented command no longer exists). Worse than a gap, the docs are actively wrong; do NOT fix it automatically (the line may be curated). Collect each as a `CONTRADICTIONS` entry naming the doc, what it says, and what the code/spec/scope actually shows; surface these to the human, don't fix them automatically.
@@ -282,6 +282,19 @@ Stored in `docs/specs/`. Format: `docs/specs/NNNN-title.md`.
   server is a connected service with no local file, so both stay lines, not bullets):
   `Declined: <tool>, <tool>` (offered before, not wanted; keep so a later /audit or /architect
   does not offer it again) · `MCP servers: <server> (connected), <server> (recommended)`>
+
+## Circuit breaker
+
+<Only if /recover is among INSTALLED_SKILLS_OR_NONE, else omit the section: a breaker pointing
+  at an uninstalled skill is dead instruction.>
+
+If the same problem persists after one corrective prompt, stop and run /recover before trying
+again. It diagnoses an isolated bug (routes to /debug), a session gone wrong through repeated
+patching (hard reset), or a foundation resting on a wrong assumption (rethink).
+
+/recover states its diagnosis without asking, but pauses for confirmation before a hard reset
+ends the session or a rethink changes code. A hard reset note goes to `docs/session-notes.md`,
+which /checkpoint reads and ages out.
 
 ## Context files
 
