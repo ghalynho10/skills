@@ -34,7 +34,7 @@ Wait for the answer. Otherwise derive it and do not ask.
 
 ### Step 3: Write the overview
 
-Read `overview-template.md` now (only now, so it does not sit in context through Steps 1 and 2) and follow its section structure and field guidance. Write or update `docs/overview.md`.
+Read `modes/overview-template.md` now (only now, so it does not sit in context through Steps 1 and 2) and follow its section structure and field guidance. Write or update `docs/overview.md`.
 
 Rules that bind every section:
 

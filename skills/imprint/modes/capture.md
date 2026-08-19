@@ -54,7 +54,7 @@ This step exists because capture without it will happily record a mistake as a p
 
 **Where it deviates**, do not silently record the deviation as the new pattern. Report it and ask:
 
-> "This component uses <value> for <property>, but the baseline is <baseline value>. Is this a deliberate exception, or should the component be fixed to match? I will record it either way, but they are recorded differently."
+> "This component uses <value> for <property>, but the baseline is <baseline value>. Recommended: fix the component to match, since one accepted outlier is how a baseline erodes. Or is this a deliberate exception? An exception I record now, with a note; a fix I record after the component matches."
 
 - **Deliberate exception** → write the entry with the deviation, and note in `Pattern notes` that it is a known exception and why. A recorded exception is fine; an unrecorded one is drift.
 - **Should be fixed** → say so plainly, list what needs changing, and do not write the entry until the component matches. Capturing a component you already know is wrong puts a wrong value in the file other sessions trust.

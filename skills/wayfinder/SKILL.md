@@ -103,7 +103,7 @@ When a ticket that already exists turns out to sit past the destination, close i
 
 ## Asks vs acts
 
-**Acts** in both modes. It reads, writes the map and tickets, and reports. It asks in three places, all deliberate:
+**Acts** in both modes. It reads, writes the map and tickets, and reports. It asks in four places, all deliberate:
 
 - **Naming the destination**, at the start of charting. This fixes the scope of everything after it, so it is settled with the engineer, not guessed.
 - **Any ticket typed `interview` or `prototype`**, which only resolve through live exchange with a person.

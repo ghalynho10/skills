@@ -27,11 +27,11 @@ Two operations, both owning `ui-registry.md`:
 
 This skill does not decide what the design should look like. It records what has been built and flags where it disagrees with itself. The decision of which variant becomes the standard is always yours, confirmed explicitly in audit mode.
 
-### Relationship to `ui-tokens.md` and `ui-rules.md`, if your project has them
+### Relationship to `design.md`
 
-Some projects keep a separate `ui-tokens.md` (the raw values: colors, spacing scale, font, radius) and `ui-rules.md` (the constraints on how those values get used, such as which surfaces may carry color). This skill does not own either file and never writes to them.
+`/develop` owns `design.md`, this project's art direction (the token values themselves live in the CSS). That is the standard, decided ahead of the component. The registry is the record of what was actually built.
 
-The relationship: tokens and rules are the standard, decided in advance, ideally by a person. The registry is the record of what has actually been built, kept current by this skill. Where the two disagree, that disagreement is worth surfacing (a component using a color not in the token set, a pattern that violates a stated rule) but this skill only reports it; it does not resolve it or edit those files. If your project has no tokens or rules file yet, the registry can still stand alone; it just means there is no separate upstream standard to check the registry against.
+**`design.md` wins.** Where a captured pattern disagrees with it, the component is what is wrong; read `design.md` when it exists, report the disagreement, and never write to it. Same treatment for a `ui-tokens.md` or `ui-rules.md` if your project keeps them: read only. With no such file, the registry stands alone, there is just no upstream standard to check it against.
 
 ## Pick the mode (route before doing anything else)
 
@@ -53,13 +53,13 @@ Do not run both modes in one invocation. If asked to do both, run `audit` first 
 
 ## Asks vs acts
 
-**capture** acts, with one conditional pause. It reads, extracts, and writes the registry entry without asking. It asks in two cases: when it cannot tell which file to capture from (nothing obviously new or changed since the last capture), and when the component deviates from an established baseline, where it asks whether the deviation is a deliberate exception or a mistake to fix. The second pause is what stops capture from quietly canonizing drift as pattern.
+**capture** acts, with two conditional pauses. It reads, extracts, and writes the registry entry without asking. It asks in two cases: when it cannot tell which file to capture from (nothing obviously new or changed since the last capture), and when the component deviates from an established baseline, where it asks whether the deviation is a deliberate exception or a mistake to fix. The second pause is what stops capture from quietly canonizing drift as pattern.
 
-**audit** acts up to a point, then stops and asks. It scans and produces the conflict report and a recommended baseline on its own, but never writes that baseline to the registry until you confirm it, correct it, or tell it to proceed. This is the one deliberate pause in this skill, because a baseline is a real design decision and this skill's job is to surface the choice clearly, not make it on your behalf.
+**audit** acts up to a point, then stops and asks. It scans and produces the conflict report and a recommended baseline on its own, but never writes that baseline to the registry until you confirm it, correct it, or tell it to proceed. This pause is unconditional, unlike capture's two, because a baseline is a real design decision and this skill's job is to surface the choice clearly, not make it on your behalf.
 
 ## Artifact ownership
 
-Owns `ui-registry.md` entirely, both modes. Never edits `ui-tokens.md`, `ui-rules.md`, source components, or any file outside the registry. If audit mode's fix list implies changes to real component files, it lists them for you or a later session to act on; it does not make those edits itself.
+Owns `ui-registry.md` entirely, both modes. Never edits `design.md`, `ui-tokens.md`, `ui-rules.md`, source components, or any file outside the registry. If audit mode's fix list implies changes to real component files, it lists them for you or a later session to act on; it does not make those edits itself.
 
 ## Portability (any OS, any agent)
 

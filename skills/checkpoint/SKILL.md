@@ -33,7 +33,7 @@ This is not a replacement for `/sync`. `/sync` reconciles the durable files to m
 
 ## Asks vs acts
 
-**`save`** acts. It writes the notes file without asking, but only ever appends or updates entries; it never deletes an entry itself; stale entries are removed by you, or by `save` itself once it confirms the thing they refer to now has a home in scope or a spec (see _Aging out_).
+**`save`** acts. It writes the notes file without asking, appending or updating entries. It removes an entry only when it has confirmed the thing that entry describes now has a home in scope, a spec, or `docs/reflexes.md` (see _Aging out_); it never deletes one for any other reason. Anything else stale, you remove.
 
 **`restore`** acts, then confirms. It reads and reports what it found, then explicitly asks you to confirm the picture is accurate before continuing, the one place this skill pauses on purpose. A stale or wrong carried over assumption is worse than no memory at all.
 
@@ -53,7 +53,7 @@ Ownership splits two ways, writing and lifecycle, which is finer than one owner 
 
 Reset notes are the one case where the two come apart, deliberately. `/recover` writes them, under pressure, at the end of a session that went wrong. This skill removes them once they are no longer needed, because the skill deciding a note has stopped mattering should not be the one that wrote it. This skill never edits the content of a reset note, only removes an entry whole.
 
-**This skill may read the whole file. It may only mutate entries under the three headings it writes, plus remove a spent reset note.** Every other top level section, whether written by `/recover` or by a skill added later, must survive a `save` byte for byte. Do not reorder sections, do not normalize headings, and do not rewrite the file from a template of the headings this skill knows about. Regenerating the file from its own model is how another skill's content silently disappears.
+**This skill may read the whole file. It may only mutate entries under the three headings it writes, plus remove a spent reset note, plus correct any section the engineer explicitly says is wrong during `restore` (Step 5).** Every other top level section, whether written by `/recover` or by a skill added later, must survive a `save` byte for byte. Do not reorder sections, do not normalize headings, and do not rewrite the file from a template of the headings this skill knows about. Regenerating the file from its own model is how another skill's content silently disappears.
 
 Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `scope`, `architect`, and `audit`/`sync`.
 
@@ -77,10 +77,12 @@ Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `s
    - <a hypothesis or approach tried and rejected, and why, so it is not re tried>
 
    ## Standing instructions
-   - <something you told the agent that holds for this session or this week only, not a decision worth a spec, e.g. a temporary constraint or preference. A rule meant to hold from now on belongs in `docs/reflexes.md`: if that file exists, say so and write nothing here; if it does not, record it here as before.>
+   - <something you told the agent that holds for this session or this week only, not a decision worth a spec, e.g. a temporary constraint or preference>
    ```
 
    Omit any heading with nothing under it. Keep each entry to one or two lines; this file is a pointer back into your memory, not a transcript.
+
+   **Standing instructions are session scoped only.** If an instruction is meant to hold from now on, it is a reflex, not a session note: say so, point at `/reflex` (which owns `docs/reflexes.md`), and write nothing here for that one. This test is about the instruction's durability, never about whether `docs/reflexes.md` happens to exist; a genuinely temporary instruction is recorded here either way.
 
 4. **Aging out, section scoped.** Before writing, check whether any existing entry **under the three headings this skill owns** now clearly has a home in `docs/scope/`, `docs/specs/`, or `docs/reflexes.md` (the thing it described got built, decided, or written up properly). If so, remove that entry; it has graduated and repeating it here would be a second source of truth.
 
@@ -104,6 +106,8 @@ Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `s
 ## Portability (any OS, any agent)
 
 Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required; this skill never shells out. `docs/session-notes.md` is a plain path, created with your write tool if missing.
+
+**Artifact base.** `docs/` by default. If `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), use `.workflow/session-notes.md` instead, and read `.workflow/scope/` and `.workflow/specs/` to match. Follow whichever base the project already uses; `/recover` shares this file and must resolve it the same way.
 
 ## Report format
 

@@ -26,7 +26,7 @@ This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills
 
 Everything else is unchanged from upstream. The added skills are downstream of the existing ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
 
-The six added skills all include `agents/openai.yaml`, so `/checkpoint`, `/overview`, `/wayfinder`, `/recover`, `/imprint`, and `/reflex` render in the Codex UI the same way the upstream skills do.
+The six added skills all include `agents/openai.yaml`, so `/checkpoint`, `/overview`, `/wayfinder`, `/recover`, `/imprint`, and `/reflex` appear in the Codex UI alongside the upstream skills. Their adapters use a shorter `default_prompt` form than upstream's and omit its header comment; the interface fields are the same.
 
 Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does not cover this fork's added skills; this README is the reference for those.
 
@@ -138,7 +138,7 @@ Routing that straight to `/debug` instead throws away the signal the breaker jus
 | UI pattern registry | `ui-registry.md` | imprint *(fork addition)* |
 | Standing rules | `docs/reflexes.md` | reflex *(fork addition)* |
 
-`docs/session-notes.md` is the one file in this pipeline with more than one owner. Ownership splits by writing and lifecycle, because reset notes are written under pressure by one skill and aged out later by another.
+`docs/session-notes.md` is the one file with a written-down sharing contract, not the only shared file. Ownership splits by writing and lifecycle, because reset notes are written under pressure by one skill and aged out later by another. (Upstream, `docs/scope/` is written by `scope`, `develop`, `sync`, `check verify`, and `test`, and the spec `**Status**:` line by four of those, each documenting its own slice locally with no single table naming them all.)
 
 | Section | Written by | Lifecycle |
 |---|---|---|
@@ -148,11 +148,11 @@ Routing that straight to `/debug` instead throws away the signal the breaker jus
 | `## Reset notes` | recover | checkpoint, removal only |
 | anything else | whichever skill wrote it | whichever skill wrote it |
 
-`/checkpoint` writes and owns the lifecycle of `Open threads`, `Ruled out`, and `Standing instructions`. `/recover` writes `Reset notes`. `/checkpoint` may remove a reset note once its content is represented in scope or a spec, or once the session has clearly moved past it, but it never edits the note's content.
+`/checkpoint` writes and owns the lifecycle of `Open threads`, `Ruled out`, and `Standing instructions`. `/recover` writes `Reset notes`. `/checkpoint` may remove a reset note once its content is represented in scope or a spec, or once the session has clearly moved past it, but it never edits the note's content on its own judgment. The one exception is during `restore`, when you say a note is now wrong and have it corrected.
 
 Each skill reads the whole file, mutates only what it owns, and writes every other section back unchanged. No skill regenerates the file from a template of the sections it knows about; that is how another skill's content silently disappears. Entry bodies must not contain top-level (`##`) headings, since section boundaries are found by scanning for them.
 
-If `docs/` is a published docs site, these move to `.workflow/` so they do not ship with your site. Because state lives in files, each skill suggests `/clear` at handoffs, so a fresh session reads from disk again and long chats do not pile up cost.
+If `docs/` is a published docs site, the `docs/`-based artifacts move to `.workflow/` so they do not ship with your site (`ui-registry.md` sits at the repo root and does not move). Because state lives in files, each skill suggests `/clear` at handoffs, so a fresh session reads from disk again and long chats do not pile up cost.
 
 ## Skill reference
 
@@ -201,7 +201,7 @@ When: something has gone wrong and it is not obvious whether the code is at faul
 When: after building a UI component, run `/imprint` to record the component's background, border, radius, text, spacing, hover state, shadow, and accent usage in `ui-registry.md`. Run `/imprint audit` to establish a baseline from an existing codebase or UI freshly exported from a design tool before normal capture begins. Capture mode checks new components against that baseline before writing; deviations are flagged as either a deliberate exception to record or something to fix, rather than silently recorded as the new pattern. It owns `ui-registry.md`; it only reads `ui-tokens.md` or `ui-rules.md` if present and never writes them.
 
 **reflex** *(fork addition)*: Turns a correction into a standing rule later sessions read.
-When: right after you correct an agent in a way that will apply again, run `/reflex` to capture it as one line in `docs/reflexes.md`, trigger then action. It routes first: a mechanical, deterministic rule belongs in a hook where it is enforced rather than remembered, a standard you want enforced across the whole codebase belongs in a `/architect` `CROSS-CUTTING` spec, a fact visible in the code belongs in `AGENTS.md`, something true only this week belongs in `docs/session-notes.md`, and a one off that generalizes to nothing is not captured at all. It drafts the exact line and waits for your confirmation before writing, because a wrong rule is read by every later session. Run `/reflex audit` to prune: contradictions, duplicates, rules gone stale, and the oldest rules as candidates to graduate into `AGENTS.md`. Graduation is your call and is two steps: the rule moves to a `## Graduating` heading and is deleted only once you confirm `/audit` landed it in `AGENTS.md`, since nothing else reads this file and a rule removed early is lost. It owns `docs/reflexes.md` and never edits `AGENTS.md`; the root pointer that makes the file get read is written by `/audit`.
+When: right after you correct an agent in a way that will apply again, run `/reflex` to capture it as one line in `docs/reflexes.md`, trigger then action. It routes first: a mechanical, deterministic rule belongs in a hook where it is enforced rather than remembered, a standard you want enforced across the whole codebase belongs in a `/architect` `CROSS-CUTTING` spec, a fact visible in the code belongs in `AGENTS.md`, something true only this week belongs in `docs/session-notes.md`, and a one off that generalizes to nothing is not captured at all. It drafts the exact line and waits for your confirmation before writing, because a wrong rule is read by every later session. Run `/reflex audit` to prune: contradictions, duplicates, rules gone stale, and the oldest rules as candidates to graduate into `AGENTS.md`. Graduation is your call and is two steps: the rule moves to a `## Graduating` heading and is printed ready to paste, and it is deleted only once you confirm you moved it into `AGENTS.md`. No skill carries the text across, so a rule deleted early is lost. It owns `docs/reflexes.md` and never edits `AGENTS.md`; the root pointer that makes the file get read is written by `/audit`.
 
 ## Learn more
 

@@ -108,11 +108,13 @@ If root `AGENTS.md` has no pointer to `docs/reflexes.md`, say so in the report a
    - **holds**, leave it alone
 3. Report the change list: per flagged rule one action (**remove**, **merge into `<rule>`**, or **rewrite as `<line>`**), a one line why, and the resulting count: "18 rules now, 12 after these changes." Graduation is the engineer's call, never a recommendation to remove.
 4. Confirm before touching the file. Apply exactly what was agreed, nothing more.
-5. For a rule the engineer graduates, move it under a `## Graduating` heading in `docs/reflexes.md`, print the exact line, and tell them to run `/audit`, which gap fills root `AGENTS.md` with permission. Delete it only once they confirm it landed there. Nothing else reads this file, so a rule removed before it lands is lost. `/sync` is not the route: it only runs off a code diff and stops when just docs changed. Rules under `## Graduating` are not counted toward the 20.
+5. For a rule the engineer graduates, move it under a `## Graduating` heading in `docs/reflexes.md` and print it as a ready to paste bullet for root `AGENTS.md`. **The engineer moves it across; no skill does.** `/audit` derives its root gaps from scanning code and never reads this file, so a rule dropped here on the promise that some later run will collect it is simply lost. Delete it from `## Graduating` once they confirm it landed. Rules there do not count toward the 20.
 
 ## Portability (any OS, any agent)
 
 Any Agent Skills client on macOS, Linux, or Windows. No CLI is required; this skill never shells out. `docs/reflexes.md` is a plain path, created with your write tool if missing.
+
+**Artifact base.** `docs/` by default. If `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), use `.workflow/reflexes.md` instead. Follow whichever base the project already uses.
 
 ## Report format
 
@@ -136,5 +138,5 @@ For audit:
 
 <n> rules, <n> flagged: <n> contradicting, <n> duplicate, <n> stale, <n> graduation candidates
 Applied: <n> removed, <n> rewritten, <n> merged, leaving <n>
-Next: /audit to land <n> graduating rules in AGENTS.md, then /reflex to clear them   (omit if none)
+Next: move <n> graduating rules into AGENTS.md yourself, then /reflex to clear them   (omit if none)
 ```

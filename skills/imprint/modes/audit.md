@@ -73,7 +73,7 @@ These are candidates to replace with shared tokens if the project keeps a `ui-to
 <the proposed value for each property, based on what the majority already uses correctly, and, if the project has `ui-tokens.md` or `ui-rules.md`, checked against those first>
 ```
 
-If the project has `ui-tokens.md` or `ui-rules.md`, read them before writing recommendations, and check each recommended value against them. A recommendation that matches an existing token is stronger than one inferred purely from majority usage; say so where it applies. If a recommendation conflicts with a stated rule, for instance a component using color on a card surface when the rule says color only lives inside cards, name that conflict explicitly rather than quietly picking the majority value.
+If the project has `design.md` (owned by `/develop`), `ui-tokens.md`, or `ui-rules.md`, read them before writing recommendations, and check each recommended value against them. A recommendation that matches an existing token is stronger than one inferred purely from majority usage; say so where it applies. If a recommendation conflicts with a stated rule, for instance a component using color on a card surface when the rule says color only lives inside cards, name that conflict explicitly rather than quietly picking the majority value.
 
 ### Step 3: Wait for confirmation
 

@@ -84,7 +84,7 @@ State the diagnosis before proceeding, in one line, with the reason:
 Ownership of `docs/session-notes.md` splits two ways, and the split is finer than "one skill per section". Stating it plainly, because the earlier wording claimed strict section ownership and then immediately made an exception to it:
 
 - **This skill owns writing `## Reset notes`.** No other skill adds an entry there.
-- **`/checkpoint` owns lifecycle cleanup of that section**, the same way it ages out its own entries. It may remove a reset note once its content is represented in scope or a spec. It may not edit one.
+- **`/checkpoint` owns lifecycle cleanup of that section**, the same way it ages out its own entries. It may remove a reset note once its content is represented in scope or a spec. It may not edit one on its own judgment. The single exception: during `/checkpoint restore`, when the engineer says a note is now wrong, they may have it corrected. That is the engineer deciding, not a skill rewriting another's record.
 
 Every other section of the file belongs to whoever wrote it. `/checkpoint` owns `## Open threads`, `## Ruled out`, and `## Standing instructions`; a skill added later may own another.
 
@@ -105,6 +105,8 @@ A hard reset ends with the same instruction `/checkpoint restore` is built for: 
 ## Portability (any OS, any agent)
 
 Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required; this skill never shells out.
+
+**Artifact base.** `docs/` by default. If `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), the reset note goes to `.workflow/session-notes.md` instead. Follow whichever base the project already uses; `/checkpoint` shares this file and resolves it the same way.
 
 Bundled files live in this skill's folder: `modes/hard-reset.md` and `modes/rethink.md`. Read only the mode file the diagnosis routed to.
 

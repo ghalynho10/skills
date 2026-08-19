@@ -48,7 +48,7 @@ Do not run two modes in one invocation. If the engineer asks for both `update` a
 
 ## Asks vs acts
 
-**Acts**, in all three modes. It reads the durable files, writes its document, and reports what changed. It asks only in two cases:
+**Acts**, in all three modes. It reads the durable files, writes its document, and reports what changed. It asks only in three cases:
 
 - On the very first `update` run, when `docs/overview.md` does not yet exist and the project's purpose cannot be derived from scope, specs, or `AGENTS.md`, it asks one question: what is this project for, in a sentence or two, in your own words. Everything else it infers.
 - On `story`, it confirms the intended reader before writing, because that choice changes the whole telling. This pause stays: `story` is rare, expensive to get wrong, and the answer genuinely changes the output.
@@ -67,11 +67,11 @@ This skill is downstream of all of them: it reads what they own and composes a p
 
 Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required; this skill never shells out. Use your knowledge of today's date for the Last updated line.
 
-Bundled files live in this skill's folder: `modes/update.md`, `modes/story.md`, `modes/check.md`, and `overview-template.md`. Read only the mode file you routed to, and read `overview-template.md` only at write time (in `update`), so the structure does not sit in context while you are reading the durable files.
+Bundled files live in this skill's folder: `modes/update.md`, `modes/story.md`, `modes/check.md`, and `modes/overview-template.md`. Read only the mode file you routed to, and read `modes/overview-template.md` only at write time (in `update`), so the structure does not sit in context while you are reading the durable files.
 
 ## Reference files
 
 - `modes/update.md`: the reference document mode
 - `modes/story.md`: the narrative mode
 - `modes/check.md`: the drift report mode
-- `overview-template.md`: the section structure for `docs/overview.md`, read at write time by `update` only
+- `modes/overview-template.md`: the section structure for `docs/overview.md`, read at write time by `update` only

@@ -301,8 +301,8 @@ which /checkpoint reads and ages out.
 <Only if `docs/reflexes.md` exists, else omit. Place before `## Context files`.>
 
 Read [docs/reflexes.md](docs/reflexes.md) before making changes: standing rules for how work is
-done here, one line each, written by /reflex. A rule that has become a plain convention graduates
-out of it into this file, through /audit.
+done here, one line each, written by /reflex. A rule that has become a plain convention belongs in
+this file instead; /reflex flags it and the engineer moves it.
 
 ## Context files
 
