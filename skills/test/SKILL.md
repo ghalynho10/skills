@@ -191,7 +191,7 @@ Lead with the result; the per file list and AC traceability are in the test file
 ```
 ## /test <feature> Â· <all N passed | Y failed | not run>
 
-**Wrote <N> tests across <M> files (happy path / edges / errors / a11y). <X passed, Y failed via `<RUN_COMMAND>` | not run>.**
+**Wrote <N> tests across <M> files (happy path / edges / errors / a11y / boundary). <X passed, Y failed via `<RUN_COMMAND>` | not run>.**
 Next (this feature's next unticked box in the scope): all pass → `/check review` if a `Review it` box remains, else `/sync` or the next feature · Y failed → fix them, or `/debug <feature>` if the code is wrong · not run → `<RUN_COMMAND>`
 Heads up: <bugs the tests caught Â· file:line + the failing expectation> · <uncovered AC-N or area, why>   (omit the whole line if none)
 ```
@@ -200,6 +200,7 @@ Only when `RUN_AFTER = no`, append the run steps: `<setup if INSTALL=deferred>` 
 
 **Not covered** (consider adding):
 - <gap and why>
+- Boundary unexercised: <dependency, e.g. the `check_and_increment_usage` RPC> in <file>, mocked by hand only, skipped at your call   ← name the dependency, never just the file
 - AC-N, <criterion that can't be automated (visual/manual/env)> → defer to /check verify manual step   ← when TRACE_TO_CONTRACT=yes
 ```
 

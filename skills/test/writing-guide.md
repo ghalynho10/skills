@@ -43,7 +43,7 @@ If `INSTALL_STATE = deferred`, still write complete, correct tests, they simply 
 | **logic** | Pure unit tests. Call the function with real inputs, assert outputs. Cover edge and error cases exhaustively. Mock only true boundaries (network, fs, clock, randomness). |
 | **component** | Render the component, interact via user events, assert what the user sees (rendered text, roles, disabled/expanded state) and accessibility. Never assert internal state or class names. |
 | **page/flow** | If E2E_TOOL is set, write a real browser flow test for the primary path through the page (load → act → assert outcome) plus one failure path. Also component test any pieces that are not trivial. If E2E_TOOL is `none`, cover the page at the component level. |
-| **api/server** | Integration test: invoke the handler/route/action with representative requests. Assert status, response shape, and error responses (bad input, unauthorized, not found). Mock the DB/external services at the boundary only. |
+| **api/server** | Integration test: invoke the handler/route/action with representative requests. Assert status, response shape, and error responses (bad input, unauthorized, not found). Mock the DB/external services at the boundary only, plus one boundary fidelity test per external dependency. |
 | **cli** | Invoke the command with arguments, assert stdout/exit code/side effects. Cover an invalid args path. |
 
 ---
@@ -60,14 +60,43 @@ A good suite for a changed feature has more than the happy path. If you only wro
 
 ---
 
+## Boundary fidelity (the one thing a hand written mock cannot satisfy)
+
+An **external boundary** is anything whose wire format you do not control: a database RPC or query layer, a third party HTTP API, an auth provider, a model provider, a payment processor, a queue.
+
+**If a changed file touches one, at least one test must exercise the real call or replay a captured real response.** A mock you wrote by hand does not count. It encodes the same assumption the implementation made, so the code and its suite agree with each other and both are wrong about what the system actually sends. That failure is silent and total: green tests, broken product.
+
+Satisfy it one of three ways, best first:
+
+1. **Call the real dependency.** A real test database connection, a real request against a sandbox or test account.
+2. **Replay a captured response.** Record the actual payload once (cassette, or a JSON snapshot saved from a real call) and assert against that.
+3. **Contract test from the provider's own schema or docs.** Acceptable when 1 and 2 are impractical, and weaker, since it still encodes a reading of the contract rather than the contract itself.
+
+The other tests on that path may keep mocking the boundary. This rule asks for one test that would notice if the real shape differed.
+
+**Detect it when you read the file** (not from the path): an imported client or SDK, an RPC or query call, a `fetch` to a host you do not own. Name the specific dependency, not the file.
+
+**When nothing exercises it**, ask once before writing, then record the answer honestly:
+
+```
+Ask: "<file> calls <dependency> and no test exercises its real shape. Add a boundary test?"  (header: "Boundary")
+- "Replay a captured response (recommended)": "One recorded payload as a fixture, asserted against; catches a wrong shape with no live credentials"
+- "Call it for real": "Point me at a test database or sandbox and I write against it; strongest, needs access"
+- "Skip it": "I record <dependency> as unexercised in the report; the suite keeps its hand written mocks"
+```
+
+Skipping is a valid answer and is reported as skipped, never as covered.
+
+---
+
 ## Expert rules (all tools)
 
 - **Test names are sentences**: `"returns null when the cart is empty"`, not `"test3"`.
 - **One concept per test.** Multiple `expect`s are fine only if they verify the same behavior.
 - **Arrange → Act → Assert** in every test body.
 - **Test the public interface, not internals.** Assert observable output, not that a private method ran.
-- **Do not mock what you own.** Mock only at the system boundary: HTTP, DB, filesystem, clock, randomness.
-- **Deterministic.** No reliance on real time, real network, or test ordering. Freeze the clock when time matters.
+- **Do not mock what you own.** Mock only at the system boundary: HTTP, DB, filesystem, clock, randomness. At an **external** boundary the mocks are not enough on their own: one test must still exercise the real call or a captured response (see _Boundary fidelity_).
+- **Deterministic.** No reliance on real time or test ordering. Freeze the clock when time matters. The one boundary fidelity test is the deliberate exception: a replayed response keeps it hermetic, and a real dependency call stays isolated and tagged so it can be excluded from the default run.
 - **Keep setup DRY but readable.** Shared setup in `beforeEach`/fixtures; the test body still reads on its own.
 - **Every async call is awaited.** No floating promises.
 
