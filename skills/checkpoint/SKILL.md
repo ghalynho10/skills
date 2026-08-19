@@ -77,12 +77,12 @@ Never edits `docs/scope/`, `docs/specs/`, or `AGENTS.md`; those stay owned by `s
    - <a hypothesis or approach tried and rejected, and why, so it is not re tried>
 
    ## Standing instructions
-   - <something you told the agent that is not a decision worth a spec, e.g. a temporary constraint or preference>
+   - <something you told the agent that holds for this session or this week only, not a decision worth a spec, e.g. a temporary constraint or preference. A rule meant to hold from now on belongs in `docs/reflexes.md`: if that file exists, say so and write nothing here; if it does not, record it here as before.>
    ```
 
    Omit any heading with nothing under it. Keep each entry to one or two lines; this file is a pointer back into your memory, not a transcript.
 
-4. **Aging out, section scoped.** Before writing, check whether any existing entry **under the three headings this skill owns** now clearly has a home in `docs/scope/` or `docs/specs/` (the thing it described got built, decided, or written up properly). If so, remove that entry; it has graduated and repeating it here would be a second source of truth.
+4. **Aging out, section scoped.** Before writing, check whether any existing entry **under the three headings this skill owns** now clearly has a home in `docs/scope/`, `docs/specs/`, or `docs/reflexes.md` (the thing it described got built, decided, or written up properly). If so, remove that entry; it has graduated and repeating it here would be a second source of truth.
 
    Aging out never runs against a section this skill does not own, with one exception, below.
 

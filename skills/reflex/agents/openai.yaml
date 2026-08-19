@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reflex"
+  short_description: "Turn a correction into a standing rule later sessions read"
+  default_prompt: "Use $reflex to capture the correction I just gave as a standing rule."

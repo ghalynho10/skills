@@ -14,18 +14,19 @@ Run `/debug` anytime something breaks, or `/recover` when it's not clear what ki
 
 ## About this fork
 
-This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) with five added skills and one modified upstream skill:
+This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) with six added skills and one modified upstream skill:
 
 - **`/checkpoint`** (new) — captures the in-session working memory the pipeline's files don't own: open threads, ruled-out approaches, and standing instructions. Saves to `docs/session-notes.md` and confirms before restoring. Fills the gap between "state lives in files" and the parts of a session that never became a spec or scope row.
 - **`/overview`** (new) — the project-wide picture none of the other files hold. `update` keeps `docs/overview.md` current as a reference document, `story` writes a prose telling for a person, `check` reports drift. Bare `/overview` runs `update`.
 - **`/wayfinder`** (new) — for the rare effort too big and too foggy for `/scope`'s interview to sharpen in one sitting. Charts a map of investigation tickets under `docs/wayfinding/`, resolved one per session, then hands the cleared result back to `/scope` or `/architect`. Adapted from mattpocock/skills' `wayfinder`, with the issue tracker and its external skill dependencies replaced by plain files native to this pipeline.
 - **`/recover`** (new) — diagnoses *what kind* of failure occurred before prescribing a response: an isolated bug, a session that has gone wrong through repeated patching, or a foundation resting on a wrong assumption. Ported from the older [jsmastery-pro/jsm-agent-skill](https://github.com/jsmastery-pro/jsm-agent-skill) repo and adapted to this fork.
 - **`/imprint`** (new) — captures UI visual patterns after a component is built, including background, border, radius, text, spacing, and hover state, and records them in `ui-registry.md` so later components match. `audit` establishes a baseline from an existing UI or a design-tool export; `capture` checks new components against that baseline before writing, so drift is either a deliberate exception or something to fix.
+- **`/reflex`** (new) — promotes a correction into a standing rule. When you tell an agent "always run the migration check before touching a schema file", that rule normally dies at `/clear`; `/reflex` captures it as one line in `docs/reflexes.md`, which later sessions read once `/audit` has added the root pointer to it. Routes anything that belongs elsewhere (a hook, a spec, `AGENTS.md`, session notes) to its real home instead of writing it, and `audit` prunes the file so it stays short enough to keep being read.
 - **`/debug`** (modified) — a stricter bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
 
 Everything else is unchanged from upstream. The added skills are downstream of the existing ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
 
-The five added skills all include `agents/openai.yaml`, so `/checkpoint`, `/overview`, `/wayfinder`, `/recover`, and `/imprint` render in the Codex UI the same way the upstream skills do.
+The six added skills all include `agents/openai.yaml`, so `/checkpoint`, `/overview`, `/wayfinder`, `/recover`, `/imprint`, and `/reflex` render in the Codex UI the same way the upstream skills do.
 
 Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does not cover this fork's added skills; this README is the reference for those.
 
@@ -47,6 +48,7 @@ Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does no
 | `wayfinder` | Charts and resolves large, foggy, multi-session efforts as a map of tickets. *(fork addition)* |
 | `recover` | Diagnoses what kind of failure occurred before responding to it. *(fork addition)* |
 | `imprint` | Captures UI visual patterns into `ui-registry.md`, with an audit mode for establishing a baseline. *(fork addition)* |
+| `reflex` | Turns a correction into a standing rule in `docs/reflexes.md`, with an audit mode for pruning. *(fork addition)* |
 
 Hardening (systems level failure mode analysis) is temporarily removed and will return as a system design specialization.
 
@@ -70,6 +72,7 @@ npx skills@latest add ghalynho10/skills/skills/overview
 npx skills@latest add ghalynho10/skills/skills/wayfinder
 npx skills@latest add ghalynho10/skills/skills/recover
 npx skills@latest add ghalynho10/skills/skills/imprint
+npx skills@latest add ghalynho10/skills/skills/reflex
 npx skills@latest add ghalynho10/skills/skills/debug
 ```
 
@@ -101,7 +104,7 @@ At the end of `/scope` you also pick a **workflow depth** for the project (overr
 
 The gate is layered, not magic: `/architect` names the source of every value a feature must produce (so gaps surface at design time), `/develop` checks that coverage again before building, and at Beta+ `/architect` recommends running an independent cross-model critic over the spec for decisions it never settled (you decide, and you decide on any gaps it finds). It's a strong, defense-in-depth gate that catches the vast majority — not an absolute guarantee, no prompt can be. Behavioral correctness is caught by the `/check verify` and `/test` layers.
 
-Around the loop, the fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/imprint` after building a UI component, `/checkpoint save` at the end of a session that leaves open threads behind, `/wayfinder` off to the side entirely when a patch of the plan is too foggy for `/scope` to sharpen in the room, and `/recover` only when something has gone wrong.
+Around the loop, the fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/imprint` after building a UI component, `/checkpoint save` at the end of a session that leaves open threads behind, `/reflex` the moment a correction turns out to be a rule rather than a one off, `/wayfinder` off to the side entirely when a patch of the plan is too foggy for `/scope` to sharpen in the room, and `/recover` only when something has gone wrong.
 
 ### When something goes wrong
 
@@ -133,6 +136,7 @@ Routing that straight to `/debug` instead throws away the signal the breaker jus
 | Session notes | `docs/session-notes.md` | **shared by section** *(fork addition)* |
 | Wayfinding maps and tickets | `docs/wayfinding/` | wayfinder *(fork addition)* |
 | UI pattern registry | `ui-registry.md` | imprint *(fork addition)* |
+| Standing rules | `docs/reflexes.md` | reflex *(fork addition)* |
 
 `docs/session-notes.md` is the one file in this pipeline with more than one owner. Ownership splits by writing and lifecycle, because reset notes are written under pressure by one skill and aged out later by another.
 
@@ -195,6 +199,9 @@ When: something has gone wrong and it is not obvious whether the code is at faul
 
 **imprint** *(fork addition)*: Captures UI visual patterns so components stay consistent.
 When: after building a UI component, run `/imprint` to record the component's background, border, radius, text, spacing, hover state, shadow, and accent usage in `ui-registry.md`. Run `/imprint audit` to establish a baseline from an existing codebase or UI freshly exported from a design tool before normal capture begins. Capture mode checks new components against that baseline before writing; deviations are flagged as either a deliberate exception to record or something to fix, rather than silently recorded as the new pattern. It owns `ui-registry.md`; it only reads `ui-tokens.md` or `ui-rules.md` if present and never writes them.
+
+**reflex** *(fork addition)*: Turns a correction into a standing rule later sessions read.
+When: right after you correct an agent in a way that will apply again, run `/reflex` to capture it as one line in `docs/reflexes.md`, trigger then action. It routes first: a mechanical, deterministic rule belongs in a hook where it is enforced rather than remembered, a standard you want enforced across the whole codebase belongs in a `/architect` `CROSS-CUTTING` spec, a fact visible in the code belongs in `AGENTS.md`, something true only this week belongs in `docs/session-notes.md`, and a one off that generalizes to nothing is not captured at all. It drafts the exact line and waits for your confirmation before writing, because a wrong rule is read by every later session. Run `/reflex audit` to prune: contradictions, duplicates, rules gone stale, and the oldest rules as candidates to graduate into `AGENTS.md`. Graduation is your call and is two steps: the rule moves to a `## Graduating` heading and is deleted only once you confirm `/audit` landed it in `AGENTS.md`, since nothing else reads this file and a rule removed early is lost. It owns `docs/reflexes.md` and never edits `AGENTS.md`; the root pointer that makes the file get read is written by `/audit`.
 
 ## Learn more
 
