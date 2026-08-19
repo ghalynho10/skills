@@ -44,7 +44,9 @@ The first two rows are the ones most often got wrong. "Format after every edit" 
 
 ## Artifact ownership
 
-Owns `docs/reflexes.md` entirely, both modes. Never edits `AGENTS.md`, `docs/scope/`, `docs/specs/`, `docs/session-notes.md`, or source code. The root `AGENTS.md` pointer that makes this file get read is written by `/audit`.
+Owns `docs/reflexes.md` entirely, both modes. Never edits `AGENTS.md`, `docs/scope/`, `docs/specs/`, `docs/session-notes.md`, or source code.
+
+The line that makes this file get read is an `@docs/reflexes.md` import in root `AGENTS.md`, which `AGENTS.md`'s own importer pulls in (Claude Code resolves imports four hops deep). `/audit` writes it; this skill only reports when it is missing and prints what to add.
 
 ## Execution: capture
 
@@ -95,7 +97,18 @@ Wait for the answer. If corrected, adjust the wording and show it again.
 
 Write the confirmed line to `docs/reflexes.md` under `## Reflexes`, creating the file with that heading if missing: append it, or replace the single line Step 3 named. Touch no other line, and do not reorder or reformat the file.
 
-If root `AGENTS.md` has no pointer to `docs/reflexes.md`, say so in the report and recommend `/audit`.
+**Then check the read path**, because a rule nothing loads is worse than no rule: does root `AGENTS.md` contain a bare `@docs/reflexes.md` line? If not, say so in the report and print the block to add, so the engineer can paste it now rather than wait for an `/audit` run:
+
+```
+## Standing rules
+
+Standing rules for how work is done here, one line each, written by /reflex. Read them before
+making changes.
+
+@docs/reflexes.md
+```
+
+The `@` line must be bare: in backticks or as a markdown link it is text, not an import, and nothing loads. Use the project's artifact base (`.workflow/reflexes.md` where that is the base).
 
 ## Execution: audit
 
@@ -126,7 +139,7 @@ For capture:
 Added or edited: <the rule as written>
 File: docs/reflexes.md (<n> rules, after this write)
 
-Heads up: <contradiction resolved, duplicate left in session notes, or no AGENTS.md pointer yet, run /audit>   (omit if none)
+Heads up: <contradiction resolved, duplicate left in session notes, or no @docs/reflexes.md import in AGENTS.md yet, so nothing reads this file: block to paste above>   (omit if none)
 ```
 
 For a capture that wrote nothing, one line is the whole report: the rule, and why. Which file or mechanism owns it instead, or the existing rule that already covers it, or that no correction in this session generalized.

@@ -298,11 +298,16 @@ which /checkpoint reads and ages out.
 
 ## Standing rules
 
-<Only if `docs/reflexes.md` exists, else omit. Place before `## Context files`.>
+<Only if `docs/reflexes.md` exists, else omit. Place before `## Context files`. Write the last
+  line as a bare @ import: not in backticks, not a markdown link, or Claude Code will not load it
+  (import parsing skips code spans). Match the artifact base: `.workflow/reflexes.md` if the
+  project uses that. The prose line above it is what non Claude agents read.>
 
-Read [docs/reflexes.md](docs/reflexes.md) before making changes: standing rules for how work is
-done here, one line each, written by /reflex. A rule that has become a plain convention belongs in
-this file instead; /reflex flags it and the engineer moves it.
+Standing rules for how work is done here, one line each, written by /reflex. Read them before
+making changes. A rule that has become a plain convention belongs in this file instead; /reflex
+flags it and the engineer moves it.
+
+@docs/reflexes.md
 
 ## Context files
 

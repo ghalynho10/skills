@@ -205,7 +205,9 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **How.** **Routes before capturing**, and most candidates route away: something mechanical and deterministic belongs in a hook where it is *enforced* rather than remembered; a standard to enforce codebase wide is an `/architect` `CROSS-CUTTING` spec; a fact visible in the code is `AGENTS.md`; something true only this week is `/checkpoint`; a one off that generalizes to nothing is not captured at all. What survives becomes one line, trigger then action, drafted and **confirmed with you before writing** — a wrong rule is read by every later session. `audit` prunes: contradictions, duplicates, stale triggers, and the oldest rules as graduation candidates. Capped at 20 rules, because a file long enough to be skipped stops being read.
 
-**Owns.** `docs/reflexes.md`. Never edits `AGENTS.md`; the root pointer that makes the file get read is written by `/audit`. Graduation is two steps and you move the line yourself — no skill carries the text across.
+**Owns.** `docs/reflexes.md`. Never edits `AGENTS.md`. Graduation is two steps and you move the line yourself — no skill carries the text across.
+
+**How it gets read.** A bare `@docs/reflexes.md` import in root `AGENTS.md`. Claude Code resolves imports four hops deep, so `CLAUDE.md` → `AGENTS.md` → `reflexes.md` loads the rules into every session. A markdown link or a backticked path loads nothing: import parsing skips code spans, and a link is only text. `/audit` writes the line; `/reflex` reports when it is missing and prints the block to paste. Other agents read `AGENTS.md` directly and get the prose line above the import.
 
 **Example.** You tell the agent, for the third time, to run the migration check before touching a schema file. `/reflex` proposes `- When a schema file changes, run the migration check before proposing the diff. (added 2026 08 19)`, you confirm, and no later session needs telling.
 
