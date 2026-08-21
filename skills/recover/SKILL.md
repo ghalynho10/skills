@@ -1,6 +1,6 @@
 ---
 name: recover
-allowed-tools: Bash, Read, Grep, Glob, Write, Edit
+allowed-tools: Read, Grep, Glob, Write, Edit
 argument-hint: <describe what went wrong>
 description: >-
   Run /recover when something has gone wrong during a build and it is not

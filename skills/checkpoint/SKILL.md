@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-allowed-tools: Bash, Read, Grep, Glob, Write, Edit
+allowed-tools: Read, Grep, Glob, Write, Edit
 argument-hint: <save | restore>
 description: >-
   Run /checkpoint save before ending a session that has open threads not yet

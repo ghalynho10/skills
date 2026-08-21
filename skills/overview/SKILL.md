@@ -1,6 +1,6 @@
 ---
 name: overview
-allowed-tools: Bash, Read, Grep, Glob, Write, Edit
+allowed-tools: Read, Grep, Glob, Write, Edit
 argument-hint: <update | story | check>
 description: >-
   Run /overview update after a feature ships to keep docs/overview.md current,

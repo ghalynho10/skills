@@ -1,6 +1,6 @@
 ---
 name: wayfinder
-allowed-tools: Bash, Read, Grep, Glob, Write, Edit
+allowed-tools: Read, Grep, Glob, Write, Edit
 argument-hint: <a loose idea | an existing map>
 description: >-
   Run /wayfinder when an effort is too big and too foggy for one session: the

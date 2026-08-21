@@ -1,6 +1,6 @@
 ---
 name: imprint
-allowed-tools: Bash, Read, Grep, Glob, Write, Edit
+allowed-tools: Read, Grep, Glob, Write, Edit
 argument-hint: <filepath | audit | (nothing)>
 description: >-
   Run /imprint after building any UI component to extract the visual patterns
