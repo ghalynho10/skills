@@ -130,6 +130,7 @@ A spec's status mirrors its feature's build lifecycle:
 - `In Progress`: being built (scope `in-progress`).
 - `Accepted`: built and verified (scope `done`); a spec is not `Accepted` until its feature ships.
 - `Superseded`: replaced by a later spec (never set this from scope status; flag under `STALE_SPECS` instead).
+- `Assumed`: recorded by `/develop` when the engineer built before deciding. **Never reconciled from scope status, in either direction**: only `/architect` clears it, by ratifying. It does not block its feature reaching `done`, so a `done` feature with an `Assumed` spec is expected, not a mismatch. Report it under `ASSUMED_SPECS`.
 
 For an **umbrella decision**, reconcile the linked `index.md` (child specs carry no status and are not reconciled).
 
@@ -141,7 +142,7 @@ For each spec whose linked feature appears in the reconciled scope:
 3. **Read the spec again just before writing** (a teammate or another session may have edited it). If the `**Status**:` line already equals the target, do nothing (idempotent). Otherwise make a single surgical edit to that one line only.
 4. Record the change under `SPEC_STATUS_RECONCILED`.
 
-**Do not guess.** If a feature linked spec is ambiguous (no confident link to exactly one feature, unclear mapping, status already `Superseded`, or a downgrade you can't explain), do not edit; flag the mismatch under `STALE_SPECS` and leave the line as is.
+**Do not guess.** If a feature linked spec is ambiguous (no confident link to exactly one feature, unclear mapping, status already `Superseded` or `Assumed`, or a downgrade you can't explain), do not edit; flag the mismatch under `STALE_SPECS` and leave the line as is.
 
 ### 5. Flag stale specs (do not edit their content)
 
@@ -160,7 +161,7 @@ You are the **universal sub task reconciler**: `/develop` ticks its own sub task
 Evidence per sub task type (tick `[ ]` → `[x]` when the evidence is clearly present):
 - **UI / data model / backend / integration / data integration** → the corresponding files exist in the feature's code area (components/pages, schema/migrations, services/endpoints, the mock replaced by a real query).
 - **Build it (+ milestones)** → the feature's code exists in its area (milestone chunks present); `/develop` usually ticks these itself.
-- **Verify it** → a `verify.md` beside the spec, or a recorded passing runtime verification for the feature.
+- **Verify it** → a `verify.md` beside the spec **with its steps ticked**, or a recorded passing runtime verification. `/develop` writes `verify.md` unticked at build time and only `/check verify` ticks it, so the file existing is not evidence that anything ran.
 - **Test it** → test files cover this feature's area (search the area + test dirs).
 - **Review it (fresh model)** → a findings file for this feature under `docs/reviews/` (`/check review`'s output).
 - **Document it** → a PR body, a `CHANGELOG.md` entry, or a release note covering this feature (`/document`'s output).
@@ -200,6 +201,9 @@ SPEC_STATUS_RECONCILED:
 
 STALE_SPECS:
 - <docs/specs/file>, <why the change makes it stale, or a status mismatch you couldn't safely reconcile>
+
+ASSUMED_SPECS:
+- <docs/specs/file>, <feature; owes ratification (/architect), left untouched>
 
 CONTEXT_GAPS:
 - <area>, <pre-existing undocumented area only sliced by this change; suggest /audit>
