@@ -44,7 +44,7 @@ The first two rows are the ones most often got wrong. "Format after every edit" 
 
 ## Artifact ownership
 
-Owns `docs/reflexes.md` entirely, both modes. Never edits `AGENTS.md`, `docs/scope/`, `docs/specs/`, `docs/session-notes.md`, or source code. The root `AGENTS.md` pointer that makes this file get read is written by `/audit`.
+Owns `docs/reflexes.md` entirely, both modes. Never edits `AGENTS.md`, `docs/scope/`, `docs/specs/`, `docs/session-notes.md`, or source code. The root `AGENTS.md` pointer and the root `CLAUDE.md` `@docs/reflexes.md` import, which are what make this file get read, are both written by `/audit`.
 
 ## Execution: capture
 
@@ -95,7 +95,7 @@ Wait for the answer. If corrected, adjust the wording and show it again.
 
 Write the confirmed line to `docs/reflexes.md` under `## Reflexes`, creating the file with that heading if missing: append it, or replace the single line Step 3 named. Touch no other line, and do not reorder or reformat the file.
 
-If root `AGENTS.md` has no pointer to `docs/reflexes.md`, say so in the report and recommend `/audit`.
+If root `AGENTS.md` has no pointer to `docs/reflexes.md`, or root `CLAUDE.md` exists without an `@docs/reflexes.md` import, say so in the report and recommend `/audit`.
 
 ## Execution: audit
 
@@ -126,7 +126,7 @@ For capture:
 Added or edited: <the rule as written>
 File: docs/reflexes.md (<n> rules, after this write)
 
-Heads up: <contradiction resolved, duplicate left in session notes, or no AGENTS.md pointer yet, run /audit>   (omit if none)
+Heads up: <contradiction resolved, duplicate left in session notes, or no AGENTS.md pointer and CLAUDE.md import yet, run /audit>   (omit if none)
 ```
 
 For a capture that wrote nothing, one line is the whole report: the rule, and why. Which file or mechanism owns it instead, or the existing rule that already covers it, or that no correction in this session generalized.
