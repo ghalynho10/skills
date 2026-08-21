@@ -5,7 +5,7 @@ A set of [Agent Skills](https://agentskills.io) that take a change from a vague 
 The state lives in files (a scope, specs, AGENTS.md, tests), not in a chat session. So work survives across sessions, picks up where it left off, and works for a whole team.
 
 ```
-idea → /scope → /audit → /architect → /develop → /check verify → /test → /check review → /document → /sync
+idea → /scope → /architect → scaffold → /audit → /develop → /check verify → /test → /check review → /document → /sync
 ```
 
 Run `/debug` anytime something breaks, or `/recover` when it's not clear what kind of failure this is. Run a bare `/scope` anytime to see where things stand.

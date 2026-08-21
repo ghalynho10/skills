@@ -29,6 +29,8 @@ Acts. Asks at most one question (which type) when it can't be inferred, and (for
 
 PR text, `CHANGELOG.md`, `docs/releases/`, `docs/postmortems/` (owned by this skill). It writes nothing else.
 
+Artifact base: `docs/` by default; if `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), use `.workflow/`. Always follow whichever base already exists (paths here assume `docs/`). This skill writes here, so on a docs site project releases and postmortems go to `.workflow/`, never into the published site.
+
 ---
 
 ## Portability (any OS, any agent)
@@ -99,7 +101,11 @@ The inputs to apply:
   6. **changelog**: **match the existing `CHANGELOG.md` format** if the file exists (don't impose Keep a Changelog over a different established style)
   7. **`release-note`**: the resolved version + range
 
-### 4. Relay the result
+### 4. Tick the scope box (closing gate)
+
+If the documented feature has a row in `docs/scope/`, tick its `Document it` box (the document was written; the box marks that) and confirm it in the report: "Scope: ticked `Document it`." No matching row, say so ("no scope row matched `<feature>`, tick it manually or enroll it"). A `pr` shown in chat only still counts: the prose exists, which is what the box records. This is the only scope edit this skill makes; never add, rename, or reorder boxes, that is `/scope`'s.
+
+### 5. Relay the result
 
 Lead with the type and where it landed; for `pr` the body IS the deliverable, so show it in full (per `docs/conventions.md`). Template:
 

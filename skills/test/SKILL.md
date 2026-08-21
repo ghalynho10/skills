@@ -27,6 +27,8 @@ Does not write application code. Does not update `AGENTS.md`/`CLAUDE.md` context
 
 ## Artifact ownership
 
+Artifact base: `docs/` by default; if `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), use `.workflow/`. Always follow whichever base already exists (paths here assume `docs/`): check both before setting `TRACE_TO_CONTRACT=no`, an unfound spec may only be an unchecked base.
+
 - Test files (`*.test.ts`, `*.spec.ts`, `test_*.py`, `*_test.go`, etc.), created by this skill
 - `test-preferences.json` at the project root, created and maintained by this skill
 
@@ -104,11 +106,13 @@ Empty scope: skip the framework questions, tell the engineer, offer fallbacks:
 
 ```
 Ask: "No uncommitted source changes found. What should I test?"  (header: "No changes")
+- "This branch (recommended)": "Diff the whole branch against its base and test everything the feature changed"
 - "The last commit": "Diff HEAD~1..HEAD and test what that commit changed"
 - "Specific files": "I'll test the files or directory you name"
 - "Nothing right now": "Stop. I'll run /test after I make changes"
 ```
 
+- This branch: `BASE` = `main` if it exists, else `master`; scope = `git diff --name-only --diff-filter=ACMR $(git merge-base "$BASE" HEAD)`, run Step 1b again. Recommend this one: `/develop` commits per milestone by default, so a finished multi milestone feature is fully committed and the last commit alone covers only its final slice.
 - Last commit: scope = `git diff --name-only --diff-filter=ACMR HEAD~1 HEAD`, run Step 1b again.
 - Specific files: classify the named files, continue.
 - Nothing: stop cleanly.
@@ -198,6 +202,7 @@ Heads up: <bugs the tests caught · file:line + the failing expectation> · <unc
 
 Only when `RUN_AFTER = no`, append the run steps: `<setup if INSTALL=deferred>` then `<RUN_COMMAND>` (watch one file with `<focused command>`). The framework choice is in `test-preferences.json`; the per test detail and AC traceability live in the test files, so don't reprint them.
 
+```
 **Not covered** (consider adding):
 - <gap and why>
 - AC-N, <criterion that can't be automated (visual/manual/env)> → defer to /check verify manual step   ← when TRACE_TO_CONTRACT=yes

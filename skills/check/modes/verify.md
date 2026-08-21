@@ -23,6 +23,8 @@ Acts: scopes from git, works out the launch, runs, observes, reports. Asks only 
 
 ## Artifact ownership
 
+Artifact base: `docs/` by default; if `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), use `.workflow/`. Always follow whichever base already exists (paths here assume `docs/`): a spec or scope it cannot find is a missing base, not a missing spec, so never downgrade to "no governing spec" without checking both.
+
 Owns no durable files. Chat output only (plus screenshots/logs saved to the scratch area). Does not write code (`/develop`), tests (`/test`), or context files.
 
 ---
@@ -154,7 +156,6 @@ On FAIL or BLOCKED, tick nothing and report the gaps. Advise `/clear` before mov
 
 **Confirm the update as a closing gate** (don't skip it): state in the report exactly what you ticked in each file, e.g. "Scope: ticked `Verify it`. Spec: status → `Accepted`." No matching scope row → say so ("no scope row matched `<feature>`"), don't finish silently.
 
-```
 Lead with the verdict; list only what failed or is owed; point to verify.md for the rest (per `docs/conventions.md`). Template:
 
 ```
@@ -172,10 +173,11 @@ Ran via <command/url>; verified <N> behaviors (evidence recorded). per AC detail
 The passing behaviors and their evidence are the record, not the summary; do not list each one. `/test` reads verify.md itself, so no "what to lock in" list here.
 
 **For /check review**:
+```
 - <anything that worked but looked fragile: slow response, console warning, missing empty state>
 ```
 
-Drop the Spec conformance / Missed surfaces / Not applied sections when there was no governing spec. Keep them but write "none" when a contract was loaded and every item is met.
+With no governing spec, drop the `every specced surface built` clause from the verdict line and verify against observed behavior only. With a contract loaded, keep the claim and write "none" where nothing was missed.
 
 Clean up any process you started. `/check verify` confirms reality, never fixes or asserts: `/debug` for failures, `/develop` to build a surface that is missing or not applied, `/test` to make passing behaviors permanent. A FAIL conformance verdict means the feature is not done, even if every test is green.
 
