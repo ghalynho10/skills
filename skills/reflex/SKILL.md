@@ -95,7 +95,7 @@ Wait for the answer. If corrected, adjust the wording and show it again.
 
 Write the confirmed line to `docs/reflexes.md` under `## Reflexes`, creating the file with that heading if missing: append it, or replace the single line Step 3 named. Touch no other line, and do not reorder or reformat the file.
 
-If root `AGENTS.md` has no pointer to `docs/reflexes.md`, or root `CLAUDE.md` exists without an `@docs/reflexes.md` import, say so in the report and recommend `/audit`.
+If root `AGENTS.md` has no pointer to `docs/reflexes.md`, or root `CLAUDE.md` exists without an import of it, say so in the report and recommend `/audit`.
 
 ## Execution: audit
 

@@ -19,13 +19,13 @@ Claude Code loads it via the import below:
 @AGENTS.md
 ```
 
-**Root `CLAUDE.md` only**: when `docs/reflexes.md` exists, add `@docs/reflexes.md` as a second import under `@AGENTS.md`, so standing rules load rather than being linked. Nested `CLAUDE.md` files never get this line.
+**Root `CLAUDE.md` only**: when the reflexes file exists (`docs/reflexes.md`, or `.workflow/reflexes.md` when `docs/` is a published docs site), import it as a second line under `@AGENTS.md`, so standing rules load rather than being linked. Nested `CLAUDE.md` files never get this line.
 
 Hard rules:
 - Never overwrite an existing `AGENTS.md` (possibly authored by the user or another tool). Create only when missing; otherwise propose additions via the diff format.
 - `CLAUDE.md` only ever holds its note and `@` imports; never duplicate AGENTS.md content into it.
 - Migration (when told `MIGRATE=yes`): copy the legacy `CLAUDE.md` content verbatim into a new `AGENTS.md`, then replace `CLAUDE.md` with the pointer above. Never discard curated content.
-- A `CLAUDE.md` pointer that already points to AGENTS.md stays untouched, except to add a missing `@docs/reflexes.md` import when that file exists.
+- A `CLAUDE.md` pointer that already points to AGENTS.md stays untouched, except to add a missing reflexes import when that file exists.
 
 ## Stamp what you write, so curated content is knowable
 
@@ -207,7 +207,7 @@ With your file tools, list the project tree a few levels deep, skipping vendored
 
 **Step 3: Find four kinds of finding**
 
-- (a) Global facts missing from root: a daily command, stack element, project wide rule, the build approach (in the scope header but absent from root), a `## Circuit breaker` section missing while `/recover` is installed, or a `## Standing rules` section missing while `docs/reflexes.md` exists (pair it with the root `CLAUDE.md` `@docs/reflexes.md` import), that's true but not recorded. Collect each as a `ROOT_GAPS` line (exact markdown + target section) and apply it only with the engineer's permission (the gap handling step in `modes/gapfill.md`), never silently, since a root line may be curated.
+- (a) Global facts missing from root: a daily command, stack element, project wide rule, the build approach (in the scope header but absent from root), a `## Circuit breaker` section missing while `/recover` is installed, or a `## Standing rules` section missing while the reflexes file exists (pair it with the root `CLAUDE.md` import), that's true but not recorded. Collect each as a `ROOT_GAPS` line (exact markdown + target section) and apply it only with the engineer's permission (the gap handling step in `modes/gapfill.md`), never silently, since a root line may be curated.
 - (b) Undocumented areas: a major area with distinct conventions/gotchas and no nested AGENTS.md. Create the nested doc (nested template + sibling CLAUDE.md pointer) and add its root pointer line via Edit (safe to do directly: creating, not overwriting).
 - (c) Stale/incomplete nested docs: an existing nested AGENTS.md missing something now true of its area. Return as `PROPOSED_ADDITIONS`; do NOT edit it yourself.
 - (d) Contradictions: a doc states something the codebase or its governing records disprove (documented test runner or framework isn't the one actually used; `## Stack` conflicts with the architecture spec; `## Build approach` differs from the scope header; a documented command no longer exists). Worse than a gap, the docs are actively wrong; do NOT fix it automatically (the line may be curated). Collect each as a `CONTRADICTIONS` entry naming the doc, what it says, and what the code/spec/scope actually shows; surface these to the human, don't fix them automatically.
@@ -300,7 +300,7 @@ which /checkpoint reads and ages out.
 
 ## Standing rules
 
-<Only if `docs/reflexes.md` exists, else omit. Place before `## Context files`.>
+<Only if the reflexes file exists, else omit. Use its real path in the link below. Place before `## Context files`.>
 
 Read [docs/reflexes.md](docs/reflexes.md) before making changes: standing rules for how work is
 done here, one line each, written by /reflex. A rule that has become a plain convention belongs in
