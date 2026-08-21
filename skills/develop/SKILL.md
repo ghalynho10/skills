@@ -21,9 +21,9 @@ Gates, then acts: no upfront question rounds like `/architect`. Read the decisio
 ## Artifact ownership
 
 - Writes app code (plus CSS/tokens for UI).
-- Scope (`docs/scope/`): only the Step 4 touches (feature status → `in-progress`, milestone sub boxes, `Build it` box, code pointer). Marks a feature `done` only at the `Prototype` workflow tier (build plus its own self check; the engineer opted out of separate verification), and even then never while an `Assumed` spec is unratified; at `Alpha`/`Beta`/`GA` it leaves the feature `in-progress` for `/check verify` and `/test` to close, and never ticks `Verify it` or `Test it`. Never creates files in `docs/scope/` (scopes only; analysis/research is `/architect`'s, in the spec's `rationale.md`).
+- Scope (`docs/scope/`): only the Step 4 touches (feature status → `in-progress`, milestone sub boxes, `Build it` box, code pointer). Marks a feature `done` only at the `Prototype` workflow tier (build plus its own self check; the engineer opted out of separate verification); an `Assumed` spec does not block this, it stays flagged as owing ratification. At `Alpha`/`Beta`/`GA` it leaves the feature `in-progress` for `/check verify` and `/test` to close, and never ticks `Verify it` or `Test it`. Never creates files in `docs/scope/` (scopes only; analysis/research is `/architect`'s, in the spec's `rationale.md`).
 - Never writes spec content or deliberates a decision (flags the need, defers to `/architect`); never restructures root `AGENTS.md` (that's `/audit`); new area conventions go via `/sync` afterwards. **One narrow exception:** on `Build now, record it as an assumed spec` (Step 0), `/develop` may *create* a spec, but only in `Status: Assumed`, and only the assumption record fields (owed decision, assumption built on, authorized by, code area, requirements seeds). It never writes rationale and never advances an `Assumed` spec past that state; `/architect` owns clearing it. This is the only spec `/develop` creates.
-- One spec touch on an existing spec: the `**Status**:` line (umbrella decision → the `index.md`'s, never a child's), plus filling the feature's spec pointer line. Build start: `Proposed` → `In Progress`; build lands (feature → `done`): `In Progress` → `Accepted` (a spec is not `Accepted` until its feature ships). Never edit spec content, only that line, surgically: read it again right before writing; unexpected state (already `Accepted`, `Superseded`) → flag, don't clobber. **Never move a spec out of `Assumed`** (that is ratification, `/architect`'s job): an `Assumed` spec stays `Assumed` through the build even while the feature is `in-progress`, so it can never reach `Accepted` until `/architect` ratifies it. This is what blocks `done`.
+- One spec touch on an existing spec: the `**Status**:` line (umbrella decision → the `index.md`'s, never a child's), plus filling the feature's spec pointer line. Build start: `Proposed` → `In Progress`; build lands (feature → `done`): `In Progress` → `Accepted` (a spec is not `Accepted` until its feature ships). Never edit spec content, only that line, surgically: read it again right before writing; unexpected state (already `Accepted`, `Superseded`) → flag, don't clobber. **Never move a spec out of `Assumed`** (that is ratification, `/architect`'s job): an `Assumed` spec stays `Assumed` through the build even while the feature is `in-progress`, so it can never reach `Accepted` until `/architect` ratifies it. The feature itself can still be marked `done` (the engineer's call); the `Assumed` spec stays flagged as owing ratification, it does not block `done`.
 - Artifact base: `docs/` by default, `.workflow/` if `docs/` is a published docs site. Read from whichever exists (paths here assume `docs/`).
 - Shared scope: read it again right before ticking, edit only the specific checkbox, status, or pointer line (never rewrite the file); feature not as expected (already `done`, reworked) → flag, don't overwrite. The freshness check guards against rebuilding what a teammate shipped.
 
@@ -87,7 +87,7 @@ Decision owed and unrecorded → don't guess, don't silently stop. Ask (single s
 - **options**:
   1. `Architect it first`: "Recommended. Capture the decision in a spec before building, so the build has a spec." → **end here** with the handoff below. Do not build.
   2. `No, not needed`: "I've judged there's no real decision here; build directly." → proceed to the build flow (`flow/build.md`).
-  3. `Build now, record it as an assumed spec`: "Build it, but write the assumption down first so the decision lives in the repo, not just this chat. The feature can't be marked `done` until `/architect` ratifies it." → write an `Assumed` spec (below), then proceed to the build flow (`flow/build.md`), leaving the feature `in-progress` with an `assumed decision (spec NNNN)` note in the scope (`docs/scope/`).
+  3. `Build now, record it as an assumed spec`: "Build it, but write the assumption down first so the decision lives in the repo, not just this chat. The `Assumed` spec stays flagged as owing ratification (`/architect`), but that never blocks marking the feature `done`." → write an `Assumed` spec (below), then proceed to the build flow (`flow/build.md`), leaving the feature `in-progress` with an `assumed decision (spec NNNN)` note in the scope (`docs/scope/`).
 
 The tool appends "Other" as a free text option automatically.
 
@@ -114,10 +114,10 @@ On `Build now, record it as an assumed spec`, write a minimal `Assumed` spec **b
 
 ## Ratify
 This decision was recorded by /develop, not deliberated. Run `/architect <feature>`
-to deliberate and ratify it. The feature cannot be marked `done` until then.
+to deliberate and ratify it. Until then it stays flagged as an owed decision; it does not block marking the feature `done`.
 ```
 
-Point the feature's scope `spec` line at this file. The assumption is now durable: it survives `/clear`, teammates read it, and a later `/develop` builds against it instead of guessing again. You still cannot mark the feature `done` (see the done gate in `flow/build.md`, Step 4).
+Point the feature's scope `spec` line at this file. The assumption is now durable: it survives `/clear`, teammates read it, and a later `/develop` builds against it instead of guessing again. The `Assumed` spec stays flagged as owing ratification; it does not block marking the feature `done` (see `flow/build.md`, Step 4).
 
 On `Architect it first`, end with:
 

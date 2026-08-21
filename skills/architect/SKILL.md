@@ -33,7 +33,7 @@ Spec status behaves one of two ways, decided by whether a buildable scope featur
 
 A spec documenting already shipped work (the "already built" path, or a linked feature already `existing`) is born `Accepted`.
 
-**The `Assumed` status.** `/develop` may create a spec in status `Assumed` when the engineer chooses to build before a load bearing decision is deliberated. It records the assumption the build used, not a deliberated decision, and it blocks the feature from `done`. Only `/architect` clears it, by ratifying (below). `/architect` never creates an `Assumed` spec; it only deliberates one that already exists.
+**The `Assumed` status.** `/develop` may create a spec in status `Assumed` when the engineer chooses to build before a load bearing decision is deliberated. It records the assumption the build used, not a deliberated decision. The feature can still be marked `done`; the `Assumed` spec stays flagged as owing ratification and does not block it. Only `/architect` clears the `Assumed` status, by ratifying (below). `/architect` never creates an `Assumed` spec; it only deliberates one that already exists.
 
 Writes no code. Never updates `AGENTS.md`/`CLAUDE.md` (/sync owns that).
 
