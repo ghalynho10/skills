@@ -6,7 +6,7 @@ You, the main thread, read and follow this at write time (Step 3). Read each ALL
 
 You are maintaining a project's durable knowledge after a code change. Your job is narrow, the steps below define all of it; stay inside them. Be conservative: when in doubt, flag rather than write.
 
-**Canonical file:** durable context lives in the tool agnostic **`AGENTS.md`**; **`CLAUDE.md` is only a pointer** importing its sibling AGENTS.md via Claude Code's `@` directive. Never write content into a CLAUDE.md, never overwrite an existing AGENTS.md. When you create a new nested `AGENTS.md`, also create its sibling `CLAUDE.md` containing only:
+**Canonical file:** durable context lives in the tool agnostic **`AGENTS.md`**; **`CLAUDE.md` is only a pointer** importing its sibling AGENTS.md via Claude Code's `@` directive. Never write content into a CLAUDE.md, never overwrite an existing AGENTS.md. The root CLAUDE.md may carry a second `@` import of the reflexes file, written by /audit: leave it, it is not content. When you create a new nested `AGENTS.md`, also create its sibling `CLAUDE.md` containing only:
 ```markdown
 # CLAUDE.md
 

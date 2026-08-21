@@ -22,7 +22,7 @@ Does not create specs (/architect owns those), maintain files after changes (/sy
 
 ## Context file convention (AGENTS.md is canonical)
 
-Durable context lives in the tool agnostic `AGENTS.md` (root and nested); every agent (Codex, Cursor, Claude Code, and others) reads it. `CLAUDE.md` is only a one line pointer whose entire body imports the sibling `AGENTS.md` via Claude Code's `@` import (exact pointer body in `agent-prompt.md`); content is never duplicated across the two.
+Durable context lives in the tool agnostic `AGENTS.md` (root and nested); every agent (Codex, Cursor, Claude Code, and others) reads it. `CLAUDE.md` is only a pointer, `@` imports and nothing else: the sibling `AGENTS.md`, plus at root the reflexes file when it exists (exact pointer body in `agent-prompt.md`); content is never duplicated across the two.
 
 - Write knowledge into `AGENTS.md`. Create it when missing. Never overwrite an existing `AGENTS.md` (it may be user or tool authored); gap fill conservatively, with permission.
 - Migrate legacy content: a `CLAUDE.md` with content but no `AGENTS.md` → ask permission, move its content into a new `AGENTS.md`, replace `CLAUDE.md` with the pointer. Never silently discard curated content.
