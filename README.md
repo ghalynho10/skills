@@ -64,6 +64,18 @@ npx skills@latest add ghalynho10/skills -a claude-code
 npx skills@latest add ghalynho10/skills
 ```
 
+### Claude Code: also install the two helper agents
+
+`npx skills` copies `skills/` and nothing else, so the two role subagents the skills offload to are not installed with them. Without these files, every skill that says "spawn the `scout`/`researcher` subagent" falls back to your session model, so a repo scan or a registry search runs on the expensive model instead of `haiku`. Nothing fails loudly; it just costs more.
+
+```bash
+mkdir -p .claude/agents
+curl -sL https://raw.githubusercontent.com/ghalynho10/skills/main/.claude/agents/scout.md -o .claude/agents/scout.md
+curl -sL https://raw.githubusercontent.com/ghalynho10/skills/main/.claude/agents/researcher.md -o .claude/agents/researcher.md
+```
+
+`scout` is read only code exploration, `researcher` is read only web and registry lookup; both pin `model: haiku`. Other clients ignore them and read the skills directly.
+
 Install individual skills:
 
 ```bash
