@@ -63,7 +63,7 @@ Owns `ui-registry.md` entirely, both modes. Never edits `design.md`, `ui-tokens.
 
 ## Portability (any OS, any agent)
 
-Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required; this skill never shells out. `ui-registry.md` is a plain path, created with your write tool if missing.
+Any Agent Skills client on macOS, Linux, or Windows. No CLI beyond your agent's own file tools is required; this skill never shells out. `ui-registry.md` is a plain path, created with your write tool if missing. Write it beside `design.md` when that file exists, else at the project root, and reuse the one already there rather than starting a second: `/develop`'s existing design system path looks for it there (`ui/existing.md`, DS1.5) and matches a new component to what it records.
 
 Bundled files live in this skill's folder: `modes/capture.md` and `modes/audit.md`. Read only the mode file you routed to.
 
