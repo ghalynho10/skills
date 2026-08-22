@@ -112,7 +112,7 @@ Ask: "No uncommitted source changes found. What should I test?"  (header: "No ch
 - "Nothing right now": "Stop. I'll run /test after I make changes"
 ```
 
-- This branch: `BASE` = `main` if it exists, else `master`. Current branch equals `BASE` → this option was not offered; take another. Else scope = `git diff --name-only --diff-filter=ACMR $(git merge-base "$BASE" HEAD)`, run Step 1b again. Recommend it when offered: with git integration on, `/develop` commits as milestones land, so a finished feature is already committed and the last commit covers only its final slice.
+- This branch: `BASE` = `main` if it exists, else `master`. Current branch equals `BASE` → say so and ask again without this option (its diff would be empty); never substitute a different scope silently. Else scope = `git diff --name-only --diff-filter=ACMR $(git merge-base "$BASE" HEAD)`, run Step 1b again. Recommend it when offered: with git integration on, `/develop` commits as milestones land, so a finished feature is already committed and the last commit covers only its final slice.
 - Last commit: scope = `git diff --name-only --diff-filter=ACMR HEAD~1 HEAD`, run Step 1b again.
 - Specific files: classify the named files, continue.
 - Nothing: stop cleanly.

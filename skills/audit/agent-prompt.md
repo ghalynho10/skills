@@ -170,7 +170,7 @@ With your file tools, list all files under `SCOPE_OR_AREA`. Read: key source fil
 
 **Step 2: Gap check root AGENTS.md**
 
-Flag a gap only if it is: a command engineers working in this area need but root doesn't mention; a stack element, runtime, or major dependency relevant to this area but absent from root; a hard project wide rule the area makes visible (e.g. "all DB calls go through the repository layer"). Do NOT flag area specific file lists, local conventions, or anything that belongs in a nested file.
+Flag a gap only if it is: any wiring gap finding (a) below lists; a command engineers working in this area need but root doesn't mention; a stack element, runtime, or major dependency relevant to this area but absent from root; a hard project wide rule the area makes visible (e.g. "all DB calls go through the repository layer"). Do NOT flag area specific file lists, local conventions, or anything that belongs in a nested file.
 
 Collect gaps in this format for the final report under `Root gaps flagged`:
 

@@ -113,7 +113,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **Does.** Writes a test suite for code you just built or changed.
 
-**How.** Targets **uncommitted changes** automatically; the git working tree defines the scope, so there is no scope question. Reads `test-preferences.json` for your framework and conventions, asking and saving it once if absent (`setup` mode). Picks a strategy per file: happy path, edge cases, error states, accessibility. Always asks whether to run the suite after writing. At `Beta`/`GA` it is the closer: on green it offers `done`, never gates it.
+**How.** Targets **uncommitted changes** automatically; the git working tree defines the scope, so there is no scope question unless the tree is empty, when it offers branch, last commit, or named files. Reads `test-preferences.json` for your framework and conventions, asking and saving it once if absent (`setup` mode). Picks a strategy per file: happy path, edge cases, error states, accessibility. Always asks whether to run the suite after writing. At `Beta`/`GA` it is the closer: on green it offers `done`, never gates it.
 
 **Owns.** Test files and `test-preferences.json`.
 
@@ -129,7 +129,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **How.** Four types: `pr`, `changelog`, `release-note`, `postmortem` — pass one or let it ask. Reads the actual diff and recent spec paths for the *why*. Opening or updating a PR is an outward action, so it always shows you the body and confirms before running `gh`, regardless of the git setting.
 
-**Owns.** PR text, `CHANGELOG.md`, `docs/releases/`, `docs/postmortems/`. No code, tests, or specs.
+**Owns.** PR text, `CHANGELOG.md`, `docs/releases/`, `docs/postmortems/`, plus ticking the feature's `Document it` box. No code, tests, or specs.
 
 **Example.** `/document pr`. It reads eleven commits and the streak spec, drafts a PR body explaining the timezone decision and its tradeoff, shows it to you, and opens the PR only on your go.
 
@@ -205,7 +205,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **How.** **Routes before capturing**, and most candidates route away: something mechanical and deterministic belongs in a hook where it is *enforced* rather than remembered; a standard to enforce codebase wide is an `/architect` `CROSS-CUTTING` spec; a fact visible in the code is `AGENTS.md`; something true only this week is `/checkpoint`; a one off that generalizes to nothing is not captured at all. What survives becomes one line, trigger then action, drafted and **confirmed with you before writing** — a wrong rule is read by every later session. `audit` prunes: contradictions, duplicates, stale triggers, and the oldest rules as graduation candidates. Capped at 20 rules, because a file long enough to be skipped stops being read.
 
-**Owns.** `docs/reflexes.md`. Never edits `AGENTS.md`; the root pointer that makes the file get read is written by `/audit`. Graduation is two steps and you move the line yourself — no skill carries the text across.
+**Owns.** `docs/reflexes.md`. Never edits `AGENTS.md`; the root `AGENTS.md` pointer and the root `CLAUDE.md` import that make the file get read are written by `/audit`. Graduation is two steps and you move the line yourself — no skill carries the text across.
 
 **Example.** You tell the agent, for the third time, to run the migration check before touching a schema file. `/reflex` proposes `- When a schema file changes, run the migration check before proposing the diff. (added 2026 08 19)`, you confirm, and no later session needs telling.
 
@@ -227,7 +227,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 | Artifact | Owner |
 |---|---|
-| `docs/scope/` | `/scope` (also ticked by develop, sync, check verify, test) |
+| `docs/scope/` | `/scope` (also ticked by develop, sync, check verify, test, review, document) |
 | `docs/specs/` | `/architect` (develop may create `Assumed` specs only) |
 | App code, CSS tokens, `design.md` | `/develop` (`/debug` writes minimal fixes) |
 | Test files, `test-preferences.json` | `/test` |

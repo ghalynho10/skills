@@ -8,9 +8,11 @@ The main thread does the gap-fill itself, following the GAP-FILL phase in `agent
 
 After the scan, handle proposals before applying:
 - Nested docs you created for clearly undocumented areas → already written; list them in the relay.
-- `ROOT_GAPS` and `PROPOSED_ADDITIONS` to existing files → ask (`Add them now` / `Show me the diff` / `Skip for now`), one option marked recommended, then:
+- `ROOT_GAPS` and `PROPOSED_ADDITIONS` to existing files → ask (`Add them now (recommended)`, "I'll apply the additions immediately" / `Show me the diff` / `Skip for now`), then:
 <!-- ROOT-GAPS-APPLY:START (identical in modes/area.md and modes/gapfill.md; edit both or neither) -->
-- On `Add them now`: locate the `ROOT_GAPS:` block and extract each line starting with `- `. Each line names its own target: `target section: ## <section>` goes under that heading in root `AGENTS.md`, `target file: <path>` goes into that file. Apply one Edit call per gap, into the target it names. Do not paraphrase.
+- On `Add them now`: locate the `ROOT_GAPS:` block and extract each line starting with `- `. Each line names its own target. `target section: ## <section>` goes in root `AGENTS.md`: under that heading, or, when the gap IS the missing heading, add the heading where the root template places it. `target file: <path>` goes into that file; if it does not exist, create it from the pointer template in `agent-prompt.md` first. Apply one Edit call per gap, into the target it names. Do not paraphrase.
+- On `Show me the diff`: print each addition as a fenced markdown block with its target labelled. Do not write.
+- On `Skip for now`: do nothing. Nothing else in this step writes either.
 <!-- ROOT-GAPS-APPLY:END -->
-- `PROPOSED_ADDITIONS`: apply with `Edit` into the file each names, verbatim, no paraphrase.
+- `PROPOSED_ADDITIONS`: **on `Add them now` only**, apply with `Edit` into the file each names, verbatim, no paraphrase.
 - `CONTRADICTIONS` (docs the code disproves) → surface to the engineer, do not auto fix (these touch possibly curated lines). Relay each as "`<doc>` says *X*, but the code/spec shows *Y*" and let them decide (correct it, or update the code). Never silently overwrite.

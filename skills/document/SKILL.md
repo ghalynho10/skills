@@ -103,7 +103,7 @@ The inputs to apply:
 
 ### 4. Tick the scope box (closing gate)
 
-If the documented feature has a row in `docs/scope/`, tick its `Document it` box (the document was written; the box marks that) and confirm it in the report: "Scope: ticked `Document it`." No matching row, say so ("no scope row matched `<feature>`, tick it manually or enroll it"). Row present but no `Document it` box (it is a GA only box, and this ran at a lower tier), say "documented; `<feature>` has no `Document it` box at its tier, nothing to tick" and tick nothing. A `pr` shown in chat only still counts: the prose exists, which is what the box records. This is the only scope edit this skill makes; never add, rename, or reorder boxes, that is `/scope`'s.
+If the documented feature has a row in `docs/scope/`, tick its `Document it` box (the document was written; the box marks that) and confirm it in the report: "Scope: ticked `Document it`." No matching row, say so ("no scope row matched `<feature>`, tick it manually or enroll it"). Row present but no `Document it` box (a GA only box, absent at lower tiers and on rows captured before the closing boxes were added), say "documented; `<feature>` has no `Document it` box at its tier, nothing to tick" and tick nothing. A `pr` shown in chat only still counts: the prose exists, which is what the box records. This is the only scope edit this skill makes; never add, rename, or reorder boxes, that is `/scope`'s.
 
 ### 5. Relay the result
 

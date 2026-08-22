@@ -13,9 +13,9 @@ After writing, handle the `Root gaps flagged` section:
 - `ROOT_GAPS: none` → relay the full report, done.
 - Gaps exist → ask (one option marked recommended, the picker adds a free text custom slot last): Question: "I found things in `<area>` not reflected in root AGENTS.md. What should I do?" Option 1: `Add them now (recommended)`, description: "I'll apply the additions immediately". Option 2: `Show me the diff`, description: "Print exactly what would change; I'll apply it manually". Option 3: `Skip for now`, description: "Leave root AGENTS.md as is".
 <!-- ROOT-GAPS-APPLY:START (identical in modes/area.md and modes/gapfill.md; edit both or neither) -->
-- On `Add them now`: locate the `ROOT_GAPS:` block and extract each line starting with `- `. Each line names its own target: `target section: ## <section>` goes under that heading in root `AGENTS.md`, `target file: <path>` goes into that file. Apply one Edit call per gap, into the target it names. Do not paraphrase.
-<!-- ROOT-GAPS-APPLY:END -->
+- On `Add them now`: locate the `ROOT_GAPS:` block and extract each line starting with `- `. Each line names its own target. `target section: ## <section>` goes in root `AGENTS.md`: under that heading, or, when the gap IS the missing heading, add the heading where the root template places it. `target file: <path>` goes into that file; if it does not exist, create it from the pointer template in `agent-prompt.md` first. Apply one Edit call per gap, into the target it names. Do not paraphrase.
 - On `Show me the diff`: print each addition as a fenced markdown block with its target labelled. Do not write.
-- On `Skip for now`: do nothing.
+- On `Skip for now`: do nothing. Nothing else in this step writes either.
+<!-- ROOT-GAPS-APPLY:END -->
 
 Relay the full report after the choice is applied.

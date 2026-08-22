@@ -95,11 +95,11 @@ Wait for the answer. If corrected, adjust the wording and show it again.
 
 Write the confirmed line to `docs/reflexes.md` under `## Reflexes`, creating the file with that heading if missing: append it, or replace the single line Step 3 named. Touch no other line, and do not reorder or reformat the file.
 
-If root `AGENTS.md` has no pointer to `docs/reflexes.md`, or root `CLAUDE.md` exists without an import of it, say so in the report and recommend `/audit`.
+If root `AGENTS.md` has no pointer to the reflexes file, or root `CLAUDE.md` is missing or has no import of it, say so in the report and recommend `/audit`.
 
 ## Execution: audit
 
-1. Read `docs/reflexes.md`. If it does not exist, say so and stop.
+1. Read the reflexes file (`docs/reflexes.md`, or the Artifact base below). If it does not exist, say so and stop.
 2. Mark each rule, most serious first where more than one fits:
    - **contradicts** another rule, name both
    - **duplicate or near duplicate** of another, name both
