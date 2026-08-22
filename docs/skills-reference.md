@@ -39,7 +39,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **Owns.** `docs/scope/`. Writes no specs, no code, no `AGENTS.md`.
 
-**Example.** `/scope plan` on a new habit tracker. It interviews you, recommends `skateboard`, proposes `Alpha`, and writes a scope with six features. Feature 3 "streak calculation" is marked `Needs spec? yes`, because how a streak survives a missed day is a decision nobody has made.
+**Example.** `/scope` on a new habit tracker. It interviews you, recommends `skateboard`, proposes `Alpha`, and writes a scope with six features. Feature 3 "streak calculation" is marked `Needs spec? yes`, because how a streak survives a missed day is a decision nobody has made.
 
 ---
 
@@ -139,7 +139,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **Does.** Writes the `AGENTS.md` files every later skill and every AI tool reads. This is the context bootstrapper, run once early and occasionally after.
 
-**How.** Phases by situation: **greenfield** (no code — asks coding standards, seeds root), **whole repo** (code but no `AGENTS.md` — scans and writes root plus nested area docs), **area** (`/audit src/auth`), **gap fill** (root exists — finds what is true but unrecorded). `AGENTS.md` is canonical and tool agnostic; `CLAUDE.md` is a thin pointer that imports it, never a duplicate. Never overwrites curated content: gaps are collected and applied only with permission. Root stays under ~60 lines; area detail goes in nested docs. Offers architecture presets (clean, DDD, functional, SOLID).
+**How.** Phases by situation: **greenfield** (no code — asks coding standards, seeds root), **whole repo** (code but no `AGENTS.md` — scans and writes root plus nested area docs), **area** (`/audit src/auth`), **gap fill** (root exists — finds what is true but unrecorded). `AGENTS.md` is canonical and tool agnostic; `CLAUDE.md` holds `@` imports only, never a duplicate: the sibling `AGENTS.md`, plus the reflexes file at root. Never overwrites curated content: gaps are collected and applied only with permission. Root stays under ~60 lines; area detail goes in nested docs. Offers architecture presets (clean, DDD, functional, SOLID).
 
 **Owns.** `AGENTS.md` (root and nested) and `CLAUDE.md` pointers.
 
@@ -248,7 +248,7 @@ If `docs/` is a published documentation site, the `docs/` based artifacts move t
 
 | You are... | Run |
 |---|---|
-| starting a product | `/scope plan` |
+| starting a product | `/scope` |
 | facing something too foggy to plan | `/wayfinder` |
 | holding an unmade technical decision | `/architect <feature>` |
 | ready to build | `/develop <feature>` |
