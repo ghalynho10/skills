@@ -102,7 +102,7 @@ Read `test-preferences.json` at the project root (file tool; "not found" = no pr
 
 #### 3. No uncommitted changes
 
-Empty scope: skip the framework questions, tell the engineer, offer fallbacks:
+Empty scope: skip the framework questions, tell the engineer, offer fallbacks. If the current branch **is** the base (`main`/`master`), drop the branch option and recommend `The last commit` instead: the branch diff would be empty.
 
 ```
 Ask: "No uncommitted source changes found. What should I test?"  (header: "No changes")
@@ -112,7 +112,7 @@ Ask: "No uncommitted source changes found. What should I test?"  (header: "No ch
 - "Nothing right now": "Stop. I'll run /test after I make changes"
 ```
 
-- This branch: `BASE` = `main` if it exists, else `master`; scope = `git diff --name-only --diff-filter=ACMR $(git merge-base "$BASE" HEAD)`, run Step 1b again. Recommend this one: `/develop` commits per milestone by default, so a finished multi milestone feature is fully committed and the last commit alone covers only its final slice.
+- This branch: `BASE` = `main` if it exists, else `master`. Current branch equals `BASE` → this option was not offered; take another. Else scope = `git diff --name-only --diff-filter=ACMR $(git merge-base "$BASE" HEAD)`, run Step 1b again. Recommend it when offered: with git integration on, `/develop` commits as milestones land, so a finished feature is already committed and the last commit covers only its final slice.
 - Last commit: scope = `git diff --name-only --diff-filter=ACMR HEAD~1 HEAD`, run Step 1b again.
 - Specific files: classify the named files, continue.
 - Nothing: stop cleanly.

@@ -164,7 +164,7 @@ Routing that straight to `/debug` instead throws away the signal the breaker jus
 
 Each skill reads the whole file, mutates only what it owns, and writes every other section back unchanged. No skill regenerates the file from a template of the sections it knows about; that is how another skill's content silently disappears. Entry bodies must not contain top-level (`##`) headings, since section boundaries are found by scanning for them.
 
-If `docs/` is a published docs site, the `docs/`-based artifacts move to `.workflow/` so they do not ship with your site (`ui-registry.md` sits at the repo root and does not move). Because state lives in files, each skill suggests `/clear` at handoffs, so a fresh session reads from disk again and long chats do not pile up cost.
+If `docs/` is a published docs site, the `docs/`-based artifacts move to `.workflow/` so they do not ship with your site (`ui-registry.md` sits beside `design.md`, or at the repo root when there is none). Because state lives in files, each skill suggests `/clear` at handoffs, so a fresh session reads from disk again and long chats do not pile up cost.
 
 ## Skill reference
 

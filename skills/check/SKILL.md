@@ -26,7 +26,7 @@ This is the first step, always, before reading any mode file or touching the rep
 
 - The argument **starts with `verify` (or `run`)** → runtime proof. Read `modes/verify.md` and follow it fully. Pass any remaining arguments (a feature name, a scope) through.
 - The argument **starts with `review`** → code review. Read `modes/review.md` and follow it fully. Pass the review steering through unchanged (e.g. `/check review with opus`, `/check review uncommitted`).
-- **No mode word, or anything ambiguous** (bare `/check`, or a feature name with no mode like `/check auth`) → do NOT guess and do NOT default to a mode. Show the two options as a plain text panel and **stop and wait** for the engineer to type their choice. This is the case that makes `/check` safe to type with nothing after it.
+- **No mode word, or anything ambiguous** (bare `/check`, or a feature name with no mode like `/check auth`) → do NOT guess and do NOT default to a mode (a deliberate exception to the one recommended option convention: picking here prejudges the whole run). Show the two options as a plain text panel and **stop and wait** for the engineer to type their choice. This is the case that makes `/check` safe to type with nothing after it.
 
 **How to present the choice (plain text, works on every agent, no interactive modal):**
 

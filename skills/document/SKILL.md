@@ -27,7 +27,7 @@ Acts. Asks at most one question (which type) when it can't be inferred, and (for
 
 ## Artifact ownership
 
-PR text, `CHANGELOG.md`, `docs/releases/`, `docs/postmortems/` (owned by this skill). It writes nothing else.
+PR text, `CHANGELOG.md`, `docs/releases/`, `docs/postmortems/` (owned by this skill), plus one scope edit: ticking the feature's `Document it` box (Step 4). It writes nothing else, and never touches specs or code.
 
 Artifact base: `docs/` by default; if `docs/` is a published docs site (`docusaurus.config.*`, `.vitepress/`, `mkdocs.yml`, Astro Starlight, or Nextra detected), use `.workflow/`. Always follow whichever base already exists (paths here assume `docs/`). This skill writes here, so on a docs site project releases and postmortems go to `.workflow/`, never into the published site.
 
@@ -103,7 +103,7 @@ The inputs to apply:
 
 ### 4. Tick the scope box (closing gate)
 
-If the documented feature has a row in `docs/scope/`, tick its `Document it` box (the document was written; the box marks that) and confirm it in the report: "Scope: ticked `Document it`." No matching row, say so ("no scope row matched `<feature>`, tick it manually or enroll it"). A `pr` shown in chat only still counts: the prose exists, which is what the box records. This is the only scope edit this skill makes; never add, rename, or reorder boxes, that is `/scope`'s.
+If the documented feature has a row in `docs/scope/`, tick its `Document it` box (the document was written; the box marks that) and confirm it in the report: "Scope: ticked `Document it`." No matching row, say so ("no scope row matched `<feature>`, tick it manually or enroll it"). Row present but no `Document it` box (it is a GA only box, and this ran at a lower tier), say "documented; `<feature>` has no `Document it` box at its tier, nothing to tick" and tick nothing. A `pr` shown in chat only still counts: the prose exists, which is what the box records. This is the only scope edit this skill makes; never add, rename, or reorder boxes, that is `/scope`'s.
 
 ### 5. Relay the result
 
@@ -114,7 +114,7 @@ Lead with the type and where it landed; for `pr` the body IS the deliverable, so
 
 <for pr: the title + full body, ready to paste · always shown in chat so it works without gh>
 <for the others: a 2 to 3 line preview>
-Scope: ticked `Document it`   (or "no scope row matched"; omit if not on the scope)
+Scope: ticked `Document it`   (or "no scope row matched", or "no `Document it` box at this tier"; omit if not on the scope)
 ```
 
 This skill does not commit, push, or merge; it produces the prose (and ticks the `Document it` box per the closing gate above, the only scope edit it makes).

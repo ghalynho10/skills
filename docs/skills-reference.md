@@ -240,7 +240,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 | `docs/reflexes.md` | `/reflex` **fork** |
 | `ui-registry.md` | `/imprint` **fork** |
 
-If `docs/` is a published documentation site, the `docs/` based artifacts move to `.workflow/` so they do not ship with your site. `ui-registry.md` sits at the repo root and does not move.
+If `docs/` is a published documentation site, the `docs/` based artifacts move to `.workflow/` so they do not ship with your site. `ui-registry.md` sits beside `design.md`, or at the repo root when there is none.
 
 ---
 
