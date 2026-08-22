@@ -138,7 +138,7 @@ Routing that straight to `/debug` instead throws away the signal the breaker jus
 |---|---|---|
 | Scope | `docs/scope/` | scope |
 | Specs | `docs/specs/` | architect |
-| Context files | AGENTS.md (plus a thin CLAUDE.md pointer) | audit, kept current by sync |
+| Context files | AGENTS.md (plus a CLAUDE.md of `@` imports: AGENTS.md, and the reflexes file at root) | audit, kept current by sync |
 | Design system | `design.md` (art direction; token values live in CSS) | develop |
 | Review findings | `docs/reviews/` | check |
 | Tests | your test dirs | test |
@@ -185,7 +185,7 @@ When: after the decision exists. It gates to `/architect` if a design is owed. M
 **check**: Confirms a change before merge, in two modes.
 When: `/check verify` after `/develop` to run the real app and prove the feature works against the spec; `/check review` before a PR for a senior review on a different model than wrote the code. Any project type.
 
-**test**: Writes a senior test suite for your uncommitted change and saves your framework choice.
+**test**: Writes a senior test suite for your uncommitted change, or for the branch, last commit, or files you name when the tree is clean, and saves your framework choice.
 When: after building a feature or fixing a bug. Monorepo: resolves the framework per package.
 
 **document**: Writes the human facing prose (PR, changelog, release note, postmortem) from the real diff.
