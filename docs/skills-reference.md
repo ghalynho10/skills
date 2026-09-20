@@ -211,6 +211,20 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
+### `/recall` — check you can still explain the code **fork**
+
+**Does.** Marks the one thing nothing else in the pipeline checks: whether *you* understand what was built. `/develop` builds it, `/check verify` proves it runs, `/test` locks the behaviour, `/check review` reads the diff — a feature passes all four with your understanding intact or entirely absent.
+
+**How.** Reads the implementation and writes four to six questions **drawn from the code, never from the spec alone** (the decisions are the part you already know). A question names a starting point and a destination, never a mechanism, so it cannot leak its own answer. It prints them and **stops**; you write the data and control flow from memory, with the code closed. It then marks each claim `correct`, `wrong`, `vague`, or `missing`. The rule that makes it work: it may quote you and cite file and line, but **may never quote or paraphrase the source** — it names where you are wrong, never what is right, because being told the answer produces recognition rather than understanding. No score. You reread the flagged places and run it again; the second pass grades only what was flagged, and the reading between passes is the point, not the report.
+
+**Owns.** `docs/specs/<feature>/flow.md`, and nothing else. Read only on code, the scope, and the spec. Ticks no box, so nothing downstream has to reconcile a box against evidence that does not exist in the repo. Saves the **corrected** account, on your confirmation, never the first draft.
+
+**When.** Before you mark a feature `done`, above all one an agent wrote most of. Offered at the close of `/check verify` and `/test`; skippable like every other step, and never a reason to withhold `done`.
+
+**Example.** You say the token check happens in the middleware. It does not. The report says so and gives you `auth/session.ts:40`, and nothing else.
+
+---
+
 ### `/imprint` — keep the UI consistent **fork**
 
 **Does.** Records what a finished component actually is, precisely enough that the next one can match it. Prevents the slow drift where spacing wanders, a second shade of blue appears, and the app looks built by several people with different taste.
@@ -238,6 +252,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 | `docs/session-notes.md` | shared by section: `/checkpoint` + `/recover` **fork** |
 | `docs/wayfinding/` | `/wayfinder` **fork** |
 | `docs/reflexes.md` | `/reflex` **fork** |
+| `docs/specs/<feature>/flow.md` | `/recall` **fork** |
 | `ui-registry.md` | `/imprint` **fork** |
 
 If `docs/` is a published documentation site, the `docs/` based artifacts move to `.workflow/` so they do not ship with your site. `ui-registry.md` sits beside `design.md`, or at the repo root when there is none.
@@ -262,4 +277,5 @@ If `docs/` is a published documentation site, the `docs/` based artifacts move t
 | wanting the whole picture | `/overview update` |
 | ending a session with loose threads | `/checkpoint save` |
 | correcting the agent again | `/reflex` |
+| about to call done something you did not write | `/recall` |
 | finishing a UI component | `/imprint` |

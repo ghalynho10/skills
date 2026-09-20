@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recall"
+  short_description: "Check you can still explain the code an agent wrote for you"
+  default_prompt: "Use $recall to check whether I can still explain the feature I just built."
