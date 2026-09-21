@@ -1,6 +1,6 @@
 # Skills Reference
 
-Fifteen Agent Skills encoding a phase based engineering workflow, from vague idea to shipped, documented code. Nine are upstream from [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills); six are additions in this fork, marked **fork**.
+Sixteen Agent Skills encoding a phase based engineering workflow, from vague idea to shipped, documented code. Nine are upstream from [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills); seven are additions in this fork, marked **fork**.
 
 There is no mandated playbook. Run whichever skills a change needs, in whatever order fits. `/scope` recommends a workflow tier, but it is a default you override per feature.
 
@@ -215,9 +215,9 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **Does.** Marks the one thing nothing else in the pipeline checks: whether *you* understand what was built. `/develop` builds it, `/check verify` proves it runs, `/test` locks the behaviour, `/check review` reads the diff — a feature passes all four with your understanding intact or entirely absent.
 
-**How.** Reads the implementation and writes four to six questions **drawn from the code, never from the spec alone** (the decisions are the part you already know). A question names a starting point and a destination, never a mechanism, so it cannot leak its own answer. It prints them and **stops**; you write the data and control flow from memory, with the code closed. It then marks each claim `correct`, `wrong`, `vague`, or `missing`. The rule that makes it work: it may quote you and cite file and line, but **may never quote or paraphrase the source** — it names where you are wrong, never what is right, because being told the answer produces recognition rather than understanding. No score. You reread the flagged places and run it again; the second pass grades only what was flagged, and the reading between passes is the point, not the report. **It is not a trap.** Nothing requires a second pass. The pointer narrows each pass (file, line range, function) instead of repeating, and on the third failed pass of one claim it tells you and marks that claim `given`, not `correct`, so the saved account never reads as recalled what was handed over. The rule guards against the answer arriving *before* the work; after three passes the work is done. Two failed passes may also be the code rather than you, and it says so and points at `/check review`.
+**How.** Reads the implementation and writes four to six questions **drawn from the code, never from the spec alone** (the decisions are the part you already know). A question names a starting point and a destination, never a mechanism, so it cannot leak its own answer. It prints them and **stops**; you write the data and control flow from memory, with the code closed. It then marks each claim `correct`, `wrong`, `vague`, or `missing`. The rule that makes it work: it may quote you and cite file and line, but **may never quote or paraphrase the source** — it names where you are wrong, never what is right, because being told the answer produces recognition rather than understanding. No score. You reread the flagged places and run it again; the second pass grades only what was flagged, and the reading between passes is the point, not the report. **It is not a trap.** Nothing requires a second pass. The pointer narrows each pass (file and line, then the function or exact call) instead of repeating, and on the third failed pass of one claim it tells you and marks that claim `given`, not `correct`, so the saved account never reads as recalled what was handed over. The rule guards against the answer arriving *before* the work; after three passes the work is done. Two failed passes may also be the code rather than you, and it says so and points at `/check review`.
 
-**Owns.** `docs/specs/<feature>/flow.md`, and nothing else. Read only on code, the scope, and the spec. Ticks no box, so nothing downstream has to reconcile a box against evidence that does not exist in the repo. Saves the **corrected** account, on your confirmation, never the first draft.
+**Owns.** the feature's `flow.md`, written beside its spec, and nothing else. Read only on code, the scope, and the spec. Ticks no box, so nothing downstream has to reconcile a box against evidence that does not exist in the repo. Saves, on your confirmation, **your own corrected sentences**, unchanged and in your order: never the first draft, and never prose it wrote itself, since the header says written from memory.
 
 **When.** Before you mark a feature `done`, above all one an agent wrote most of. Offered at the close of `/check verify` and `/test`; skippable like every other step, and never a reason to withhold `done`.
 
@@ -252,7 +252,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 | `docs/session-notes.md` | shared by section: `/checkpoint` + `/recover` **fork** |
 | `docs/wayfinding/` | `/wayfinder` **fork** |
 | `docs/reflexes.md` | `/reflex` **fork** |
-| `docs/specs/<feature>/flow.md` | `/recall` **fork** |
+| `flow.md`, beside the feature's spec | `/recall` **fork** |
 | `ui-registry.md` | `/imprint` **fork** |
 
 If `docs/` is a published documentation site, the `docs/` based artifacts move to `.workflow/` so they do not ship with your site. `ui-registry.md` sits beside `design.md`, or at the repo root when there is none.
