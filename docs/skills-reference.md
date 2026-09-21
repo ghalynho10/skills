@@ -219,7 +219,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **Owns.** the feature's `flow.md`, written beside its spec, and nothing else. Read only on code, the scope, and the spec. Ticks no box, so nothing downstream has to reconcile a box against evidence that does not exist in the repo. Saves, on your confirmation, **your own corrected sentences**, unchanged and in your order: never the first draft, and never prose it wrote itself, since the header says written from memory.
 
-**When.** Before you mark a feature `done`, above all one an agent wrote most of. Offered at the close of `/check verify` and `/test`; skippable like every other step, and never a reason to withhold `done`.
+**When.** Before you mark a feature `done`, above all one an agent wrote most of. Offered at the close of `/develop`, `/check verify`, and `/test`, wherever `done` is on the table; skippable like every other step, and never a reason to withhold it.
 
 **Example.** You say the token check happens in the middleware. It does not. The report says so and gives you `auth/session.ts:40`, and nothing else.
 

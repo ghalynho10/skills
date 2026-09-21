@@ -56,7 +56,7 @@ Build from the map (Step 3): the reading is offloaded, the deciding and writing 
 
 ### Step 2.6: Doc check (only when needed): offload current usage lookups to a web subagent
 
-Only when you genuinely need the current usage/API of a tool the spec already decided (fast moving or newly released, e.g. an auth library's ORM adapter wiring) and you're unsure your knowledge is current. Most builds don't need it: on a stable stack, build from knowledge and let the typecheck/build/lint loop catch a stale API cheaply. Never to choose or reconsider a tool (`/architect`'s job): look up *how to use* the decided tool, not *whether*; if docs reveal it can't work, that's the "spec is wrong" path (Step 3), not a silent swap. Not a second fetch of the spec's reference links (human facing, verified at design time).
+Only when you genuinely need the current usage/API of a tool the spec already decided (fast moving or newly released, e.g. an auth library's ORM adapter wiring) and you're unsure your knowledge is current. Most builds don't need it: on a stable stack, build from knowledge and let the typecheck/build/lint loop catch a stale API cheaply. Never to choose or reconsider a tool (`/architect`'s job): look up *how to use* the decided tool, not *whether*; if docs reveal it can't work, that's the "spec is wrong" path (Step 3), not a silent swap. Not a second fetch of the spec's reference links.
 
 **How (capability first):** spawn a read only web subagent (on Claude Code the `researcher` type, which pins a fast, low cost model and carries the web tools; else your agent's web/browse tool), its model set explicitly to a fast, low cost tier (not the session model), briefed with the exact tools/versions from the spec and the one thing you need. Return only a compact usage summary (current call/config/setup, version notes, gotchas), never raw pages, so only the answer lands on the main thread. No web capability → skip: build from knowledge and lean on the build/typecheck loop to catch a stale API, note the assumption.
 
@@ -70,13 +70,13 @@ Only when you genuinely need the current usage/API of a tool the spec already de
 
 **Gather remaining inline answers** (the Step 2 spec gap answer, UI asset and design direction questions, an ambiguous business rule) before any build handoff; they need the engineer.
 
-**With the Step 2.5 map in hand, the build is a write step done inline on the main thread** (only the file locating read was offloaded, in Step 2.5). Do not spawn a subagent to write code, even for a very large or multi file build; sequence it sensibly.
+**With the Step 2.5 map in hand, the build is a write step done inline on the main thread**. Do not spawn a subagent to write code, even for a very large or multi file build; sequence it sensibly.
 
 Tracks:
 
 - **UI** → follow `ui-guide.md` inline (component or screen → stack/styling/dark mode detection → asset resolution → tokens → font → the five phases → accessibility); the main thread keeps design/asset questions responsive.
 - **Logical: normal build** → inline per `logical-guide.md` (ground in the spec → data layer → core logic → interface → integration → correctness pass).
-- **Logical: very large single build** → still inline. Work through it in ordered chunks per `logical-guide.md`, ticking `## Build plan` tasks as each lands and its typecheck passes; use `/compact` partway through the build if the single feature runs long (the scope and spec hold the state, so nothing is lost).
+- **Logical: very large single build** → still inline. Work through it in ordered chunks per `logical-guide.md`, ticking `## Build plan` tasks as each lands and its typecheck passes; use `/compact` partway through the build if the single feature runs long.
 - **Logical: big rollout of an already decided pattern** (e.g. "swap inline inputs across 17 files") → still inline, sequenced to stay safe:
   1. **Primitive first**: build the shared thing (helper/module/schema) and confirm it typechecks before touching call sites.
   2. **Apply site by site**: work through the files in turn, applying `<primitive>` per the pattern the spec fixes, preserving exact behavior; tick each as it lands.
@@ -94,7 +94,7 @@ Tracks:
 
 ### Step 4: Update the scope and report
 
-- **Only mark what actually landed.** Confirm first: files written, code present and typechecking; data layer task → migration applied and schema confirmed live, not merely generated. Interrupted or half done sub task → leave the task unchecked, keep the feature `in-progress`, report exactly what's incomplete and why. Never mark a task `done` on an unverified or incomplete build.
+- **Only mark what actually landed.** Confirm first: files written, code present and typechecking; data layer task → migration applied and schema confirmed live, not merely generated. Interrupted or half done sub task → leave the task unchecked, keep the feature `in-progress`, report exactly what's incomplete and why.
 - **Tick atomic tasks in the spec, milestones in the scope** (only what you verified built, only in the Step 0 scope file): each completed `## Build plan` task in the spec; a milestone sub box when its spec tasks are done; the `Build it` box when all milestones are done; fill the pointer line (`code in <path>`). No spec feature → tick its scope checkbox(es) directly. **Closing gate: report what you ticked in each file** (scope boxes + spec tasks/status), or say no scope row matched; never finish silently.
 - **`done` is the engineer's call, never yours to gate.** Tick what you built. Then, once it landed and self checked (typecheck/build green; UI rendered if you could; migration applied and schema live), offer: mark it `done` now, or take the suggested next step first (below). If the feature has no `Verify it`/`Test it` box (a foundation or decision plus scaffold feature, or a `Prototype` build), `done` is the natural next move; if it has later boxes, note them as the suggested (skippable) next steps. Set `done` when the engineer says so, and record any skipped step as skipped. An `Assumed` governing spec does not block `done`: flag it ("built on an unratified decision, `/architect` to ratify when you can") and let the engineer decide.
 - **Mirror `done` onto the governing spec.** When the engineer marks the feature `done`, advance the `**Status**:` line `In Progress` → `Accepted`, surgically per Artifact ownership (read it again first; not `In Progress`, e.g. `Accepted`/`Superseded`/`Assumed` → flag, don't clobber). Whichever skill sets `done` mirrors this; if the engineer runs verify/test after `/develop`, that skill does it instead.
@@ -119,6 +119,7 @@ Tracks:
   ```
 - Relay the track's report (the `## /develop complete` block from `ui-guide.md` and/or `logical-guide.md`).
 - **Suggest the next step from the scope; make clear it is optional.** Phrase it as an offer the engineer can take or skip, e.g. "Suggested next: `/check verify <feature>`, or mark it done and move to the next thing, your call." The suggestion is this feature's **first unticked box**; all boxes ticked → point to the next feature. A feature with no `Verify it`/`Test it` box has none to suggest, just move on. Never present a stage as required, and never suggest a stage whose box is not on the feature.
+  - **Before `done`, offer `/recall <feature>` once** (recommended when an agent wrote most of it): can they still explain what was built? Skippable, never a gate.
   - **If the spec is `Assumed`**, suggest ratification first: `/architect <feature>: ratify the assumed <decision>` (it can catch a wrong assumption before you build further on it), but it is still the engineer's call.
   - **No scope at all** (a one off `/develop`) → there are no boxes to read, so infer the tail from the effective tier (feature tier tag, else project `**Workflow:**` default, else the risk of the change): stop after the build for a throwaway change, else point to `/check verify`, and to `/test` and a fresh model `/check review` as the risk rises.
   - `/sync` at merge promotes new area conventions into `AGENTS.md`.
