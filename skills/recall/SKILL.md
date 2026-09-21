@@ -28,7 +28,7 @@ This skill is the marker for an exercise you cannot mark yourself: write the fea
 
 Say where they are wrong, not what is right. Name the file to read, never summarize it. "You said the token check happens in the middleware. It does not. Read `auth/session.ts:40`" is feedback. Adding what the middleware actually does converts the exercise into recognition, which is the failure this exists to prevent. If a finding cannot be stated without pasting the code, point at the code instead.
 
-This holds in the report, in answers to follow up questions, and for the rest of the conversation after the run. Asked to explain a finding, say where to read it.
+This holds in the report, in answers to follow up questions, and for the rest of the conversation after the run. Asked to explain a finding, say where to read it. The one exception is the third pass exit in Step 4: explicit, limited to the claim that earned it, and labeled.
 
 ## Asks vs acts
 
@@ -81,15 +81,25 @@ Read their account against the code. Mark each claim as one of four, and keep th
 
 Mark `missing` only where a question asked for the thing. Silence on something never asked about is not a gap.
 
-### Step 4: second pass
+### Step 4: second pass, and the ways out
 
 After the report the engineer reads the flagged places and rewrites those parts. When they come back, grade **only what was flagged**: what was already correct stays correct, do not re examine it, and do not widen the question set. The reading between the two passes is what produces the understanding. The report is not the product.
+
+Three things keep this from becoming a loop with no exit:
+
+- **Nothing requires a second pass.** Say so with the first report: they can keep the gaps, mark the feature `done`, and move on. Knowing where the holes are is worth having even if they never close them.
+- **Narrow the pointer each pass, never repeat it.** First pass names the file, second the line range, third the function or the exact call. The target shrinks; the answer does not arrive.
+- **On the third failed pass of one claim, tell them, and mark that claim `given`.** Say what the code does, briefly and once. The rule guards against being handed the answer before the work, and after three passes the work is done; the label is what stops anything later reading a given claim as a recalled one.
+
+**Two failed passes may be the code, not the engineer.** Where that is genuinely it (a path threaded through many files, a name that says the opposite of what it does, control flow nobody could hold in their head), say so and point at `/check review <feature>`. Never as consolation for a wrong claim about plain code.
 
 ### Step 5: the artifact, on confirmation
 
 When nothing is left marked `wrong` or `missing`, offer to keep it:
 
 > "Nothing left wrong or missing. Save this to `docs/specs/<feature>/flow.md`? Recommended: yes, it is your own account of the code and it held up, which is worth having at review time and months later."
+
+A claim that ended as `given` does not block the save, and carries `(given, not recalled)` on its line in the file.
 
 On their go, write the **corrected** account, never the first draft: a draft that was wrong in the flagged places is a stale document from the day it lands. First line:
 
@@ -112,7 +122,7 @@ For a grading pass:
 ```
 ## /recall <feature>
 
-<n> claims: <n> correct, <n> wrong, <n> vague, <n> missing
+<n> claims: <n> correct, <n> wrong, <n> vague, <n> missing, <n> given
 
 Wrong
 - You wrote "<claim>". Read `<path>:<line>`.
@@ -123,7 +133,11 @@ Vague
 Missing
 - `<path>` is on this path and you did not account for it.
 
+Given (third pass, not recalled)
+- `<path>:<line>` · <what it does, in one line>
+
 Next: read those places, rewrite only those parts, run /recall <feature> again.
+Or keep the gaps and mark the feature done, your call.
 ```
 
 Omit any heading with nothing under it. On a clean pass the whole report is the count line and the save offer.
