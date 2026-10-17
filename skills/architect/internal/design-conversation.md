@@ -94,8 +94,8 @@ Then walk the stages in order as one continuous, step by step interview. Ask eac
   - **question**: "Add a References section to the spec (where the recommendations come from, and optionally links)? The full reasoning (the Rationale) stays either way. For a greenfield stack decision the web option also checks the current tool landscape so the options are not stale. Web fetches cost some extra tokens."
   - **header**: "References"
   - **options** (each sets `REFERENCES_LEVEL`):
-    - `No references, keep it clean (recommended)` → `none`
-    - `Sources only (named project sources and practices, no web fetch)` → `sources`
+    - `Sources only (named project sources and practices, no web fetch) (recommended)` → `sources`
+    - `No references, keep it clean` → `none`
     - `Sources plus web verified links (fetches pages to confirm the links, costs some extra tokens)` → `sources+links` (for a greenfield stack decision this also runs the current landscape check)
 
   For a greenfield/foundational ARCHITECTURE stack decision, make `Sources plus web verified links` the recommended pick instead (verify the landscape before presenting options). When `sources+links` is chosen for a greenfield stack decision and your agent has web tools, run ONE quick current landscape check before the stack panel; without web tools, proceed from your knowledge and flag the staleness.
