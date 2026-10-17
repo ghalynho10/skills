@@ -35,7 +35,7 @@ deciding? 2 to 4 paragraphs. Do not mention options here, only the problem space
 **User stories**:
 - As a <role>, I want <capability> so that <outcome>.
 
-**Acceptance criteria** (the contract, each criterion is IDed and independently checkable):
+**Acceptance criteria** (the contract, each criterion is IDed and independently checkable; split until each holds one independently falsifiable claim, and give a claim relating two states its own criterion):
 - **AC-1**: <observable, testable outcome that must hold for the feature to be correct>
 - **AC-2**: <the key edge case or failure that must be handled, e.g. "retry after timeout returns the same result (idempotent)">
 - **AC-N**: <…>
