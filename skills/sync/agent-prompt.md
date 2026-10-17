@@ -148,6 +148,8 @@ For each spec whose linked feature appears in the reconciled scope:
 
 Be **strict**, noise erodes trust. Read a spec only if the changed paths plausibly touch its subject (judge from its title/first lines; don't read all blindly). Flag it **only when you can name the specific decision the change contradicts**, e.g. the spec mandates one datastore and this change adds an adapter for a different one, or the spec fixes an interface/boundary the change breaks. Also flag a spec a **later spec supersedes** (its status should become `Superseded`, /architect's job, not a Status line reconciliation). Never flag vague "might be affected" cases; when in doubt, do not flag. Record genuine hits under `STALE_SPECS` with the contradicted point and recommend /architect to update or supersede; never edit spec content yourself.
 
+**Mention sweep, past the diff.** For each feature this change touched whose scope status is `done`, or that Step 6 takes to `done` (sweep after Step 6 then): grep the whole spec directory for its scope number and its name, and read every hit whatever the spec's subject (the reading filter above does not apply). Flag under `STALE_SPECS`, by the same bar, each claim the shipped feature made false: a blocker it discharged, a reason that expired with it, a description of it that no longer holds. Record every sweep under `MENTION_SWEEP`, including one that found nothing.
+
 ### 6. Reconcile the feature scope (only if SCOPE_PATH_OR_NONE is a path)
 
 **Scope:** only the scope file(s) you were handed. Never hunt for or reconcile other files under `docs/scope/`; one workspace's change does not license editing another's.
@@ -202,6 +204,9 @@ SPEC_STATUS_RECONCILED:
 STALE_SPECS:
 - <docs/specs/file>, <why the change makes it stale, or a status mismatch you couldn't safely reconcile>
 
+MENTION_SWEEP:
+- <feature>, <n> hits read in <n> specs, <n> flagged under STALE_SPECS
+
 ASSUMED_SPECS:
 - <docs/specs/file>, <feature; owes ratification (/architect), left untouched>
 
@@ -212,4 +217,4 @@ CONFLICTS:
 - <path>, <curated content that would need rewriting; left for a human>
 ```
 
-If you made no edits and found nothing stale, output `SCOPE: <N> changed files` followed by `NOTHING_TO_SYNC: everything is already current`.
+If you made no edits, found nothing stale, and ran no mention sweep, output `SCOPE: <N> changed files` followed by `NOTHING_TO_SYNC: everything is already current`.

@@ -130,6 +130,7 @@ Lead with what it reconciled in one line; then list only what needs the engineer
 ## /sync complete · reconciled <N> changed files
 
 **Updated <AGENTS.md files · scope features · spec statuses> to match the diff.**   (or "everything already current, nothing to sync")
+Mention sweep: <feature> · <n> hits in <n> specs · <n> stale   (one line per closed feature; omit if none closed)
 Heads up (need you):
 - Stale spec → /architect: `<file>` (<why, or a status mismatch /sync couldn't safely resolve>)
 - Assumed, not ratified → /architect: `<file>` (<feature>; owes ratification, doesn't block `done`)
