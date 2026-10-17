@@ -74,7 +74,7 @@ Remove duplicates, then **filter to source files** to sync *from*:
 - **Keep the `D` (deleted) entries** in a separate list; they drive orphan cleanup (Step 3) though they aren't synced *from*.
 - **Keep dependency manifest changes in a separate list** for tool discovery, even if they are config rather than source: `package.json`, `pyproject.toml`, `requirements*.txt`, `go.mod`, `Cargo.toml`, `composer.json`, `Gemfile`, `pubspec.yaml`, `mix.exs`, `*.csproj`, and equivalent package manifests. Lock files are signals only; do not pass lockfile contents.
 
-**If no source files and no dependency manifest changes remain** (only docs/tests/lock/generated files changed), stop, nothing to sync. Do not spawn. **Exception, a close:** if `git diff <base> -- docs/scope/` shows a feature's status changing to `done`, continue with no source files; the maintenance then runs only scope reconciliation and the mention sweep.
+**If no source files and no dependency manifest changes remain** (only docs/tests/lock/generated files changed), stop, nothing to sync. Do not spawn. **Exception, a close:** if `git diff <ref> -- docs/scope/` (`HEAD` in `uncommitted` mode, `<merge-base>` in `branch` mode) shows a feature's status changing to `done`, continue with no source files. Pass the scope file(s) in that diff as `SCOPE_PATH_OR_NONE`, with the changed feature counting as touched; the maintenance skips `agent-prompt.md` Steps 1 to 3 and runs Steps 4 to 7. On the base branch, run /sync before committing a close: once committed, the flip no longer shows.
 
 ### 2. Locate the context files and specs (paths only, do NOT read them here)
 

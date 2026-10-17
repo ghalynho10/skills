@@ -151,7 +151,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 **Does.** The last step after a change is complete, around merge. Updates `AGENTS.md`, reconciles the scope from repo evidence, and flags specs the change made stale.
 
-**How.** **Surgical edits only** — it adds lines and rewrites single lines it owns, never a whole section and never curated prose. Acts as the universal sub task reconciler: it ticks any scope sub task it can verify from repo evidence, sweeping the boxes other skills leave. **Stops immediately if only docs, tests, or lockfiles changed** — no source diff, nothing to sync. It will not create or restructure the root `AGENTS.md`; that is `/audit`'s job, and it flags rather than doing it.
+**How.** **Surgical edits only** — it adds lines and rewrites single lines it owns, never a whole section and never curated prose. Acts as the universal sub task reconciler: it ticks any scope sub task it can verify from repo evidence, sweeping the boxes other skills leave. **Stops immediately if only docs, tests, or lockfiles changed** — no source diff, nothing to sync — unless the change marks a feature `done`: then it still reconciles the scope and spec status and sweeps every spec for mentions of that feature, flagging claims the shipped feature made false. It will not create or restructure the root `AGENTS.md`; that is `/audit`'s job, and it flags rather than doing it.
 
 **Owns.** Exactly what its Boundaries table grants.
 
