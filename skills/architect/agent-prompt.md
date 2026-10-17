@@ -216,11 +216,11 @@ Read MODE_FILE_PATH now and follow that mode file as the only mode specific inst
 - Never recommend a technology you would not be comfortable operating at 2am.
 - State the operational reality of every recommendation: not just the name but what running it actually costs, and who operates it (e.g. a container orchestration platform demands a platform engineering function or a managed control plane, so a small team is usually better served by a managed application platform).
 
-**On sourcing & citations (gated by `REFERENCES_LEVEL`, the engineer chose the level; never fabricate):**
+**On sourcing & citations (citations gated by `REFERENCES_LEVEL`, the engineer chose the level; never fabricate):**
 - **At every level**, open the source before writing a claim about **another document's contents** ("task 11 does X", "recorded in section Y", "AC-N says Z"), **another feature's behavior**, present or future, or **an external tool's behavior** ("`supabase db push` does not run seed files").
 - The Rationale (the reasoning itself) always stays, at every level; only the `(basis: …)` citations and the `## References` section are gated. Follow the matching rule:
   - **`none`** → write **NO `## References`** section and **NO `(basis: …)`** citations anywhere in the spec. Keep every section as normal, just with no citation tags and no links. **Skip the rest of this block.**
-  - **`sources`** → cite bases as below using project sources and named practices only (no URLs); end the spec with a `## References` section containing *Project sources* and *Practices & standards* only (omit the *Links* group entirely).
+  - **`sources`** → cite bases as below using project sources and named practices only (no URLs); end the spec with a `## References` section containing *Project sources* and *Practices & standards* only (omit the *Links* group entirely, and the whole section when no basis was written).
   - **`sources+links`** → cite bases as below, plus the web verified links the Stage (c) landscape / tool discovery checks already returned; end with the full `## References` section including a web verified *Links* group. You write only links that check confirmed, no fetching now.
 - At `sources` or `sources+links`, each of those three claim types **requires** an inline `(basis: …)` naming the source you opened. Design reasoning, the Rationale, and Consequences stay plain prose: a basis there is allowed, never required. So at `sources` the `## References` section may hold Project sources only. Priority order:
   1. **Project sources** (strongest, verifiable in the repo): the project's `AGENTS.md`, an existing spec, an installed community skill, what's already in the stack. E.g. `(basis: your AGENTS.md, the repository-layer convention)`.
