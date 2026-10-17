@@ -146,12 +146,12 @@ Do not repeat the pros/cons list, explain the reasoning. 1 to 3 paragraphs.>
      this feature rather than by a fixed recipe. The data model sketch is the coherent target; its
      migration is sized to the feature (one migration normally; sliced across slices for a large feature
      or a thin thread Tracer Bullet, deferred under Facade; omitted for a slice touching no schema).
-     When a scope feature row links this spec, these tasks are also written into that row's sub-tasks;
-     with no scope row, they live here as the source of truth (see /architect's derive-tasks step). -->
+     Each task is a checkbox: /develop ticks it as the task lands, which is the resume trail across
+     sessions. A linked scope row carries only a 2 to 5 milestone rollup of these, never the tasks. -->
 
-1. <Build task, e.g. "Create the migration for the confirmed data model">, satisfies **AC-1**
-2. <Build task>, satisfies **AC-2**, **AC-3**
-N. <Build task>, satisfies **AC-N**
+1. [ ] <Build task, e.g. "Create the migration for the confirmed data model">, satisfies **AC-1**
+2. [ ] <Build task>, satisfies **AC-2**, **AC-3**
+N. [ ] <Build task>, satisfies **AC-N**
 
 ## Consequences
 

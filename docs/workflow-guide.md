@@ -40,7 +40,7 @@ The key idea is that these files nest. There is one at the root of the project f
 
 - It is **created** by `architect` the moment a real decision is made, for example which login method to use or what the data looks like. It is born with the status `Proposed`, meaning decided but not yet built. A spec written to document something already shipped is born `Accepted` instead.
 - It is **loaded** by `develop` when the build starts. `develop` reads only the parts it needs to build, the requirements and their acceptance criteria, the decision, the design, and the ordered build plan. It does not reread the long reasoning behind the decision, because that is history, not build input.
-- It is **changed** in a very narrow way. As the build runs, `develop` moves the status line from `Proposed` to `In Progress`, and later from `In Progress` to `Accepted` once the feature is built and verified. `develop` touches only that one status line. It never edits the decision itself.
+- It is **changed** in a very narrow way. As the build runs, `develop` moves the status line from `Proposed` to `In Progress`, and later from `In Progress` to `Accepted` once the feature is built and verified. Beyond that line, `develop` ticks the build plan's checkboxes as tasks land (its resume trail) and saves the feature's `verify.md` beside the spec. It never edits the decision itself.
 - It is **replaced** by `architect` when a decision is genuinely overturned. `architect` writes a new spec and marks the old one `Superseded`, with a pointer to the one that replaced it, so the history stays readable.
 - It is **flagged** by `sync` if a later change quietly made a spec out of date, so a human can bring it in line.
 
@@ -179,7 +179,7 @@ You run `document`. It reads the real commits and the real difference in the cod
 
 #### Stage 10, bring the knowledge back in line
 
-You run `sync` as the last step around merge. It looks at what the code now shows and reconciles the durable files back to it. It updates the context files if the build introduced a new convention, reconciles the scope, and flags any spec the change made out of date. It makes small, surgical edits, adding lines and fixing the lines it owns, and never rewrites your prose.
+You run `sync` as the last step around merge. Every feature carries a `Sync it` box as its final checkbox, after `done`, so the next step pointers reach it. It looks at what the code now shows and reconciles the durable files back to it. It updates the context files if the build introduced a new convention, reconciles the scope, and flags any spec the change made out of date. It makes small, surgical edits, adding lines and fixing the lines it owns, and never rewrites your prose.
 
 At this point the loop is closed. The feature is shipped, proven, tested, reviewed, written up, and the files that carry the project's knowledge are current again. You clear the session and start the next feature fresh, and because everything lives in files, the fresh session knows exactly where things stand.
 
