@@ -74,7 +74,7 @@ Remove duplicates, then **filter to source files** to sync *from*:
 - **Keep the `D` (deleted) entries** in a separate list; they drive orphan cleanup (Step 3) though they aren't synced *from*.
 - **Keep dependency manifest changes in a separate list** for tool discovery, even if they are config rather than source: `package.json`, `pyproject.toml`, `requirements*.txt`, `go.mod`, `Cargo.toml`, `composer.json`, `Gemfile`, `pubspec.yaml`, `mix.exs`, `*.csproj`, and equivalent package manifests. Lock files are signals only; do not pass lockfile contents.
 
-**If no source files and no dependency manifest changes remain** (only docs/tests/lock/generated files changed), stop, nothing to sync. Do not spawn.
+**If no source files and no dependency manifest changes remain** (only docs/tests/lock/generated files changed), stop, nothing to sync. Do not spawn. **Exception, a close:** if `git diff <base> -- docs/scope/` shows a feature's status changing to `done`, continue with no source files; the maintenance then runs only scope reconciliation and the mention sweep.
 
 ### 2. Locate the context files and specs (paths only, do NOT read them here)
 
@@ -130,7 +130,7 @@ Lead with what it reconciled in one line; then list only what needs the engineer
 ## /sync complete · reconciled <N> changed files
 
 **Updated <AGENTS.md files · scope features · spec statuses> to match the diff.**   (or "everything already current, nothing to sync")
-Mention sweep: <feature> · <n> hits in <n> specs · <n> stale   (one line per closed feature; omit if none closed)
+Mention sweep: <feature> · <n> hits in <n> specs · <n> stale   (one line per feature this change took to `done`; omit if none)
 Heads up (need you):
 - Stale spec → /architect: `<file>` (<why, or a status mismatch /sync couldn't safely resolve>)
 - Assumed, not ratified → /architect: `<file>` (<feature>; owes ratification, doesn't block `done`)
