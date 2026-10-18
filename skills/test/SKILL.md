@@ -196,7 +196,7 @@ Lead with the result; the per file list and AC traceability are in the test file
 ## /test <feature> · <all N passed | Y failed | not run>
 
 **Wrote <N> tests across <M> files (happy path / edges / errors / a11y). <X passed, Y failed via `<RUN_COMMAND>` | not run>.**
-Next (this feature's next unticked box in the scope): all pass → `/check review` if a `Review it` box remains, else `/sync` or the next feature · Y failed → fix them, or `/debug <feature>` if the code is wrong · not run → `<RUN_COMMAND>`
+Next (this feature's next unticked box in the scope): all pass → `/check review` if a `Review it` box remains, else mark it `done` and `/sync <feature>` (its `Sync it` box) · Y failed → fix them, or `/debug <feature>` if the code is wrong · not run → `<RUN_COMMAND>`
 Heads up: <bugs the tests caught · file:line + the failing expectation> · <uncovered AC-N or area, why>   (omit the whole line if none)
 ```
 

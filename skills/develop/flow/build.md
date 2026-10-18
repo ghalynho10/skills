@@ -30,7 +30,7 @@ Read:
 **Spec completeness check (before any code, not partway).** Two passes:
 
 1. **Sections present:** logical → data model, API surface, security model, key invariants; UI → screens and their states. Missing or placeholder → ask (panel below).
-2. **Input coverage (catches the silent decision):** enumerate every value each code path must produce or display for the ACs; for each, confirm the spec names its source (input, DB column, derivation, prior decision, the spec's **Value sourcing** table). A required value with **no named source** is a load bearing gap, the case the builder is tempted to fill as "local wiring": it decides the source of an AC constrained value, so treat it as a missing load bearing section and ask; never invent the source. (Timezone sourcing is one illustration; apply it to every produced value.)
+2. **Input coverage:** run the Step 0 test again, now against the spec's **Value sourcing** table. A required value with **no named source** is a load bearing gap (it decides the source of an AC constrained value), never local wiring to fill: ask, never invent the source.
 
 A gap → ask. Options depend on whether it is **load bearing** (data model, API surface, security model, provider, feature behavior, or an unnamed source for a required value) or a **local detail** the spec already governs (pagination size, sort order, label):
 
@@ -102,7 +102,7 @@ Tracks:
   - **question**: "Save these verify steps to the feature's `verify.md`, or just show them in this summary?"
   - **header**: "Save verify steps?"
   - **options**:
-    1. `Save to verify.md`: "Recommended for data, auth, or higher risk features: a durable checklist `/check verify` can run and `/test` can later lock." → write/append the steps to `verify.md` (below).
+    1. `Save to verify.md`: "Recommended: a durable checklist `/check verify` ticks with dated evidence and `/test` locks." → write/append the steps to `verify.md` (below).
     2. `Just show in summary`: "Keep them inline in this report only; don't write a file." → include them in the report and stop.
 
   The tool appends "Other" as a free text option automatically. On **Save**, write/append `verify.md` beside the spec. Single file spec → promote it to a directory, `docs/specs/NNNN-feature.md` → `docs/specs/NNNN-feature/{index.md, rationale.md, verify.md}` (split the decision record sections Context/Options considered/Rationale/References into `rationale.md`, keep the build spec in `index.md`, never double the name), and repoint the scope feature's `spec` link to the new `…/index.md` path. Directory spec → drop `verify.md` in. Existing `verify.md` → append, don't clobber. Format (so `/check verify` can consume it and `/test` can lock the durable steps):
@@ -118,11 +118,11 @@ Tracks:
   - AC-1 … covered by step … · AC-2 … · …
   ```
 - Relay the track's report (the `## /develop complete` block from `ui-guide.md` and/or `logical-guide.md`).
-- **Suggest the next step from the scope; make clear it is optional.** Phrase it as an offer the engineer can take or skip, e.g. "Suggested next: `/check verify <feature>`, or mark it done and move to the next thing, your call." The suggestion is this feature's **first unticked box**; all boxes ticked → point to the next feature. A feature with no `Verify it`/`Test it` box has none to suggest, just move on. Never present a stage as required, and never suggest a stage whose box is not on the feature.
+- **Suggest the next step from the scope; make clear it is optional.** Phrase it as an offer the engineer can take or skip, e.g. "Suggested next: `/check verify <feature>`, or mark it done and move to the next thing, your call." The suggestion is this feature's **first unticked box**; only `Sync it` left → offer `done`, then `/sync <feature>`; all ticked → the next feature. Never present a stage as required, and never suggest a stage whose box is not on the feature.
   - **Before `done`, offer `/recall <feature>` once** (recommended when an agent wrote most of it): can they still explain what was built? Skippable, never a gate.
   - **If the spec is `Assumed`**, suggest ratification first: `/architect <feature>: ratify the assumed <decision>` (it can catch a wrong assumption before you build further on it), but it is still the engineer's call.
   - **No scope at all** (a one off `/develop`) → there are no boxes to read, so infer the tail from the effective tier (feature tier tag, else project `**Workflow:**` default, else the risk of the change): stop after the build for a throwaway change, else point to `/check verify`, and to `/test` and a fresh model `/check review` as the risk rises.
-  - `/sync` at merge promotes new area conventions into `AGENTS.md`.
+  - `Sync it` is always the last box: `/sync <feature>` once it is `done`.
 
   Always advise `/clear` before the next feature (state lives in files; long sessions cost more even when cached). Suggest `/compact` mid build if this feature runs long.
 
