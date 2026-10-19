@@ -234,7 +234,7 @@ N. [ ] <Build task>, satisfies **AC-N**
 
 ## Status values
 
-The spec's status mirrors its feature's build lifecycle (scope: planned→`Proposed`, in-progress→`In Progress`, done→`Accepted`):
+The spec's status mirrors its feature's build lifecycle (scope: planned→`Proposed`, in-progress→`In Progress`, done→`Accepted`), with one exception: an `Assumed` spec stays `Assumed` until `/architect` ratifies it, even after the feature is `done`:
 
 | Status | Meaning |
 |---|---|
@@ -242,6 +242,7 @@ The spec's status mirrors its feature's build lifecycle (scope: planned→`Propo
 | `In Progress` | The feature governed by this spec is being built. Set by /develop when the feature goes in-progress. |
 | `Accepted` | The feature is built and verified (scope `done`), the "done and dusted" state. A spec is NOT `Accepted` until its feature ships. Set by /develop on completion or reconciled by /sync. |
 | `Superseded by [NNNN](NNNN-title.md)` | Replaced by a newer spec |
+| `Assumed` | Built on a decision that was never deliberated, via `/develop`'s build now override. Records the assumption, not a deliberated decision. Stays `Assumed`, and never blocks the feature's `done`, until `/architect` ratifies it (which sets `Accepted`) or supersedes it. Only `/develop` creates it; only `/architect` clears it. |
 
 **Which status behavior applies depends on whether a buildable scope feature links this spec:**
 - **Feature linked spec** (a `docs/scope/` row's `spec` cell points to it) → **feature mirrored**: `Proposed` → `In Progress` → `Accepted`, tracking the feature's build lifecycle (table above). Confirmation ratifies content but does not set `Accepted`; /develop advances it.
