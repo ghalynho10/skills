@@ -10,6 +10,10 @@ A skill file loads in full, on its path, every time it runs, so every line is a 
 - **Steps are instructions, not narrative.** No connecting paragraphs. Each step is one to three lines and ends in a checkable condition (`if X → do Y`, or a `[ ]` gate), not a description of what comes next.
 - **State a rule once.** If the same rule shows up twice, cut one and point to the other. One exception: each `SKILL.md` must stand alone for distribution, so a shared block (the output style) is intentionally repeated across skills, not factored out.
 
+## One house voice, defined once
+
+Every skill writes in the same voice, and it is defined in one place: the shared output style block in each `SKILL.md`. It reads to the user as `you`, warm and direct, and frames every step as a recommendation they may skip, never an order. That block governs everything a skill produces, summaries and generated files (scope, specs, `verify.md`) alike. So do not hand write polished paragraphs into a template: a template carries the facts and the shape in terse cues, and the agent renders them in the house voice at write time. Restating the voice inside a template is duplicated cost that the budget then charges on every run.
+
 ## Completion summaries: lead with the essentials
 
 The report a skill prints at the end is read by a human scanning fast, so it leads with what matters and points to the files for the rest (the durable record already lives in the scope, the spec, `verify.md`, `docs/reviews/`, the commit/PR). One shape, every skill:
