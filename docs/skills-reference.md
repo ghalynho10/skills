@@ -1,6 +1,6 @@
 # Skills Reference
 
-Sixteen Agent Skills encoding a phase based engineering workflow, from vague idea to shipped, documented code. Nine are upstream from [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills); seven are additions in this fork, marked **fork**.
+Sixteen Agent Skills encoding a phase based engineering workflow, from vague idea to shipped, documented code. Nine come from [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) (MIT, © JavaScript Mastery), where this pipeline started, and have been reworked since; seven were added here.
 
 There is no mandated playbook. Run whichever skills a change needs, in whatever order fits. `/scope` recommends a workflow tier, but it is a default you override per feature.
 
@@ -23,7 +23,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 | `Beta` | `/check verify` then `/test` | `/test` |
 | `GA` | adds `/check review` then `/document` | `/test`, then review and docs |
 
-**The usual loop.** `/scope` (what) → `/architect` (decide) → `/develop` (build) → `/check verify` → `/test` → `/check review` → `/document` → `/sync` (record). Bootstrap once with `/audit`. The fork additions run on their own cadence, off the loop.
+**The usual loop.** `/scope` (what) → `/architect` (decide) → `/develop` (build) → `/check verify` → `/test` → `/check review` → `/document` → `/sync` (record). Bootstrap once with `/audit`. The supporting skills run on their own cadence, off the loop.
 
 **State lives in files, not in the chat.** Every skill reads from disk and writes back, so a fresh session loses nothing. Skills suggest `/clear` at handoffs to keep long sessions cheap.
 
@@ -43,7 +43,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-### `/wayfinder` — chart a foggy effort **fork**
+### `/wayfinder` — chart a foggy effort
 
 **Does.** For an effort too big and too foggy for one session: the destination is nameable, but you cannot yet state every question between you and it. Plans decisions; never builds.
 
@@ -159,7 +159,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-### `/overview` — what this project *is* **fork**
+### `/overview` — what this project *is*
 
 **Does.** Answers the broadest question no other file holds: what is this project, for someone with no prior context.
 
@@ -171,7 +171,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-## Session and memory **(all fork)**
+## Session and memory
 
 ### `/checkpoint` — the session residue
 
@@ -185,7 +185,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-### `/recover` — diagnose the kind of failure **fork**
+### `/recover` — diagnose the kind of failure
 
 **Does.** Runs when something has gone wrong and it is not obvious *what kind* of wrong. The instinct is to keep prompting for fixes; this skill diagnoses before responding.
 
@@ -199,7 +199,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-### `/reflex` — turn a correction into a standing rule **fork**
+### `/reflex` — turn a correction into a standing rule
 
 **Does.** Captures the rule that exists only because you said it out loud, and would otherwise die at `/clear`.
 
@@ -211,7 +211,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-### `/recall` — check you can still explain the code **fork**
+### `/recall` — check you can still explain the code
 
 **Does.** Marks the one thing nothing else in the pipeline checks: whether *you* understand what was built. `/develop` builds it, `/check verify` proves it runs, `/test` locks the behaviour, `/check review` reads the diff — a feature passes all four with your understanding intact or entirely absent.
 
@@ -225,7 +225,7 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 
 ---
 
-### `/imprint` — keep the UI consistent **fork**
+### `/imprint` — keep the UI consistent
 
 **Does.** Records what a finished component actually is, precisely enough that the next one can match it. Prevents the slow drift where spacing wanders, a second shade of blue appears, and the app looks built by several people with different taste.
 
@@ -248,12 +248,12 @@ There is no mandated playbook. Run whichever skills a change needs, in whatever 
 | `docs/reviews/` | `/check review` |
 | PR body, `CHANGELOG.md`, `docs/releases/`, `docs/postmortems/` | `/document` |
 | `AGENTS.md` (root + nested), `CLAUDE.md` pointers | `/audit`, kept current by `/sync` |
-| `docs/overview.md`, `docs/project-story.md` | `/overview` **fork** |
-| `docs/session-notes.md` | shared by section: `/checkpoint` + `/recover` **fork** |
-| `docs/wayfinding/` | `/wayfinder` **fork** |
-| `docs/reflexes.md` | `/reflex` **fork** |
-| `flow.md`, beside the feature's spec | `/recall` **fork** |
-| `ui-registry.md` | `/imprint` **fork** |
+| `docs/overview.md`, `docs/project-story.md` | `/overview` |
+| `docs/session-notes.md` | shared by section: `/checkpoint` + `/recover` |
+| `docs/wayfinding/` | `/wayfinder` |
+| `docs/reflexes.md` | `/reflex` |
+| `flow.md`, beside the feature's spec | `/recall` |
+| `ui-registry.md` | `/imprint` |
 
 If `docs/` is a published documentation site, the `docs/` based artifacts move to `.workflow/` so they do not ship with your site. `ui-registry.md` sits beside `design.md`, or at the repo root when there is none.
 

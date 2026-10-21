@@ -28,6 +28,12 @@ This pipeline started in July 2026 as a fork of [jsmastery-pro/skills](https://g
 
 ### Notable changes to the original skills
 
+- **A `Sync it` box closes every feature.** `/architect` adds it last at every tier, after `done`, so the next-step pointers in `/develop`, `/check verify`, and `/test` lead to `/sync` instead of stopping short of it.
+- **`/sync` sweeps for stale claims when a feature closes.** It greps every other spec for mentions of the feature and flags claims the shipped work made false, and it catches a close that was committed before it ran.
+- **Verify ticks carry evidence.** `/check verify` writes the date and what it observed on every passing step, marks a failed one `✗`, and keeps those records on a FAIL run too. `/sync` does not count an undated tick.
+- **The spec's build plan is a checkbox list**, so `/develop` resumes at the first unchecked task across sessions. Splitting an acceptance criterion never renumbers existing IDs, and retags `verify.md` to match.
+- **An `Assumed` spec never blocks `done`.** It stays flagged as owing ratification until `/architect` ratifies it.
+- **`/recall` is offered before `done`** at the close of `/develop`, `/check verify`, and `/test`. Always skippable.
 - **`/debug`** raises the bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
 
 The added skills are downstream of the original ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
