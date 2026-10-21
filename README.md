@@ -10,26 +10,29 @@ idea → /scope → /architect → scaffold → /audit → /develop → /check v
 
 Run `/debug` anytime something breaks, or `/recover` when it's not clear what kind of failure this is. Run a bare `/scope` anytime to see where things stand.
 
-> 📖 **Want the full picture?** Read the **[Workflow Guide](docs/workflow-guide.md)** — a plain-language walkthrough of every skill, the files that carry the work, who owns what, and one idea followed all the way from scope to shipped.
+> 📖 The [Workflow Guide](docs/workflow-guide.md) walks the original nine skills end to end. It predates the added skills, which this README covers.
 
-## About this fork
+## Origins
 
-This is a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) with seven added skills and one modified upstream skill:
+This pipeline started in July 2026 as a fork of [jsmastery-pro/skills](https://github.com/jsmastery-pro/skills) (MIT, © JavaScript Mastery) and has been developed independently since: seven skills added, and all nine original skills reworked.
 
-- **`/checkpoint`** (new) — captures the in-session working memory the pipeline's files don't own: open threads, ruled-out approaches, and standing instructions. Saves to `docs/session-notes.md` and confirms before restoring. Fills the gap between "state lives in files" and the parts of a session that never became a spec or scope row.
-- **`/overview`** (new) — the project-wide picture none of the other files hold. `update` keeps `docs/overview.md` current as a reference document, `story` writes a prose telling for a person, `check` reports drift. Bare `/overview` runs `update`.
-- **`/wayfinder`** (new) — for the rare effort too big and too foggy for `/scope`'s interview to sharpen in one sitting. Charts a map of investigation tickets under `docs/wayfinding/`, resolved one per session, then hands the cleared result back to `/scope` or `/architect`. Adapted from mattpocock/skills' `wayfinder`, with the issue tracker and its external skill dependencies replaced by plain files native to this pipeline.
-- **`/recover`** (new) — diagnoses *what kind* of failure occurred before prescribing a response: an isolated bug, a session that has gone wrong through repeated patching, or a foundation resting on a wrong assumption. Ported from the older [jsmastery-pro/jsm-agent-skill](https://github.com/jsmastery-pro/jsm-agent-skill) repo and adapted to this fork.
-- **`/imprint`** (new) — captures UI visual patterns after a component is built, including background, border, radius, text, spacing, and hover state, and records them in `ui-registry.md` so later components match. `audit` establishes a baseline from an existing UI or a design-tool export; `capture` checks new components against that baseline before writing, so drift is either a deliberate exception or something to fix.
-- **`/reflex`** (new) — promotes a correction into a standing rule. When you tell an agent "always run the migration check before touching a schema file", that rule normally dies at `/clear`; `/reflex` captures it as one line in `docs/reflexes.md`, which later sessions read once `/audit` has added the root `AGENTS.md` pointer and the root `CLAUDE.md` import. Routes anything that belongs elsewhere (a hook, a spec, `AGENTS.md`, session notes) to its real home instead of writing it, and `audit` prunes the file so it stays short enough to keep being read.
-- **`/recall`** (new) — checks that you can still explain the code an agent wrote for you, which is the one thing `/check verify`, `/test`, and `/check review` all pass without. It reads the implementation, asks four to six questions drawn from it, and grades what you write from memory, naming where you are wrong or vague. It marks rather than teaches: it names where you are wrong, never what is right, because being told the answer produces recognition rather than understanding. The one exception is deliberate — after three failed passes on the same claim it does tell you, and labels that claim `given` rather than `correct`. Saves your own corrected sentences beside the spec as `flow.md`, on your go.
-- **`/debug`** (modified) — a stricter bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
+### Added skills
 
-Everything else is unchanged from upstream. The added skills are downstream of the existing ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
+- **`/checkpoint`** — captures the in-session working memory the pipeline's files don't own: open threads, ruled-out approaches, and standing instructions. Saves to `docs/session-notes.md` and confirms before restoring. Fills the gap between "state lives in files" and the parts of a session that never became a spec or scope row.
+- **`/overview`** — the project-wide picture none of the other files hold. `update` keeps `docs/overview.md` current as a reference document, `story` writes a prose telling for a person, `check` reports drift. Bare `/overview` runs `update`.
+- **`/wayfinder`** — for the rare effort too big and too foggy for `/scope`'s interview to sharpen in one sitting. Charts a map of investigation tickets under `docs/wayfinding/`, resolved one per session, then hands the cleared result back to `/scope` or `/architect`. Adapted from mattpocock/skills' `wayfinder`, with the issue tracker and its external skill dependencies replaced by plain files native to this pipeline.
+- **`/recover`** — diagnoses *what kind* of failure occurred before prescribing a response: an isolated bug, a session that has gone wrong through repeated patching, or a foundation resting on a wrong assumption. Ported from the older [jsmastery-pro/jsm-agent-skill](https://github.com/jsmastery-pro/jsm-agent-skill) repo and adapted to this pipeline.
+- **`/imprint`** — captures UI visual patterns after a component is built, including background, border, radius, text, spacing, and hover state, and records them in `ui-registry.md` so later components match. `audit` establishes a baseline from an existing UI or a design-tool export; `capture` checks new components against that baseline before writing, so drift is either a deliberate exception or something to fix.
+- **`/reflex`** — promotes a correction into a standing rule. When you tell an agent "always run the migration check before touching a schema file", that rule normally dies at `/clear`; `/reflex` captures it as one line in `docs/reflexes.md`, which later sessions read once `/audit` has added the root `AGENTS.md` pointer and the root `CLAUDE.md` import. Routes anything that belongs elsewhere (a hook, a spec, `AGENTS.md`, session notes) to its real home instead of writing it, and `audit` prunes the file so it stays short enough to keep being read.
+- **`/recall`** — checks that you can still explain the code an agent wrote for you, which is the one thing `/check verify`, `/test`, and `/check review` all pass without. It reads the implementation, asks four to six questions drawn from it, and grades what you write from memory, naming where you are wrong or vague. It marks rather than teaches: it names where you are wrong, never what is right, because being told the answer produces recognition rather than understanding. The one exception is deliberate — after three failed passes on the same claim it does tell you, and labels that claim `given` rather than `correct`. Saves your own corrected sentences beside the spec as `flow.md`, on your go.
 
-The seven added skills all include `agents/openai.yaml`, so `/checkpoint`, `/overview`, `/wayfinder`, `/recover`, `/imprint`, `/reflex`, and `/recall` appear in the Codex UI alongside the upstream skills. Their adapters use a shorter `default_prompt` form than upstream's and omit its header comment; the interface fields are the same.
+### Notable changes to the original skills
 
-Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does not cover this fork's added skills; this README is the reference for those.
+- **`/debug`** raises the bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
+
+The added skills are downstream of the original ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
+
+The added skills all include `agents/openai.yaml`, so they appear in the Codex UI alongside the original skills. Their adapters use a shorter `default_prompt` form and omit the header comment; the interface fields are the same.
 
 ## The skills
 
@@ -44,13 +47,13 @@ Note that the [Workflow Guide](docs/workflow-guide.md) is upstream's and does no
 | `document` | Writes the PR text, changelog, release note, or postmortem from the real diff. |
 | `sync` | Keeps AGENTS.md, the scope, and spec statuses current after a change. |
 | `debug` | Finds and fixes the root cause of a bug, then hands a regression test to `/test`. |
-| `overview` | Keeps a project-wide reference document current; can also write a prose telling. *(fork addition)* |
-| `checkpoint` | Saves and restores in-session notes that aren't yet a spec or scope row. *(fork addition)* |
-| `wayfinder` | Charts and resolves large, foggy, multi-session efforts as a map of tickets. *(fork addition)* |
-| `recover` | Diagnoses what kind of failure occurred before responding to it. *(fork addition)* |
-| `imprint` | Captures UI visual patterns into `ui-registry.md`, with an audit mode for establishing a baseline. *(fork addition)* |
-| `reflex` | Turns a correction into a standing rule in `docs/reflexes.md`, with an audit mode for pruning. *(fork addition)* |
-| `recall` | Grades your from-memory account of a feature against the real code, without explaining it to you. *(fork addition)* |
+| `overview` | Keeps a project-wide reference document current; can also write a prose telling. |
+| `checkpoint` | Saves and restores in-session notes that aren't yet a spec or scope row. |
+| `wayfinder` | Charts and resolves large, foggy, multi-session efforts as a map of tickets. |
+| `recover` | Diagnoses what kind of failure occurred before responding to it. |
+| `imprint` | Captures UI visual patterns into `ui-registry.md`, with an audit mode for establishing a baseline. |
+| `reflex` | Turns a correction into a standing rule in `docs/reflexes.md`, with an audit mode for pruning. |
+| `recall` | Grades your from-memory account of a feature against the real code, without explaining it to you. |
 
 Hardening (systems level failure mode analysis) is temporarily removed and will return as a system design specialization.
 
@@ -119,7 +122,7 @@ At the end of `/scope` you also pick a **workflow depth** for the project (overr
 
 The gate is layered, not magic: `/architect` names the source of every value a feature must produce (so gaps surface at design time), `/develop` checks that coverage again before building, and at Beta+ `/architect` recommends running an independent cross-model critic over the spec for decisions it never settled (you decide, and you decide on any gaps it finds). It's a strong, defense-in-depth gate that catches the vast majority — not an absolute guarantee, no prompt can be. Behavioral correctness is caught by the `/check verify` and `/test` layers.
 
-Around the loop, the fork additions run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/imprint` after building a UI component, `/checkpoint save` at the end of a session that leaves open threads behind, `/reflex` the moment a correction turns out to be a rule rather than a one off, `/recall` before you mark a feature done that an agent wrote most of, `/wayfinder` off to the side entirely when a patch of the plan is too foggy for `/scope` to sharpen in the room, and `/recover` only when something has gone wrong.
+Around the loop, the supporting skills run on their own cadence: `/overview update` alongside `/sync` when a feature closes, `/imprint` after building a UI component, `/checkpoint save` at the end of a session that leaves open threads behind, `/reflex` the moment a correction turns out to be a rule rather than a one off, `/recall` before you mark a feature done that an agent wrote most of, `/wayfinder` off to the side entirely when a patch of the plan is too foggy for `/scope` to sharpen in the room, and `/recover` only when something has gone wrong.
 
 ### When something goes wrong
 
@@ -147,14 +150,14 @@ Routing that straight to `/debug` instead throws away the signal the breaker jus
 | Tests | your test dirs | test |
 | App code | your source tree | develop |
 | Human docs | PR body, CHANGELOG.md, `docs/releases/`, `docs/postmortems/` | document |
-| Project overview | `docs/overview.md`, `docs/project-story.md` | overview *(fork addition)* |
-| Session notes | `docs/session-notes.md` | **shared by section** *(fork addition)* |
-| Wayfinding maps and tickets | `docs/wayfinding/` | wayfinder *(fork addition)* |
-| UI pattern registry | `ui-registry.md` | imprint *(fork addition)* |
-| Standing rules | `docs/reflexes.md` | reflex *(fork addition)* |
-| From-memory flow accounts | `flow.md`, beside the feature's spec | recall *(fork addition)* |
+| Project overview | `docs/overview.md`, `docs/project-story.md` | overview |
+| Session notes | `docs/session-notes.md` | **shared by section** |
+| Wayfinding maps and tickets | `docs/wayfinding/` | wayfinder |
+| UI pattern registry | `ui-registry.md` | imprint |
+| Standing rules | `docs/reflexes.md` | reflex |
+| From-memory flow accounts | `flow.md`, beside the feature's spec | recall |
 
-`docs/session-notes.md` is the one file with a written-down sharing contract, not the only shared file. Ownership splits by writing and lifecycle, because reset notes are written under pressure by one skill and aged out later by another. (Upstream, `docs/scope/` is written by `scope`, `develop`, `sync`, `check verify`, and `test`, and the spec `**Status**:` line by four of those, each documenting its own slice locally with no single table naming them all.)
+`docs/session-notes.md` is the one file with a written-down sharing contract, not the only shared file. Ownership splits by writing and lifecycle, because reset notes are written under pressure by one skill and aged out later by another. (For comparison, `docs/scope/` is written by `scope`, `develop`, `sync`, `check verify`, and `test`, and the spec `**Status**:` line by four of those, each documenting its own slice locally with no single table naming them all.)
 
 | Section | Written by | Lifecycle |
 |---|---|---|
@@ -199,32 +202,32 @@ When: a finished change needs writing up. Any project type.
 When: the last step around merge. Monorepo: reconciles the right workspace.
 
 **debug**: Runs a disciplined root cause loop and hands a regression test to `/test`.
-When: anytime something is failing, throwing, or behaving wrong, *and you already know it is a code-level bug*. If you don't, or if a fix attempt has already failed, start at `/recover` instead. Not tied to project type. *(This fork raises the bar on the reproduction step; see About this fork.)*
+When: anytime something is failing, throwing, or behaving wrong, *and you already know it is a code-level bug*. If you don't, or if a fix attempt has already failed, start at `/recover` instead. Not tied to project type. *(Stricter reproduction step than the original; see Origins.)*
 
-**overview** *(fork addition)*: Keeps the project-wide picture that no other file holds, in three modes.
+**overview**: Keeps the project-wide picture that no other file holds, in three modes.
 When: `/overview update` (the default) after a feature closes, alongside `/sync`, or after any decision that changes the project's shape; `/overview story` at a milestone or completion, for a prose telling aimed at a person; `/overview check` when you suspect the document has drifted from scope and specs. Downstream of everything: if the overview and a spec disagree, the spec is right.
 
-**checkpoint** *(fork addition)*: Saves and restores the in-session residue that never became a durable file.
+**checkpoint**: Saves and restores the in-session residue that never became a durable file.
 When: `/checkpoint save` before ending a session that leaves open threads, ruled-out approaches, or standing instructions behind; `/checkpoint restore` at the start of a session picking that work back up, and always after a `/recover` hard reset. Not every session needs it: if everything of value already landed in a spec or scope row, there is nothing to save.
 
-**wayfinder** *(fork addition)*: Charts a large, foggy, multi-session effort as a map of investigation tickets and resolves them one at a time.
+**wayfinder**: Charts a large, foggy, multi-session effort as a map of investigation tickets and resolves them one at a time.
 When: `/scope`'s interview cannot sharpen one part of the plan in the room, because each answer waits on some other unsettled thing. Charts the effort under `docs/wayfinding/`, works one ticket per session, and hands the cleared result back to `/scope` or `/architect`. Most projects never need it. Adapted from mattpocock/skills; the issue tracker and its external skill dependencies are replaced by plain files and inline ticket types native to this pipeline.
 
-**recover** *(fork addition)*: Diagnoses what kind of failure occurred, then prescribes the response that fits.
-When: something has gone wrong and it is not obvious whether the code is at fault, the session is, or the approach is. Especially after a corrective prompt has already failed once. It diagnoses whether this is an isolated bug, a polluted session, or a wrong foundation before responding. Mode one hands off to `/debug` with a compact brief: observed, expected, reproduction, and attempts so far. Mode two is a hard reset: write a note into `docs/session-notes.md`, end the session, then restart with `/checkpoint restore`. Mode three is a rethink: name the wrong assumption, propose the corrected approach, and wait for confirmation before rebuilding. Ported from jsmastery-pro/jsm-agent-skill and adapted to this fork.
+**recover**: Diagnoses what kind of failure occurred, then prescribes the response that fits.
+When: something has gone wrong and it is not obvious whether the code is at fault, the session is, or the approach is. Especially after a corrective prompt has already failed once. It diagnoses whether this is an isolated bug, a polluted session, or a wrong foundation before responding. Mode one hands off to `/debug` with a compact brief: observed, expected, reproduction, and attempts so far. Mode two is a hard reset: write a note into `docs/session-notes.md`, end the session, then restart with `/checkpoint restore`. Mode three is a rethink: name the wrong assumption, propose the corrected approach, and wait for confirmation before rebuilding. Ported from jsmastery-pro/jsm-agent-skill and adapted to this pipeline.
 
-**imprint** *(fork addition)*: Captures UI visual patterns so components stay consistent.
+**imprint**: Captures UI visual patterns so components stay consistent.
 When: after building a UI component, run `/imprint` to record the component's background, border, radius, text, spacing, hover state, shadow, and accent usage in `ui-registry.md`. Run `/imprint audit` to establish a baseline from an existing codebase or UI freshly exported from a design tool before normal capture begins. Capture mode checks new components against that baseline before writing; deviations are flagged as either a deliberate exception to record or something to fix, rather than silently recorded as the new pattern. It owns `ui-registry.md`; it only reads `ui-tokens.md` or `ui-rules.md` if present and never writes them.
 
-**reflex** *(fork addition)*: Turns a correction into a standing rule later sessions read.
+**reflex**: Turns a correction into a standing rule later sessions read.
 When: right after you correct an agent in a way that will apply again, run `/reflex` to capture it as one line in `docs/reflexes.md`, trigger then action. It routes first: a mechanical, deterministic rule belongs in a hook where it is enforced rather than remembered, a standard you want enforced across the whole codebase belongs in a `/architect` `CROSS-CUTTING` spec, a fact visible in the code belongs in `AGENTS.md`, something true only this week belongs in `docs/session-notes.md`, and a one off that generalizes to nothing is not captured at all. It drafts the exact line and waits for your confirmation before writing, because a wrong rule is read by every later session. Run `/reflex audit` to prune: contradictions, duplicates, rules gone stale, and the oldest rules as candidates to graduate into `AGENTS.md`. Graduation is your call and is two steps: the rule moves to a `## Graduating` heading and is printed ready to paste, and it is deleted only once you confirm you moved it into `AGENTS.md`. No skill carries the text across, so a rule deleted early is lost. It owns `docs/reflexes.md` and never edits `AGENTS.md`; the root `AGENTS.md` pointer and the root `CLAUDE.md` import that make the file get read are written by `/audit`.
 
-**recall** *(fork addition)*: Checks you can still explain the code an agent wrote for you.
+**recall**: Checks you can still explain the code an agent wrote for you.
 When: before marking a feature `done`, especially one an agent wrote most of. `/develop` builds it, `/check verify` proves it runs, `/test` locks the behaviour, `/check review` reads the diff — a feature passes all four whether your understanding is intact or entirely absent, and nothing tells the difference. `/recall` reads the implementation, asks four to six questions it picked from the code (never from the spec, since the decisions are the part you already know), and stops. You write the data and control flow from memory, with the code closed. It then marks each claim correct, wrong, vague, or missing, and the rule that makes it work is that it may cite file and line but may never quote or paraphrase the source: it names where you are wrong, never what is right, because being handed the answer produces recognition rather than understanding. No score, since a percentage invites you to pass rather than to read. You reread the flagged places and run it again; the second pass grades only what was flagged, and the pointer narrows each time (file and line, then the function or exact call) rather than repeating. It is not a loop you can get stuck in: nothing requires a second pass, and on the third failed pass of one claim it does tell you, marking that claim `given` rather than `correct` so nothing later reads it as recalled. Two failed passes on the same claim may also be the code rather than you, and it says so and points at `/check review`. The account is saved, on your go, beside the spec as `flow.md`: your own corrected sentences, unchanged and in your order, never the first draft and never prose it wrote itself, since the header says written from memory. Offered at the close of `/develop`, `/check verify`, and `/test`, wherever `done` is on the table, always skippable and never a reason to withhold it.
 
 ## Learn more
 
-The **[Workflow Guide](docs/workflow-guide.md)** is the deep dive: how the scope, specs, AGENTS.md, and design system live and who is allowed to change them; the acceptance-criteria thread that ties every stage together; a full worked example from idea to shipped; the debug loop; and how the same flow runs on an existing codebase and in a monorepo. It is upstream's guide and predates this fork's added skills.
+The **[Workflow Guide](docs/workflow-guide.md)** is the deep dive: how the scope, specs, AGENTS.md, and design system live and who is allowed to change them; the acceptance-criteria thread that ties every stage together; a full worked example from idea to shipped; the debug loop; and how the same flow runs on an existing codebase and in a monorepo. It predates the added skills, which this README covers.
 
 ---
 
