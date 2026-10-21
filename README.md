@@ -34,7 +34,7 @@ This pipeline started in July 2026 as a fork of [jsmastery-pro/skills](https://g
 - **The spec's build plan is a checkbox list**, so `/develop` resumes at the first unchecked task across sessions. Splitting an acceptance criterion never renumbers existing IDs, and retags `verify.md` to match.
 - **An `Assumed` spec never blocks `done`.** It stays flagged as owing ratification until `/architect` ratifies it.
 - **`/recall` is offered before `done`** at the close of `/develop`, `/check verify`, and `/test`. Always skippable.
-- **`/debug`** raises the bar for Step 1: a reproduction must be red-capable, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
+- **`/debug` reproductions must be red-capable**, deterministic or pinned to a high rate, and already run once before moving on. Adds an explicit escalation protocol for flaky bugs.
 
 The added skills are downstream of the original ones: they read what `scope`, `architect`, and `audit`/`sync` own and never write to a file another skill owns. The one shared file is `docs/session-notes.md`, split by section between `/checkpoint` and `/recover`; see [What gets written, and where](#what-gets-written-and-where).
 
