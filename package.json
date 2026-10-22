@@ -1,5 +1,5 @@
 {
-  "name": "@jsmastery/skills",
+  "name": "@ghalynho10/skills",
   "version": "2.0.0",
   "description": "A phase based engineering workflow as Agent Skills. Takes a change from a vague idea to shipped, verified, documented code, for any AI coding agent.",
   "keywords": [
@@ -8,8 +8,7 @@
     "ai-coding",
     "skills",
     "agent-skills",
-    "developer-tools",
-    "javascript-mastery"
+    "developer-tools"
   ],
   "homepage": "https://github.com/ghalynho10/skills",
   "repository": {
@@ -17,7 +16,7 @@
     "url": "https://github.com/ghalynho10/skills.git"
   },
   "license": "MIT",
-  "author": "JavaScript Mastery",
+  "author": "Ghaly Nicolas Jules",
   "type": "module",
   "engines": {
     "node": ">=18"
