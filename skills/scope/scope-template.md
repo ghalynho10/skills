@@ -66,8 +66,8 @@ Core entities every feature builds on: users, teams, memberships, standup entrie
 Spec 0002 · code (filled by /develop)
 
 ### 4. Design system & UI foundation · needs a decision
-Visual language, layout primitives, and base components so the flows feel cohesive and accessible.
-**Done when:** `design.md` covers type/color/spacing/components, and base components handle focus and keyboard.
+Visual language, base components, and the app shell.
+**Done when:** `design.md` covers type/color/spacing/components; the spec maps every page, each marked public or signed in; the shell renders nav, 404, loading, error; base components handle focus and keyboard.
 - [ ] Design it (spec): `/architect design system & UI foundation`
 
 ## Slice 1: Core standup loop

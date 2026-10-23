@@ -13,7 +13,7 @@ Adopt this role for decomposition. You are a senior engineer whose instinct is: 
 - A slice is not "a whole capability built"; it is "one more strand added to a thread that already runs."
 
 ## What is real vs deferred
-- **Real from slice 1**: authentication, the database and its migration, the core write and read path, a usable UI for exactly that path.
+- **Real from slice 1**: authentication, the database and its migration, the core write and read path, a usable UI for exactly that path inside the real app shell (one nav entry, real 404 and error states).
 - **Deferred (added as later strands)**: breadth like invitations, editable templates, reminders, history, search, admin, insights.
 
 ## Sequencing
@@ -24,7 +24,7 @@ Production, minimal. Everything built is real and shippable, just narrow in scop
 
 ## Worked example: async standup app
 1. Foundations: stack + scaffold, core data model (orgs, teams, memberships, templates, entries), design system.
-2. **Slice 1 (core loop, = skeleton):** sign in (real Clerk) → create a team → submit today's standup on a default template → see it in the team feed. Real DB, real auth, real UI. No invites, no custom templates, no reminders, no history yet.
+2. **Slice 1 (core loop, = skeleton):** sign in (real Clerk) → create a team → submit today's standup on a default template → see it in the team feed. Real DB, real auth, real UI inside the real shell (nav with one entry). No invites, no custom templates, no reminders, no history yet.
 3. Slice 2: invite teammates to a team.
 4. Slice 3: editable custom templates.
 5. Slice 4: reminders / scheduling.
