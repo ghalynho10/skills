@@ -82,6 +82,10 @@ deciding? 2 to 4 paragraphs. Do not mention options here, only the problem space
 ## Rationale
 
 <!-- DECISION RECORD (the WHY, human context; in a directory spec this section lives in rationale.md, not index.md; /develop skips it) -->
+**Follows**: <the established pattern this decision applies, e.g. outbox pattern · strangler fig · RBAC> | none established (<why nothing standard fits>)
+**Reversibility**: one way door (<what makes undoing it costly>) | two way door
+<!-- Both lines are required and stay at every REFERENCES_LEVEL: they are reasoning, not citations. -->
+
 <Why this option over the others? Reference the specific constraints and forces from Context.
 Do not repeat the pros/cons list, explain the reasoning. 1 to 3 paragraphs.>
 
